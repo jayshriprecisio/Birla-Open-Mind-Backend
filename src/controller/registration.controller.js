@@ -1,6 +1,6 @@
-const service = require('./registration.service');
-const ApiResponse = require('../../../utils/api-response');
-const ApiError = require('../../../utils/api-error');
+const service = require('../services/registration.service');
+const ApiResponse = require('../utils/api-response');
+const ApiError = require('../utils/api-error');
 
 const searchRegistrationsController = async (req, res, next) => {
   try {
