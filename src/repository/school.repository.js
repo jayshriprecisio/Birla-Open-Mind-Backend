@@ -48,8 +48,16 @@ const listSchoolsFilteredRepo = async (params) => {
   
   const where = { deleted_at: null };
   const include = [
-    { model: ZoneMaster, as: 'zone' },
-    { model: BrandMaster, as: 'brand' }
+    { 
+      model: ZoneMaster, 
+      as: 'zone',
+      on: sequelize.literal('CAST("School"."zone_id" AS INTEGER) = "zone"."id"')
+    },
+    { 
+      model: BrandMaster, 
+      as: 'brand',
+      on: sequelize.literal('CAST("School"."brand_id" AS BIGINT) = "brand"."id"')
+    }
   ];
 
   if (q) {
@@ -109,12 +117,22 @@ const getSchoolsDashboardSummaryRepo = async () => {
   const active = await School.count({ where: { status: 'active', deleted_at: null } });
   
   const bomis = await School.count({
-    include: [{ model: BrandMaster, as: 'brand', where: { brand_code: 'BOMIS' } }],
+    include: [{ 
+      model: BrandMaster, 
+      as: 'brand', 
+      where: { brand_code: 'BOMIS' },
+      on: sequelize.literal('CAST("School"."brand_id" AS BIGINT) = "brand"."id"')
+    }],
     where: { deleted_at: null }
   });
 
   const bomps = await School.count({
-    include: [{ model: BrandMaster, as: 'brand', where: { brand_code: 'BOMPS' } }],
+    include: [{ 
+      model: BrandMaster, 
+      as: 'brand', 
+      where: { brand_code: 'BOMPS' },
+      on: sequelize.literal('CAST("School"."brand_id" AS BIGINT) = "brand"."id"')
+    }],
     where: { deleted_at: null }
   });
 
@@ -135,8 +153,16 @@ const getSchoolByIdRepo = async (schoolId) => {
     include: [
       { model: SchoolPartner, as: 'partners' },
       { model: SchoolContact, as: 'contacts' },
-      { model: ZoneMaster, as: 'zone' },
-      { model: BrandMaster, as: 'brand' }
+      { 
+        model: ZoneMaster, 
+        as: 'zone',
+        on: sequelize.literal('CAST("School"."zone_id" AS INTEGER) = "zone"."id"')
+      },
+      { 
+        model: BrandMaster, 
+        as: 'brand',
+        on: sequelize.literal('CAST("School"."brand_id" AS BIGINT) = "brand"."id"')
+      }
     ]
   });
 };

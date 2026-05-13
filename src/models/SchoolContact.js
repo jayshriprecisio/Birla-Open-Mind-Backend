@@ -36,7 +36,7 @@ const SchoolContact = sequelize.define('SchoolContact', {
   timestamps: true,
   underscored: true,
   createdAt: 'created_at',
-  updatedAt: 'updated_at',
+  updatedAt: false,
 });
 
 module.exports = SchoolContact;
