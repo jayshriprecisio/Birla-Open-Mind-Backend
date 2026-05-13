@@ -24,6 +24,8 @@ app.use('/api/v1/schools', schoolsRoutes);
 app.use('/api/v1/enquiries/school', require('./modules/enquiries/school/school-enquiries.routes'));
 app.use('/api/v1/enquiries/admission', require('./modules/enquiries/admission/admission-inquiries.routes'));
 app.use('/api/v1/enquiries/lookups', require('./modules/enquiries/lookups/lookups.routes'));
+app.use('/api/v1/registration', require('./modules/enquiries/registration/registration.routes'));
+
 
 // Health check endpoint
 app.get('/health', (req, res) => {
