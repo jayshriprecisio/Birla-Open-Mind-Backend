@@ -3,14 +3,12 @@ const User = require('./User');
 const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
-const ZoneMaster = require('./ZoneMaster');
-const BrandMaster = require('./BrandMaster');
-const GradeMaster = require('./GradeMaster');
+const masters = require('./masters.model');
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
 const AdmissionInquiry = require('./AdmissionInquiry');
-const PaymentEntityMaster = require('./PaymentEntityMaster');
 
 // Associations
 
