@@ -8,6 +8,4 @@ router.get('/search', auth, controller.searchRegistrationsController);
 
 router.get('/', auth, controller.listRegistrationsController);
 
-router.get('/:enquiryId', auth, controller.getRegistrationByIdController);
-
 module.exports = router;
