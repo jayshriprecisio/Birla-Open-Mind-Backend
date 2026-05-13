@@ -12,8 +12,11 @@ const errorMiddleware = (err, req, res, next) => {
 
   const response = {
     code: statusCode,
-    message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+    message: err.name === 'SequelizeDatabaseError' ? `DB Error: ${err.message}` : message,
+    ...(process.env.NODE_ENV === 'development' && { 
+      stack: err.stack,
+      sql: err.sql 
+    }),
   };
 
   if (err.name === 'SequelizeDatabaseError') {
