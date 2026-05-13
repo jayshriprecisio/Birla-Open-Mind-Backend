@@ -10,12 +10,7 @@ const createSchoolEnquiryService = async (userId, payload) => {
 };
 
 const listSchoolEnquiriesFilteredService = async (filters) => {
-  return repository.listSchoolEnquiriesFilteredRepo({
-    page: parseInt(filters.page || 1, 10),
-    pageSize: parseInt(filters.pageSize || 10, 10),
-    search: filters.search || '',
-    status: filters.status || '',
-  });
+  return repository.listSchoolEnquiriesFilteredRepo(filters);
 };
 
 const updateSchoolEnquiryStatusService = async (enquiryId, status, userId) => {

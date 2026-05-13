@@ -1,4 +1,5 @@
 const { pool } = require('../../../config/db');
+const { roleNamesToIds } = require('../../../utils/roles');
 
 const DEFAULT_MASTER_ID = 1;
 const DEFAULT_SCHOOL_UUID = '00000000-0000-0000-0000-000000000001';
@@ -40,21 +41,8 @@ const findAdmissionInquiryByPhoneRepo = (phone) =>
     [phone]
   );
 
-const roleNamesToIds = (roles) => {
-  // Hardcoded map for now to mimic the role.middleware.js from old backend
-  // In a real scenario, fetch this or use a centralized map
-  const map = {
-    'SUPER_ADMIN': 1,
-    'SCHOOL_ADMIN': 2,
-    'FRONT_DESK': 3
-  };
-  return roles.map(r => map[r]).filter(Boolean);
-};
-
 const getRoundRobinCandidateUsers = async (client) => {
   const allowedRoleIds = roleNamesToIds(['SUPER_ADMIN', 'SCHOOL_ADMIN']);
-  if (!allowedRoleIds.length) return [];
-  
   const result = await client.query(
     `SELECT id::text AS id, full_name
      FROM users
@@ -222,6 +210,35 @@ const createSchoolEnquiryRepo = async ({ userId, payload }) => {
     );
     const enquiryId = insertResult.rows[0].enquiry_id;
 
+    // Handle sibling_id identity discrepancy
+    const siblingIdMeta = await client.query(
+      `SELECT is_identity
+       FROM information_schema.columns
+       WHERE table_schema = 'public'
+         AND table_name = 'school_enquiry_siblings'
+         AND column_name = 'sibling_id'
+       LIMIT 1`
+    );
+    const isIdentity = siblingIdMeta.rows[0]?.is_identity === 'YES';
+
+    if (!isIdentity) {
+      await client.query(
+        `CREATE SEQUENCE IF NOT EXISTS school_enquiry_siblings_sibling_id_seq`
+      );
+      await client.query(
+        `SELECT setval(
+           'school_enquiry_siblings_sibling_id_seq',
+           COALESCE((SELECT MAX(sibling_id) FROM school_enquiry_siblings), 0) + 1,
+           FALSE
+         )`
+      );
+      await client.query(
+        `ALTER TABLE school_enquiry_siblings
+         ALTER COLUMN sibling_id
+         SET DEFAULT nextval('school_enquiry_siblings_sibling_id_seq')`
+      );
+    }
+
     const siblings = Array.isArray(payload.siblings) ? payload.siblings : [];
     for (const sibling of siblings) {
       await client.query(
@@ -257,7 +274,7 @@ const createSchoolEnquiryRepo = async ({ userId, payload }) => {
           normalizedDate(followup.followup_date),
           normalizeText(followup.followup_time),
           normalizedDate(followup.next_followup_date),
-          normalizeText(followup.next_followup_time),
+          normalizedDate(followup.next_followup_time),
           normalizeText(followup.remarks),
           normalizeText(followup.notes),
           normalizeText(followup.followup_with),
@@ -276,97 +293,76 @@ const createSchoolEnquiryRepo = async ({ userId, payload }) => {
   }
 };
 
-const isFilled = (v) => v && String(v).trim().length > 0;
-const normalizeUpper = (v) => String(v).trim().toUpperCase();
+const updateSchoolEnquiryStatusRepo = async (enquiryId, status, userId) => {
+  const actorUuid = toUuidOrNull(userId);
+  return pool.query(
+    `UPDATE school_enquiries
+     SET status = $2, updated_by = $3::uuid, updated_at = NOW()
+     WHERE enquiry_id = $1::uuid AND is_deleted = FALSE
+     RETURNING enquiry_id, status, updated_at`,
+    [enquiryId, status, actorUuid]
+  );
+};
+
+const softDeleteSchoolEnquiryRepo = async (enquiryId, userId) => {
+  const actorUuid = toUuidOrNull(userId);
+  return pool.query(
+    `UPDATE school_enquiries
+     SET is_deleted = TRUE, updated_by = $2::uuid, updated_at = NOW()
+     WHERE enquiry_id = $1::uuid AND is_deleted = FALSE
+     RETURNING enquiry_id`,
+    [enquiryId, actorUuid]
+  );
+};
 
 const listSchoolEnquiriesFilteredRepo = async (filters) => {
-  const where = ['COALESCE(se.is_deleted, FALSE) = FALSE'];
-  const params = [];
-  let paramIndex = 1;
+  const conditions = ['e.is_deleted = FALSE'];
+  const values = [];
+  let i = 1;
 
-  if (isFilled(filters.search)) {
-    params.push(`%${filters.search.trim()}%`);
-    where.push(`(
-      COALESCE(se.enquiry_no, '') ILIKE $${paramIndex}
-      OR COALESCE(se.student_name, '') ILIKE $${paramIndex}
-      OR COALESCE(se.father_name, '') ILIKE $${paramIndex}
-      OR COALESCE(se.father_mobile, '') ILIKE $${paramIndex}
-      OR COALESCE(se.mother_mobile, '') ILIKE $${paramIndex}
-      OR COALESCE(se.father_email, '') ILIKE $${paramIndex}
-      OR COALESCE(sc.school_name, '') ILIKE $${paramIndex}
-      OR COALESCE(gm.short_form, gm.name, '') ILIKE $${paramIndex}
-    )`);
-    paramIndex += 1;
+  if (filters.search) {
+    values.push(`%${filters.search}%`);
+    conditions.push(`(e.student_name ILIKE $${i} OR e.enquiry_no ILIKE $${i} OR e.father_name ILIKE $${i})`);
+    i++;
   }
 
-  // Add other filters as needed... (simplified for initial port, add rest below)
-  if (isFilled(filters.status)) {
-    params.push(normalizeUpper(filters.status));
-    where.push(`UPPER(COALESCE(se.status, '')) = $${paramIndex}`);
-    paramIndex += 1;
+  if (filters.status) {
+    values.push(filters.status);
+    conditions.push(`e.status = $${i}`);
+    i++;
   }
 
-  const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
-  const offset = (filters.page - 1) * filters.pageSize;
+  const whereSql = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+  const limit = parseInt(filters.pageSize || 10, 10);
+  const offset = (parseInt(filters.page || 1, 10) - 1) * limit;
 
-  const countParams = [...params];
-  const listParams = [...params, filters.pageSize, offset];
+  const countSql = `SELECT COUNT(*)::bigint AS total FROM school_enquiries e ${whereSql}`;
+  const dataSql = `
+    SELECT e.*, s.school_name, g.name AS grade_name
+    FROM school_enquiries e
+    LEFT JOIN schools s ON e.school_id::text = s.school_id::text
+    LEFT JOIN grade_master g ON e.grade_id::text = g.id::text
+    ${whereSql}
+    ORDER BY e.created_at DESC
+    LIMIT $${i} OFFSET $${i + 1}`;
 
-  const baseFrom = `
-    FROM school_enquiries se
-    LEFT JOIN schools sc
-      ON sc.school_id::text = se.school_id::text
-     AND sc.deleted_at IS NULL
-    LEFT JOIN grade_master gm
-      ON gm.id = COALESCE(se.current_grade_id, se.grade_id)
-     AND COALESCE(gm.is_deleted, FALSE) = FALSE
-    LEFT JOIN gender_master gnd
-      ON gnd.id = se.gender_id
-     AND COALESCE(gnd.is_deleted, FALSE) = FALSE
-    LEFT JOIN board_master bm
-      ON bm.id = COALESCE(se.current_board_id, se.board_id)
-  `;
-
-  const [countResult, listResult] = await Promise.all([
-    pool.query(`SELECT COUNT(*)::int AS total ${baseFrom} ${whereSql}`, countParams),
-    pool.query(
-      `SELECT
-         se.enquiry_id::text AS enquiry_id, se.enquiry_no, se.student_name, se.status, se.created_at
-       ${baseFrom} ${whereSql}
-       ORDER BY se.created_at DESC
-       LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
-      listParams
-    ),
+  const [countResult, dataResult] = await Promise.all([
+    pool.query(countSql, values),
+    pool.query(dataSql, [...values, limit, offset]),
   ]);
 
   return {
-    rows: listResult.rows,
-    total: countResult.rows[0]?.total ?? 0,
+    total: Number(countResult.rows[0].total),
+    items: dataResult.rows,
+    page: parseInt(filters.page || 1, 10),
+    pageSize: limit,
   };
 };
-
-const updateSchoolEnquiryStatusRepo = async (enquiryId, status, userId) =>
-  pool.query(
-    `UPDATE school_enquiries
-     SET status = $2, updated_by = $3::uuid, updated_at = NOW()
-     WHERE enquiry_id = $1::uuid AND COALESCE(is_deleted, FALSE) = FALSE
-     RETURNING enquiry_id::text AS enquiry_id, status, updated_at`,
-    [enquiryId, status, toUuidOrNull(userId)]
-  );
-
-const softDeleteSchoolEnquiryRepo = async (enquiryId, userId) =>
-  pool.query(
-    `UPDATE school_enquiries
-     SET is_deleted = TRUE, updated_by = $2::uuid, updated_at = NOW()
-     WHERE enquiry_id = $1::uuid AND COALESCE(is_deleted, FALSE) = FALSE
-     RETURNING enquiry_id::text AS enquiry_id`,
-    [enquiryId, toUuidOrNull(userId)]
-  );
 
 module.exports = {
   findAdmissionInquiryByPhoneRepo,
   createSchoolEnquiryRepo,
-  listSchoolEnquiriesFilteredRepo,
   updateSchoolEnquiryStatusRepo,
   softDeleteSchoolEnquiryRepo,
+  listSchoolEnquiriesFilteredRepo,
 };
