@@ -2,11 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const { errorMiddleware } = require('./middlewares/error.middleware');
+const { errorMiddleware } = require('./middleware/error.middleware');
 
 // Routes
-const schoolsRoutes = require('./modules/schools/schools.routes');
-const authRoutes = require('./modules/auth/auth.routes');
+const authRoutes = require('./routes/auth.routes');
+const schoolRoutes = require('./routes/school.routes');
+const schoolEnquiryRoutes = require('./routes/school-enquiry.routes');
+const admissionInquiryRoutes = require('./routes/admission-inquiry.routes');
+const lookupRoutes = require('./routes/lookup.routes');
 
 const app = express();
 
@@ -18,12 +21,10 @@ app.use(morgan('dev'));
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/schools', schoolsRoutes);
-
-// Enquiries Routes
-app.use('/api/v1/enquiries/school', require('./modules/enquiries/school/school-enquiries.routes'));
-app.use('/api/v1/enquiries/admission', require('./modules/enquiries/admission/admission-inquiries.routes'));
-app.use('/api/v1/enquiries/lookups', require('./modules/enquiries/lookups/lookups.routes'));
+app.use('/api/v1/schools', schoolRoutes);
+app.use('/api/v1/enquiries/school', schoolEnquiryRoutes);
+app.use('/api/v1/enquiries/admission', admissionInquiryRoutes);
+app.use('/api/v1/enquiries/lookups', lookupRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

@@ -3,9 +3,9 @@ const sequelize = require('../config/database');
 
 const SchoolContact = sequelize.define('SchoolContact', {
   contact_id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
-    autoIncrement: true,
   },
   school_id: {
     type: DataTypes.UUID,

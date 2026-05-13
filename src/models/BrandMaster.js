@@ -3,9 +3,8 @@ const sequelize = require('../config/database');
 
 const BrandMaster = sequelize.define('BrandMaster', {
   id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.STRING,
     primaryKey: true,
-    autoIncrement: true,
   },
   name: {
     type: DataTypes.STRING(150),

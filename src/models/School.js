@@ -8,11 +8,11 @@ const School = sequelize.define('School', {
     primaryKey: true,
   },
   zone_id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   brand_id: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   brand_code: {
@@ -32,7 +32,7 @@ const School = sequelize.define('School', {
     allowNull: false,
   },
   session_month: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   total_capacity: {
@@ -117,7 +117,7 @@ const School = sequelize.define('School', {
     type: DataTypes.STRING(20),
   },
   status: {
-    type: DataTypes.ENUM('active', 'inactive', 'suspended'),
+    type: DataTypes.STRING,
     defaultValue: 'active',
   },
   created_by: {
