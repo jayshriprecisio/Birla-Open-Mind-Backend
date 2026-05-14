@@ -19,7 +19,8 @@
     "db:sync": "node src/sync.js",
     "seed:masters": "node src/seeders/master.seeder.js",
     "seed:users": "node src/seeders/user.seeder.js",
-    "seed:schools": "node src/seeders/school.seeder.js"
+    "seed:schools": "node src/seeders/school.seeder.js",
+    "seed:enquiries": "node src/seeders/enquiry.seeder.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

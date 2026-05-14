@@ -173,7 +173,7 @@ const StudentAdmissions = sequelize.define(
     admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
     payment_status: {
       type: DataTypes.STRING(30),
-      defaultValue: "PENDING",
+      defaultValue: "PENDING", // PENDING, COMPLETED, CANCELLED
     },
     cheque_no: { type: DataTypes.STRING(50) },
     cheque_bank_name: { type: DataTypes.STRING(255) },
@@ -193,8 +193,6 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    created_by: { type: DataTypes.UUID },
-    updated_by: { type: DataTypes.UUID },
   },
   {
     tableName: "student_admissions",
@@ -202,6 +200,31 @@ const StudentAdmissions = sequelize.define(
     underscored: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    hooks: {
+      beforeValidate: (admission) => {
+        // Convert empty strings or whitespace-only strings to null for unique nullable fields
+        const nullableFields = [
+          "enrollment_no",
+          "enquiry_no",
+          "admission_no",
+          "upi_reference",
+          "cheque_no",
+        ];
+        nullableFields.forEach((field) => {
+          const value = admission[field];
+          if (
+            value === "" ||
+            value === 0 ||
+            value === "0" ||
+            value === "null" ||
+            value === "undefined" ||
+            (typeof value === "string" && value.trim() === "")
+          ) {
+            admission[field] = null;
+          }
+        });
+      },
+    },
   },
 );
 
