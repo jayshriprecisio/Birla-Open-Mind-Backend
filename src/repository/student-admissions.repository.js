@@ -10,6 +10,11 @@ const {
   GenderMaster,
   BoardMaster,
   ModeOfPaymentMaster,
+  AcademicYearMaster,
+  BloodGroupMaster,
+  ReligionMaster,
+  CastMaster,
+  MotherTongueMaster,
 } = require("../models/masters.model");
 
 const createAdmissionRepo = async (data) => {
@@ -79,6 +84,11 @@ const getAdmissionByIdRepo = async (id) => {
         as: "enquiry",
         attributes: ["enquiry_no", "enquiry_id"],
       },
+      { model: AcademicYearMaster, as: "academic_year", attributes: ["name", "short_form"] },
+      { model: BloodGroupMaster, as: "blood_group", attributes: ["name", "display_order"] },
+      { model: ReligionMaster, as: "religion", attributes: ["name", "display_order"] },
+      { model: CastMaster, as: "cast", attributes: ["name", "display_order"] },
+      { model: MotherTongueMaster, as: "mother_tongue", attributes: ["name", "display_order"] },
     ],
   });
 };

@@ -84,7 +84,7 @@ const StudentAdmissions = sequelize.define(
     },
     // MODEL MISSING
     mother_tongue_id: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.BIGINT,
       allowNull: true,
     },
     place_of_birth: {
