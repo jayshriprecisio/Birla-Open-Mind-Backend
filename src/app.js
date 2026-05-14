@@ -2,28 +2,53 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const { errorMiddleware } = require('./middlewares/error.middleware');
+const { errorMiddleware } = require('./middleware/error.middleware');
 
 // Routes
-const schoolsRoutes = require('./modules/schools/schools.routes');
-const authRoutes = require('./modules/auth/auth.routes');
+const authRoutes = require('./routes/auth.routes');
+const schoolRoutes = require('./routes/school.routes');
+const schoolEnquiryRoutes = require('./routes/school-enquiry.routes');
+const schoolEnquiryFollowupRoutes = require('./routes/school-enquiry-followup.routes');
+const admissionInquiryRoutes = require('./routes/admission-inquiry.routes');
+const studentAdmissionsRoutes = require('./routes/student-admissions.routes');
+const lookupRoutes = require('./routes/lookup.routes');
+const masterRoutes = require('./modules/masters/master.module');
+const enquiryImportRoutes = require('./routes/enquiury-import.routes')
 
 const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:4028',
+    'http://localhost:3000',
+    'http://127.0.0.1:4028',
+    'http://127.0.0.1:3000'
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(morgan('dev'));
 
 // API Routes
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/schools', schoolsRoutes);
+// Legacy / Module-based Routes (Consistency with Frontend)
+app.use('/api/enquiry-management/admission-inquiries', admissionInquiryRoutes);
+app.use('/api/enquiry-management/admission-inquiry', admissionInquiryRoutes);
+app.use('/api/enquiry-management/school-enquiries', schoolEnquiryRoutes);
+app.use('/api/enquiry-management/lookups', lookupRoutes);
+app.use('/api/enquiry-management/enquiry-import')
 
-// Enquiries Routes
-app.use('/api/v1/enquiries/school', require('./modules/enquiries/school/school-enquiries.routes'));
-app.use('/api/v1/enquiries/admission', require('./modules/enquiries/admission/admission-inquiries.routes'));
-app.use('/api/v1/enquiries/lookups', require('./modules/enquiries/lookups/lookups.routes'));
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/schools', schoolRoutes);
+app.use('/api/v1/enquiries/school', schoolEnquiryRoutes);
+app.use('/api/v1/enquiries/follow-up', schoolEnquiryFollowupRoutes);
+app.use('/api/v1/enquiries/admission', admissionInquiryRoutes);
+app.use('/api/v1/admissions/student', studentAdmissionsRoutes);
+app.use('/api/v1/enquiries/lookups', lookupRoutes);
+app.use('/api/v1/masters', masterRoutes);
+
 
 // Health check endpoint
 app.get('/health', (req, res) => {
