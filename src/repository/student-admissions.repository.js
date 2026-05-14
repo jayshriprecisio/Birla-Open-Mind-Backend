@@ -1,5 +1,6 @@
 const { StudentAdmissions, School, GradeMaster, SchoolEnquiry, sequelize } = require('../models');
 const { Op } = require('sequelize');
+const { GenderMaster, BoardMaster, ModeOfPaymentMaster } = require('../models/masters.model');
 
 const createAdmissionRepo = async (data) => {
   return await StudentAdmissions.create(data);
@@ -8,44 +9,44 @@ const createAdmissionRepo = async (data) => {
 const getAllAdmissionsRepo = async (args) => {
   const where = { is_deleted: false };
 
-  if (args.q) {
-    const q = `%${args.q}%`;
-    where[Op.or] = [
-      { student_name: { [Op.iLike]: q } },
-      { registration_no: { [Op.iLike]: q } },
-      { enrollment_no: { [Op.iLike]: q } },
-      { admission_no: { [Op.iLike]: q } },
-      { father_name: { [Op.iLike]: q } },
-      { mother_name: { [Op.iLike]: q } },
-      { father_mobile: { [Op.iLike]: q } },
-      { mother_mobile: { [Op.iLike]: q } },
-      { cheque_bank_name: { [Op.iLike]: q } },
-    ];
-  }
+  // if (args.q) {
+  //   const q = `%${args.q}%`;
+  //   where[Op.or] = [
+  //     { student_name: { [Op.iLike]: q } },
+  //     { registration_no: { [Op.iLike]: q } },
+  //     { enrollment_no: { [Op.iLike]: q } },
+  //     { admission_no: { [Op.iLike]: q } },
+  //     { father_name: { [Op.iLike]: q } },
+  //     { mother_name: { [Op.iLike]: q } },
+  //     { father_mobile: { [Op.iLike]: q } },
+  //     { mother_mobile: { [Op.iLike]: q } },
+  //     { cheque_bank_name: { [Op.iLike]: q } },
+  //   ];
+  // }
 
-  if (args.status && args.status.toUpperCase() !== 'ALL') {
-    where.status = args.status;
-  }
+  // if (args.status && args.status.toUpperCase() !== 'ALL') {
+  //   where.status = args.status;
+  // }
 
-  if (args.school_id) {
-    where.school_id = args.school_id;
-  }
+  // if (args.school_id) {
+  //   where.school_id = args.school_id;
+  // }
 
-  if (args.grade_applying_for_id) {
-    where.grade_applying_for_id = args.grade_applying_for_id;
-  }
+  // if (args.grade_applying_for_id) {
+  //   where.grade_applying_for_id = args.grade_applying_for_id;
+  // }
 
-  if (args.grade_id) {
-    where.grade_id = args.grade_id;
-  }
+  // if (args.grade_id) {
+  //   where.grade_id = args.grade_id;
+  // }
 
-  if (args.academic_session_id) {
-    where.academic_session_id = args.academic_session_id;
-  }
+  // if (args.academic_session_id) {
+  //   where.academic_session_id = args.academic_session_id;
+  // }
 
-  if (args.payment_mode_id) {
-    where.payment_mode_id = args.payment_mode_id;
-  }
+  // if (args.payment_mode_id) {
+  //   where.payment_mode_id = args.payment_mode_id;
+  // }
 
   const { count, rows } = await StudentAdmissions.findAndCountAll({
     where,
