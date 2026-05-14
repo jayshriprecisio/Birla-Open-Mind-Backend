@@ -8,11 +8,11 @@ const School = sequelize.define('School', {
     primaryKey: true,
   },
   zone_id: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   brand_id: {
-    type: DataTypes.STRING,
+    type: DataTypes.BIGINT,
     allowNull: false,
   },
   brand_code: {
