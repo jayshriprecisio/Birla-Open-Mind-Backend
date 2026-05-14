@@ -69,6 +69,8 @@ const getAllAdmissionsRepo = async (args) => {
       "created_at",
       "status",
       "payment_status",
+      ""
+      "created_at",
     ],
     include: [
       {
@@ -76,7 +78,21 @@ const getAllAdmissionsRepo = async (args) => {
         as: "school",
         attributes: ["school_name", "school_code"],
       },
-      { model: GradeMaster, as: "grade", attributes: ["name", "short_form"] },
+      {
+        model: GradeMaster,
+        as: "grade",
+        attributes: ["id", "name", "short_form"],
+      },
+      {
+        model: GradeMaster,
+        as: "grade_applying_for",
+        attributes: ["id", "name", "short_form"],
+      },
+      {
+        model: ModeOfPaymentMaster,
+        as: "payment_mode",
+        attributes: ["id", "mode_of_payment_name", "name_on_receipt"],
+      },
     ],
     order: [["created_at", "DESC"]],
     limit: args.limit,
@@ -100,10 +116,8 @@ const getAdmissionByIdRepo = async (id) => {
       "registration_no",
       "enrollment_no",
       "enquiry_no",
-      "grade_applying_for_id",
       "student_name",
       "dob",
-      "grade_id",
       "nationality",
       "place_of_birth",
       "prev_school_tc_no",
@@ -190,34 +204,43 @@ const getAdmissionByIdRepo = async (id) => {
         as: "school",
         attributes: ["school_id", "school_name", "school_code"],
       },
-      { model: GradeMaster, as: "grade", attributes: ["id","name", "short_form"] },
+      {
+        model: GradeMaster,
+        as: "grade",
+        attributes: ["id", "name", "short_form"],
+      },
+      {
+        model: GradeMaster,
+        as: "grade_applying_for",
+        attributes: ["id", "name", "short_form"],
+      },
       {
         model: BoardMaster,
         as: "board",
-        attributes: ["id","board_code", "board_name"],
+        attributes: ["id", "board_code", "board_name"],
       },
-      { model: GenderMaster, as: "gender", attributes: ["id","name"] },
+      { model: GenderMaster, as: "gender", attributes: ["id", "name"] },
       {
         model: BloodGroupMaster,
         as: "blood_group",
-        attributes: ["id","name"],
+        attributes: ["id", "name"],
       },
       {
         model: ReligionMaster,
         as: "religion",
-        attributes: ["id","name"],
+        attributes: ["id", "name"],
       },
-      { model: CastMaster, as: "cast", attributes: ["id","name"] },
+      { model: CastMaster, as: "cast", attributes: ["id", "name"] },
       {
         model: MotherTongueMaster,
         as: "mother_tongue",
-        attributes: ["id","name"],
+        attributes: ["id", "name"],
       },
       {
         model: ModeOfPaymentMaster,
         as: "payment_mode",
-        attributes: ["id","mode_of_payment_name" , "name_on_receipt"],
-      }
+        attributes: ["id", "mode_of_payment_name", "name_on_receipt"],
+      },
     ],
   });
 };
