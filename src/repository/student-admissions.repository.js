@@ -69,7 +69,7 @@ const getAllAdmissionsRepo = async (args) => {
       "created_at",
       "status",
       "payment_status",
-      ""
+      "is_cheque_cleared",
       "created_at",
     ],
     include: [
