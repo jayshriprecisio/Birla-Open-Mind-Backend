@@ -13,11 +13,13 @@ const getAllAdmissionsRepo = async (args) => {
     where[Op.or] = [
       { student_name: { [Op.iLike]: q } },
       { registration_no: { [Op.iLike]: q } },
+      { enrollment_no: { [Op.iLike]: q } },
       { admission_no: { [Op.iLike]: q } },
       { father_name: { [Op.iLike]: q } },
       { mother_name: { [Op.iLike]: q } },
       { father_mobile: { [Op.iLike]: q } },
       { mother_mobile: { [Op.iLike]: q } },
+      { cheque_bank_name: { [Op.iLike]: q } },
     ];
   }
 

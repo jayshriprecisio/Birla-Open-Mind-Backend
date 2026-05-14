@@ -15,6 +15,8 @@ const listQuerySchema = {
 
 const createAdmissionSchema = {
   body: Joi.object().keys({
+    registration_no: Joi.string().optional().allow(''),
+    enrollment_no: Joi.string().optional().allow(''),
     enquiry_no: Joi.string().optional().allow(''),
     academic_session_id: Joi.number().required(),
     school_id: Joi.string().uuid().required(),
@@ -91,7 +93,8 @@ const createAdmissionSchema = {
     payment_mode_id: Joi.number().optional().allow(null),
     payment_status: Joi.string().valid('PENDING', 'ACCEPTED', 'ON_HOLD', 'CANCELLED').optional(),
     cheque_no: Joi.string().optional().allow(''),
-    bank_name: Joi.string().optional().allow(''),
+    cheque_bank_name: Joi.string().optional().allow(''),
+    is_cheque_cleared: Joi.boolean().optional(),
     upi_reference: Joi.string().optional().allow(''),
     card_last_four: Joi.string().length(4).optional().allow(''),
   }),
@@ -102,6 +105,8 @@ const updateAdmissionSchema = {
     id: Joi.string().uuid().required(),
   }),
   body: Joi.object().keys({
+    registration_no: Joi.string().optional().allow(''),
+    enrollment_no: Joi.string().optional().allow(''),
     enquiry_no: Joi.string().optional().allow(''),
     academic_session_id: Joi.number().optional(),
     school_id: Joi.string().uuid().optional(),
@@ -150,7 +155,8 @@ const updateAdmissionSchema = {
     payment_mode_id: Joi.number().optional().allow(null),
     payment_status: Joi.string().valid('PENDING', 'ACCEPTED', 'ON_HOLD', 'CANCELLED').optional(),
     cheque_no: Joi.string().optional().allow(''),
-    bank_name: Joi.string().optional().allow(''),
+    cheque_bank_name: Joi.string().optional().allow(''),
+    is_cheque_cleared: Joi.boolean().optional(),
     upi_reference: Joi.string().optional().allow(''),
     card_last_four: Joi.string().length(4).optional().allow(''),
     status: Joi.string().optional(),

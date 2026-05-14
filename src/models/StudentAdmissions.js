@@ -163,7 +163,11 @@ const StudentAdmissions = sequelize.define('StudentAdmissions', {
     defaultValue: 'PENDING'
   },
   cheque_no: { type: DataTypes.STRING(50) },
-  bank_name: { type: DataTypes.STRING(255) },
+  cheque_bank_name: { type: DataTypes.STRING(255) },
+  is_cheque_cleared: { 
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   upi_reference: { type: DataTypes.STRING(100) },
   card_last_four: { type: DataTypes.STRING(4) },
 
