@@ -21,34 +21,18 @@ const getAllAdmissionsRepo = async (args) => {
 
   const { count, rows } = await StudentAdmissions.findAndCountAll({
     where,
-    include: [
-      {
-        model: School,
-        as: "school",
-        attributes: ["school_name", "school_code"],
-      },
-      { model: GenderMaster, as: "gender", attributes: ["name", "short_form"] },
-      {
-        model: GradeMaster,
-        as: "grade_applying_for",
-        attributes: ["name", "short_form"],
-      },
-      { model: GradeMaster, as: "grade", attributes: ["name", "short_form"] },
-      {
-        model: BoardMaster,
-        as: "board",
-        attributes: ["board_name", "board_code"],
-      },
-      {
-        model: ModeOfPaymentMaster,
-        as: "payment_mode",
-        attributes: ["mode_of_payment_name", "name_on_receipt"],
-      },
-      {
-        model: SchoolEnquiry,
-        as: "enquiry",
-        attributes: ["enquiry_no", "enquiry_id"],
-      },
+    attributes: [
+      "id",
+      "registration_no",
+      "enrollment_no",
+      "student_name",
+      "father_name",
+      "father_mobile",
+      "grade_id",
+      "school_id",
+      "created_at",
+      "status",
+      "payment_status",
     ],
     order: [["created_at", "DESC"]],
     limit: args.limit,
