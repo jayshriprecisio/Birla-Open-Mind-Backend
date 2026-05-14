@@ -49,6 +49,10 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    aadhar_no: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+    },
     dob: {
       type: DataTypes.DATEONLY,
       allowNull: false,
@@ -171,10 +175,6 @@ const StudentAdmissions = sequelize.define(
     // use model - ModeOfPaymentMaster
     payment_mode_id: { type: DataTypes.BIGINT },
     admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
-    payment_status: {
-      type: DataTypes.STRING(30),
-      defaultValue: "PENDING", // PENDING, COMPLETED, CANCELLED
-    },
     cheque_no: { type: DataTypes.STRING(50) },
     cheque_bank_name: { type: DataTypes.STRING(255) },
     is_cheque_cleared: {
@@ -187,7 +187,7 @@ const StudentAdmissions = sequelize.define(
     // Metadata
     status: {
       type: DataTypes.STRING(50),
-      defaultValue: "PENDING",
+      defaultValue: "PENDING", // DRAFT , PENDING , CANCELLED , COMPLETED
     },
     is_deleted: {
       type: DataTypes.BOOLEAN,
@@ -209,6 +209,7 @@ const StudentAdmissions = sequelize.define(
           "admission_no",
           "upi_reference",
           "cheque_no",
+          "aadhar_no",
         ];
         nullableFields.forEach((field) => {
           const value = admission[field];

@@ -20,17 +20,26 @@ router.get(
 );
 router.get("/stats", auth, controller.getAdmissionStatsController);
 router.get("/:id", auth, controller.getAdmissionByIdController);
-router.patch(
-  "/:id",
-  auth,
-  validate(validation.updateAdmissionSchema),
-  controller.updateAdmissionController,
-);
+
 router.delete(
   "/:id",
   auth,
   validate(validation.deleteAdmissionSchema),
   controller.deleteAdmissionController,
+);
+
+router.patch(
+  "/cancel/:id",
+  auth,
+  validate(validation.cancelAdmissionSchema),
+  controller.cancelAdmissionController,
+);
+
+router.patch(
+  "/clear-cheque/:id",
+  auth,
+  validate(validation.clearChequeSchema),
+  controller.clearChequeController,
 );
 
 module.exports = router;

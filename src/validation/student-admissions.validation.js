@@ -25,6 +25,7 @@ const createAdmissionSchema = {
     board_id: Joi.number().optional().allow(null),
 
     student_name: Joi.string().required(),
+    aadhar_no: Joi.string().optional().allow(''),
     dob: Joi.date().required(),
     gender_id: Joi.number().required(),
     blood_group_id: Joi.number().optional().allow(null),
@@ -91,7 +92,6 @@ const createAdmissionSchema = {
     // Payment Details
     admission_fee_amount: Joi.number().optional().allow(null),
     payment_mode_id: Joi.number().optional().allow(null),
-    payment_status: Joi.string().valid('PENDING', 'ACCEPTED', 'ON_HOLD', 'CANCELLED').optional(),
     cheque_no: Joi.string().optional().allow(''),
     cheque_bank_name: Joi.string().optional().allow(''),
     is_cheque_cleared: Joi.boolean().optional(),
@@ -114,6 +114,7 @@ const updateAdmissionSchema = {
     grade_id: Joi.number().optional().allow(null),
     board_id: Joi.number().optional().allow(null),
     student_name: Joi.string().optional(),
+    aadhar_no: Joi.string().optional().allow(''),
     dob: Joi.date().optional(),
     gender_id: Joi.number().optional(),
     blood_group_id: Joi.number().optional().allow(null),
@@ -153,7 +154,6 @@ const updateAdmissionSchema = {
     custody_situation: Joi.string().optional().allow(''),
     admission_fee_amount: Joi.number().optional().allow(null),
     payment_mode_id: Joi.number().optional().allow(null),
-    payment_status: Joi.string().valid('PENDING', 'ACCEPTED', 'ON_HOLD', 'CANCELLED').optional(),
     cheque_no: Joi.string().optional().allow(''),
     cheque_bank_name: Joi.string().optional().allow(''),
     is_cheque_cleared: Joi.boolean().optional(),
@@ -169,9 +169,23 @@ const deleteAdmissionSchema = {
   }),
 };
 
+const cancelAdmissionSchema = {
+  params: Joi.object().keys({
+    id: Joi.string().uuid().required(),
+  }),
+};
+
+const clearChequeSchema = {
+  params: Joi.object().keys({
+    id: Joi.string().uuid().required(),
+  }),
+};
+
 module.exports = {
   listQuerySchema,
   createAdmissionSchema,
   updateAdmissionSchema,
   deleteAdmissionSchema,
+  cancelAdmissionSchema,
+  clearChequeSchema,
 };

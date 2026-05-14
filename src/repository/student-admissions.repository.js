@@ -62,6 +62,7 @@ const getAllAdmissionsRepo = async (args) => {
       { registration_no: { [Op.iLike]: `%${args.search}%` } },
       { enrollment_no: { [Op.iLike]: `%${args.search}%` } },
       { student_name: { [Op.iLike]: `%${args.search}%` } },
+      { aadhar_no: { [Op.iLike]: `%${args.search}%` } },
     ];
   }
 
@@ -76,7 +77,6 @@ const getAllAdmissionsRepo = async (args) => {
       "father_mobile",
       "created_at",
       "status",
-      "payment_status",
       "is_cheque_cleared",
       "created_at",
     ],
@@ -131,17 +131,28 @@ const getAdmissionStatsRepo = async () => {
   const result = {
     total: 0,
     completed: 0,
-    pending: 0,
     cancelled: 0,
+    paymentPending: 0,
   };
 
   stats.forEach((stat) => {
     const count = parseInt(stat.get("count"), 10);
+
     const status = stat.status;
+
     result.total += count;
-    if (status === "COMPLETED") result.completed = count;
-    if (status === "PENDING") result.pending = count;
-    if (status === "CANCELLED") result.cancelled = count;
+
+    if (status === "COMPLETED") {
+      result.completed += count;
+    }
+
+    if (status === "CANCELLED") {
+      result.cancelled += count;
+    }
+
+    if (status === "PENDING") {
+      result.paymentPending += count;
+    }
   });
 
   return result;
@@ -156,6 +167,7 @@ const getAdmissionByIdRepo = async (id) => {
       "enrollment_no",
       "enquiry_no",
       "student_name",
+      "aadhar_no",
       "dob",
       "nationality",
       "place_of_birth",
@@ -219,7 +231,6 @@ const getAdmissionByIdRepo = async (id) => {
 
       // Payment
       "admission_fee_amount",
-      "payment_status",
       "cheque_no",
       "cheque_bank_name",
       "is_cheque_cleared",
