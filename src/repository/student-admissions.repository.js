@@ -18,6 +18,7 @@ const {
 } = require("../models/masters.model");
 
 const createAdmissionRepo = async (data) => {
+  console.log("Creating admission with data:", data);
   return await StudentAdmissions.create(data);
 };
 

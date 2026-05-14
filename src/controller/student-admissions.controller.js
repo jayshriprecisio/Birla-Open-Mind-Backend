@@ -4,9 +4,11 @@ const ApiError = require('../utils/api-error');
 
 const createAdmissionController = async (req, res, next) => {
   try {
+    console.log("Received request to create admission with body:", req.user);
     const data = await service.createAdmissionService({
       ...req.body,
-      created_by: req.user?.id
+      created_by: 2
+      // created_by: req.user?.id
     });
     res.status(201).json(new ApiResponse(201, data, 'Student Admission created successfully'));
   } catch (error) {
