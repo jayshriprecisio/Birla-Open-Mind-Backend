@@ -8,13 +8,18 @@
     "joi": "^18.2.1",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
+    "nodemailer": "^8.0.7",
     "pg": "^8.20.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.8"
   },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "db:sync": "node src/sync.js",
+    "seed:masters": "node src/seeders/master.seeder.js",
+    "seed:users": "node src/seeders/user.seeder.js",
+    "seed:schools": "node src/seeders/school.seeder.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

@@ -119,7 +119,7 @@ This document lists all the available API endpoints in the new Express.js backen
   "branch_id": 1,
   "enquiry_purpose_id": 1,
   "enquiry_for_id": 1,
-  "academic_session_id": 1,
+  "academic_year_id": 1,
   "board_id": 1,
   "grade_id": 1,
   "batch_id": 1,

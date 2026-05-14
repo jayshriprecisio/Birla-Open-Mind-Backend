@@ -13,7 +13,7 @@ const SchoolEnquiry = sequelize.define('SchoolEnquiry', {
   
   enquiry_purpose_id: { type: DataTypes.INTEGER },
   enquiry_for_id: { type: DataTypes.INTEGER },
-  academic_session_id: { type: DataTypes.INTEGER },
+  academic_year_id: { type: DataTypes.INTEGER },
   board_id: { type: DataTypes.INTEGER },
   grade_id: { type: DataTypes.INTEGER },
   batch_id: { type: DataTypes.INTEGER },

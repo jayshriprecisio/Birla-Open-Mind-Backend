@@ -43,9 +43,26 @@ async function createAdmissionInquiryController(req, res, next) {
   }
 }
 
+async function getAdmissionInquiryByPhoneController(req, res, next) {
+  try {
+    const { phone } = req.query;
+    if (!phone) {
+      // If no phone, just do normal list?
+      // Actually the singular route should require phone.
+      return listAdmissionInquiriesController(req, res, next);
+    }
+    const data = await service.getAdmissionInquiryByPhoneService(phone);
+    res.status(200).json(new ApiResponse(200, data, data ? 'Inquiry found' : 'No inquiry found for this phone'));
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   listAdmissionInquiriesController,
   updateAdmissionInquiryStatusController,
   softDeleteAdmissionInquiryController,
   createAdmissionInquiryController,
+  getAdmissionInquiryByPhoneController,
 };
+

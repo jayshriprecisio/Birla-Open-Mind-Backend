@@ -18,9 +18,15 @@ async function createAdmissionInquiryService(args) {
   return repository.createAdmissionInquiryRepo(args);
 }
 
+async function getAdmissionInquiryByPhoneService(phone) {
+  return repository.getAdmissionInquiryByPhoneRepo(phone);
+}
+
 module.exports = {
   listAdmissionInquiriesService,
   updateAdmissionInquiryStatusService,
   softDeleteAdmissionInquiryService,
   createAdmissionInquiryService,
+  getAdmissionInquiryByPhoneService,
 };
+
