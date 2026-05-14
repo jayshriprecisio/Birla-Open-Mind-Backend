@@ -48,9 +48,44 @@ const seedMasters = async () => {
         { id: 3, batch_name: 'Batch 3', short_form: 'B03' },
       ],
       StreamMaster: [
-        { id: 1, name: 'Science', short_form: 'SCI' },
-        { id: 2, name: 'Commerce', short_form: 'COM' },
-      ]
+        { id: 1, name: "Science", short_form: "SCI" },
+        { id: 2, name: "Commerce", short_form: "COM" },
+      ],
+      BloodGroupMaster: [
+        { id: 1, name: "A+", display_order: 1 },
+        { id: 2, name: "A-", display_order: 2 },
+        { id: 3, name: "B+", display_order: 3 },
+        { id: 4, name: "B-", display_order: 4 },
+        { id: 5, name: "O+", display_order: 5 },
+        { id: 6, name: "O-", display_order: 6 },
+        { id: 7, name: "AB+", display_order: 7 },
+        { id: 8, name: "AB-", display_order: 8 },
+      ],
+      ReligionMaster: [
+        { id: 1, name: "Hindu", display_order: 1 },
+        { id: 2, name: "Muslim", display_order: 2 },
+        { id: 3, name: "Christian", display_order: 3 },
+        { id: 4, name: "Jain", display_order: 4 },
+        { id: 5, name: "Sikh", display_order: 5 },
+        { id: 6, name: "Buddhist", display_order: 6 },
+        { id: 7, name: "Zorastrian", display_order: 7 },
+        { id: 8, name: "Jewish", display_order: 8 },
+      ],
+      CastMaster: [
+        { id: 1, name: "General", short_form: "GR", display_order: 1 },
+        { id: 2, name: "OBC", short_form: "OB", display_order: 2 },
+        { id: 3, name: "SC", short_form: "SC", display_order: 3 },
+        { id: 4, name: "ST", short_form: "ST", display_order: 4 },
+        { id: 5, name: "Others", short_form: "OT", display_order: 5 },
+      ],
+      MotherTongueMaster: [
+        { id: 1, name: "Hindi", display_order: 1 },
+        { id: 2, name: "English", display_order: 2 },
+        { id: 3, name: "Marathi", display_order: 3 },
+        { id: 4, name: "Kannada", display_order: 4 },
+        { id: 5, name: "Gujarati", display_order: 5 },
+        { id: 6, name: "Odia", display_order: 6 },
+      ],
     };
 
     for (const [modelName, records] of Object.entries(data)) {

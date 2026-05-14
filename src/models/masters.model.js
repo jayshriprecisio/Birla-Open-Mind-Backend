@@ -479,6 +479,7 @@ const BloodGroupMaster = sequelize.define(
   {
     id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING(50), allowNull: false },
+    display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
     created_by: { type: DataTypes.STRING(50) },
