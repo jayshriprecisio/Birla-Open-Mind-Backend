@@ -109,7 +109,8 @@ const listSchoolsFilteredRepo = async (params) => {
     distinct: true
   });
 
-  return { rows, total: count };
+  return { items: rows, rows, total: count };
+
 };
 
 const getSchoolsDashboardSummaryRepo = async () => {

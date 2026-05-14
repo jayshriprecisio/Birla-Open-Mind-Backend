@@ -51,6 +51,7 @@ const BoardMaster = sequelize.define('BoardMaster', {
   board_code: { type: DataTypes.STRING(30), allowNull: false, unique: true },
   board_name: { type: DataTypes.STRING(100), allowNull: false },
   status: { type: DataTypes.STRING(20), defaultValue: 'ACTIVE' },
+  is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   created_by: { type: DataTypes.BIGINT },
   updated_by: { type: DataTypes.BIGINT },
 }, { ...commonOptions, tableName: 'board_master' });
@@ -60,6 +61,7 @@ const BrandMaster = sequelize.define('BrandMaster', {
   name: { type: DataTypes.STRING(150), allowNull: false },
   brand_code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
   status: { type: DataTypes.STRING(10), defaultValue: 'ACTIVE' },
+  is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
 }, { ...commonOptions, tableName: 'brand_master' });
 
 const CalculationBasisMaster = sequelize.define('CalculationBasisMaster', {

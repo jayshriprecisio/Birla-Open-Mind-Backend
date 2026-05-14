@@ -21,6 +21,10 @@ const SchoolEnquiryFollowup = sequelize.define('SchoolEnquiryFollowup', {
   notes: { type: DataTypes.TEXT },
   followup_with: { type: DataTypes.STRING(20) },
   followup_by: { type: DataTypes.UUID },
+  priority: { type: DataTypes.STRING(20) },
+  is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+  created_by: { type: DataTypes.UUID },
+  updated_by: { type: DataTypes.UUID },
 }, {
   tableName: 'school_enquiry_followups',
   timestamps: true,
@@ -30,3 +34,4 @@ const SchoolEnquiryFollowup = sequelize.define('SchoolEnquiryFollowup', {
 });
 
 module.exports = SchoolEnquiryFollowup;
+

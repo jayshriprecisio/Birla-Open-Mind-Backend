@@ -208,7 +208,10 @@ const listSchoolEnquiriesFilteredRepo = async (filters) => {
 
   return {
     total: count,
+    rows: rows,
     items: rows,
+
+
     page: parseInt(filters.page || 1, 10),
     pageSize: parseInt(filters.pageSize || 10, 10),
   };
