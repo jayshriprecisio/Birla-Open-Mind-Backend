@@ -18,6 +18,7 @@ router.get(
   validate(validation.listQuerySchema),
   controller.getAllAdmissionsController,
 );
+router.get("/stats", auth, controller.getAdmissionStatsController);
 router.get("/:id", auth, controller.getAdmissionByIdController);
 router.patch(
   "/:id",

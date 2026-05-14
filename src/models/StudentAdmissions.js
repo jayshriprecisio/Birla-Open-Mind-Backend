@@ -173,7 +173,7 @@ const StudentAdmissions = sequelize.define(
     admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
     payment_status: {
       type: DataTypes.STRING(30),
-      defaultValue: "PENDING",
+      defaultValue: "PENDING", // PENDING, COMPLETED, CANCELLED
     },
     cheque_no: { type: DataTypes.STRING(50) },
     cheque_bank_name: { type: DataTypes.STRING(255) },

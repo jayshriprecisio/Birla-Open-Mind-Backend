@@ -110,6 +110,35 @@ const getAllAdmissionsRepo = async (args) => {
   };
 };
 
+const getAdmissionStatsRepo = async () => {
+  const stats = await StudentAdmissions.findAll({
+    where: { is_deleted: false },
+    attributes: [
+      "status",
+      [sequelize.fn("COUNT", sequelize.col("id")), "count"],
+    ],
+    group: ["status"],
+  });
+
+  const result = {
+    total: 0,
+    completed: 0,
+    pending: 0,
+    cancelled: 0,
+  };
+
+  stats.forEach((stat) => {
+    const count = parseInt(stat.get("count"), 10);
+    const status = stat.status;
+    result.total += count;
+    if (status === "COMPLETED") result.completed = count;
+    if (status === "PENDING") result.pending = count;
+    if (status === "CANCELLED") result.cancelled = count;
+  });
+
+  return result;
+};
+
 const getAdmissionByIdRepo = async (id) => {
   return await StudentAdmissions.findOne({
     where: { id: id, is_deleted: false },
@@ -277,6 +306,7 @@ const getLastAdmissionRepo = async (prefix) => {
 module.exports = {
   createAdmissionRepo,
   getAllAdmissionsRepo,
+  getAdmissionStatsRepo,
   getAdmissionByIdRepo,
   updateAdmissionRepo,
   deleteAdmissionRepo,

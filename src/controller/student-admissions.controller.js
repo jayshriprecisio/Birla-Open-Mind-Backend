@@ -21,6 +21,15 @@ const getAllAdmissionsController = async (req, res, next) => {
   }
 };
 
+const getAdmissionStatsController = async (req, res, next) => {
+  try {
+    const data = await service.getAdmissionStatsService();
+    res.status(200).json(new ApiResponse(200, data, 'Admission statistics retrieved successfully'));
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getAdmissionByIdController = async (req, res, next) => {
   try {
     const data = await service.getAdmissionByIdService(req.params.id);
@@ -54,6 +63,7 @@ const deleteAdmissionController = async (req, res, next) => {
 module.exports = {
   createAdmissionController,
   getAllAdmissionsController,
+  getAdmissionStatsController,
   getAdmissionByIdController,
   updateAdmissionController,
   deleteAdmissionController

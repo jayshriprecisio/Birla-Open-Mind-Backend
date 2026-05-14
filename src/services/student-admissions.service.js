@@ -30,9 +30,13 @@ const createAdmissionService = async (data) => {
 };
 
 const getAllAdmissionsService = async (queryParams) => {
-  const page = parseInt(queryParams.page || '1', 10);
-  const limit = parseInt(queryParams.limit || '10', 10);
+  const page = parseInt(queryParams.page || "1", 10);
+  const limit = parseInt(queryParams.limit || "10", 10);
   return await repository.getAllAdmissionsRepo({ ...queryParams, page, limit });
+};
+
+const getAdmissionStatsService = async () => {
+  return await repository.getAdmissionStatsRepo();
 };
 
 const getAdmissionByIdService = async (id) => {
@@ -50,6 +54,7 @@ const deleteAdmissionService = async (id, deletedBy) => {
 module.exports = {
   createAdmissionService,
   getAllAdmissionsService,
+  getAdmissionStatsService,
   getAdmissionByIdService,
   updateAdmissionService,
   deleteAdmissionService
