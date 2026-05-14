@@ -63,7 +63,7 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.BIGINT,
       allowNull: true,
     },
-    // MODEL MISSING
+    // use model - BloodGroupMaster
     blood_group_id: {
       type: DataTypes.BIGINT,
       allowNull: true,
@@ -72,17 +72,17 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.STRING(50),
       allowNull: true,
     },
-    // MODEL MISSING
+    // use model - ReligionMaster
     religion_id: {
       type: DataTypes.BIGINT,
       allowNull: true,
     },
-    // MODEL MISSING
+    // use model - CastMaster
     cast_id: {
       type: DataTypes.BIGINT,
       allowNull: true,
     },
-    // MODEL MISSING
+    // use model - MotherTongueMaster
     mother_tongue_id: {
       type: DataTypes.BIGINT,
       allowNull: true,
