@@ -7,7 +7,7 @@ const seedSchools = async () => {
 
     const schools = [
       {
-        school_id: '11111111-1111-1111-1111-111111111111',
+        school_id: 'e2a6f2b4-8e1a-4d3b-9a2c-7f5e1a2b3c4d',
         school_code: 'BOM-MUM-01',
         school_name: 'Birla Open Minds School Mumbai',
         brand_id: 1, // BOMIS
@@ -24,7 +24,7 @@ const seedSchools = async () => {
         official_email: 'mumbai@birlaopenminds.edu.in'
       },
       {
-        school_id: '22222222-2222-2222-2222-222222222222',
+        school_id: 'a1b2c3d4-e5f6-4a5b-bc6d-7e8f9a0b1c2d',
         school_code: 'BOM-DEL-01',
         school_name: 'Birla Open Minds School Delhi',
         brand_id: 1, // BOMIS
@@ -41,7 +41,7 @@ const seedSchools = async () => {
         official_email: 'delhi@birlaopenminds.edu.in'
       },
       {
-        school_id: '33333333-3333-3333-3333-333333333333',
+        school_id: 'f9e8d7c6-b5a4-4321-8765-4d3c2b1a0e9f',
         school_code: 'BOM-BLR-01',
         school_name: 'Birla Open Minds Pre School Bangalore',
         brand_id: 2, // BOMPS
@@ -58,7 +58,7 @@ const seedSchools = async () => {
         official_email: 'bangalore@birlaopenminds.edu.in'
       },
       {
-        school_id: '44444444-4444-4444-4444-444444444444',
+        school_id: 'd4c3b2a1-0e9f-4d3c-82b1-a0e9f8d7c6b5',
         school_code: 'BOM-CHN-01',
         school_name: 'Birla Open Minds Pre School Chennai',
         brand_id: 2, // BOMPS
@@ -75,7 +75,7 @@ const seedSchools = async () => {
         official_email: 'chennai@birlaopenminds.edu.in'
       },
       {
-        school_id: '55555555-5555-5555-5555-555555555555',
+        school_id: 'c2b1a0e9-f8d7-4c6b-85a4-3210e9f8d7c6',
         school_code: 'BOM-HYD-01',
         school_name: 'Birla Open Minds School Hyderabad',
         brand_id: 1, // BOMIS
