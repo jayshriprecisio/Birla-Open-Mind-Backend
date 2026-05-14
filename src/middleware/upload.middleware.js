@@ -1,51 +1,45 @@
-const multer = require('multer');
+const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
+
+const uploadPath = path.join(
+  __dirname,
+  '../../uploads/enquiry-imports'
+);
+
+// ✅ create folder if not exists
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+
 const storage = multer.diskStorage({
-    destination: (req, file, cb)  => {
-        cb(null, 'uploads/enquiry-imports')
-    },
+  destination: (req, file, cb) => {
+    cb(null, uploadPath);
+  },
 
-    filename: (req, file, cb) => {
-        const uniqueName = Date.now() + '-' + file.originalname;
-
-        cb(null, uniqueName)
-    }
+  filename: (req, file, cb) => {
+    const uniqueName =
+      Date.now() + '-' + file.originalname;
+    cb(null, uniqueName);
+  },
 });
 
-//allow files
-const allowedExtensions = [
-  '.csv',
-  '.xls',
-  '.xlsx',
-];
+const allowedExtensions = ['.csv', '.xls', '.xlsx'];
 
-//validate file type
 const fileFilter = (req, file, cb) => {
-
-  const ext = path.extname(file.originalname)
-    .toLowerCase();
+  const ext = path.extname(file.originalname).toLowerCase();
 
   if (!allowedExtensions.includes(ext)) {
-
-    return cb(
-      new Error(
-        'Only CSV, XLS, XLSX files are allowed'
-      )
-    );
+    return cb(new Error('Invalid file type'));
   }
 
   cb(null, true);
 };
 
-//upload
 const upload = multer({
   storage,
-
   fileFilter,
-
-  limits: {
-    fileSize: 100 * 1024 * 1024,   //100MB
-  },
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-module.exports = {upload}
+module.exports = upload;

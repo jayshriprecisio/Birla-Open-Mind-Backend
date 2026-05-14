@@ -1,5 +1,5 @@
 const repository =
-  require('../repository/enquiry-import.repository');
+  require('../repository/enquiry-import.respository');
 
 const uploadEnquiryFileService = async (
   payload

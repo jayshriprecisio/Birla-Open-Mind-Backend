@@ -38,7 +38,7 @@ app.use('/api/enquiry-management/admission-inquiries', admissionInquiryRoutes);
 app.use('/api/enquiry-management/admission-inquiry', admissionInquiryRoutes);
 app.use('/api/enquiry-management/school-enquiries', schoolEnquiryRoutes);
 app.use('/api/enquiry-management/lookups', lookupRoutes);
-app.use('/api/enquiry-management/enquiry-import')
+app.use('/api/enquiry-management/enquiry-import', enquiryImportRoutes)
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/schools', schoolRoutes);
