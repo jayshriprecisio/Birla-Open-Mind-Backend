@@ -11,6 +11,8 @@ const seedMasters = async () => {
         { id: 1, zone_name: "Central", short_form: "CT" },
         { id: 2, zone_name: "West", short_form: "WT" },
         { id: 3, zone_name: "North", short_form: "NT" },
+        { id: 4, zone_name: "South", short_form: "ST" },
+        { id: 5, zone_name: "East", short_form: "ET" }
       ],
       BrandMaster: [
         {
@@ -101,11 +103,6 @@ const seedMasters = async () => {
         { id: 3, board_code: "BRD-003", board_name: "CISCE" },
         { id: 4, board_code: "BRD-004", board_name: "KSEAB" },
       ],
-      // BoardMaster: [
-      //   { id: 2, board_code: "BRD-1", board_name: "BOB201" },
-      //   { id: 3, board_code: "BRD-2", board_name: "BOB203" },
-      //   { id: 7, board_code: "BRD-3", board_name: "BOB301" },
-      // ],
       TermMaster: [
         { id: 1, term_name: "Term 1", short_form: "T1" },
         { id: 2, term_name: "Term 2", short_form: "T2" },
