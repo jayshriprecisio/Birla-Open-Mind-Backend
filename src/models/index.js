@@ -4,11 +4,12 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
 const AdmissionInquiry = require('./AdmissionInquiry');
+const StudentAdmissions = require('./StudentAdmissions');
 
 // Associations
 
@@ -48,9 +49,21 @@ GradeMaster.hasMany(SchoolEnquiry, { foreignKey: 'grade_id' });
 AdmissionInquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school_ref' });
 School.hasMany(AdmissionInquiry, { foreignKey: 'school_id' });
 
-// Admission Inquiry <-> Grade
 AdmissionInquiry.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade_ref' });
 GradeMaster.hasMany(AdmissionInquiry, { foreignKey: 'grade_id' });
+
+// Student Admissions Associations
+StudentAdmissions.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
+School.hasMany(StudentAdmissions, { foreignKey: 'school_id' });
+
+StudentAdmissions.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade' });
+GradeMaster.hasMany(StudentAdmissions, { foreignKey: 'grade_id' });
+
+StudentAdmissions.belongsTo(BoardMaster, { foreignKey: 'board_id', as: 'board' });
+BoardMaster.hasMany(StudentAdmissions, { foreignKey: 'board_id' });
+
+StudentAdmissions.belongsTo(SchoolEnquiry, { foreignKey: 'enquiry_no', targetKey: 'enquiry_no', as: 'enquiry' });
+SchoolEnquiry.hasOne(StudentAdmissions, { foreignKey: 'enquiry_no', sourceKey: 'enquiry_no' });
 
 module.exports = {
   sequelize,
@@ -65,5 +78,6 @@ module.exports = {
   SchoolEnquirySibling,
   SchoolEnquiryFollowup,
   AdmissionInquiry,
+  StudentAdmissions,
   PaymentEntityMaster,
 };

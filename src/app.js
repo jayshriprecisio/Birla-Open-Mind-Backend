@@ -9,6 +9,7 @@ const authRoutes = require('./routes/auth.routes');
 const schoolRoutes = require('./routes/school.routes');
 const schoolEnquiryRoutes = require('./routes/school-enquiry.routes');
 const admissionInquiryRoutes = require('./routes/admission-inquiry.routes');
+const studentAdmissionsRoutes = require('./routes/student-admissions.routes');
 const lookupRoutes = require('./routes/lookup.routes');
 const masterRoutes = require('./modules/masters/master.module');
 
@@ -25,6 +26,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/schools', schoolRoutes);
 app.use('/api/v1/enquiries/school', schoolEnquiryRoutes);
 app.use('/api/v1/enquiries/admission', admissionInquiryRoutes);
+app.use('/api/v1/admissions/student', studentAdmissionsRoutes);
 app.use('/api/v1/enquiries/lookups', lookupRoutes);
 app.use('/api/v1/masters', masterRoutes);
 
