@@ -26,7 +26,7 @@ const getSchool = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+};    
 
 const updateSchool = async (req, res, next) => {
   try {
