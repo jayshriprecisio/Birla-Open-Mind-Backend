@@ -213,11 +213,11 @@ const StudentAdmissions = sequelize.define(
         nullableFields.forEach((field) => {
           const value = admission[field];
           if (
-            value === "" || 
-            value === 0 || 
-            value === "0" || 
-            value === "null" || 
-            value === "undefined" || 
+            value === "" ||
+            value === 0 ||
+            value === "0" ||
+            value === "null" ||
+            value === "undefined" ||
             (typeof value === "string" && value.trim() === "")
           ) {
             admission[field] = null;
