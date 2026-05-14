@@ -45,6 +45,7 @@ const getAllAdmissionsRepo = async (args) => {
     where,
     include: [
       { model: School, as: 'school', attributes: ['school_name', 'school_code'] },
+      { model: GenderMaster, as: 'gender', attributes: ['name', 'short_form'] },
       { model: GradeMaster, as: 'grade_applying_for', attributes: ['name', 'short_form'] },
       { model: GradeMaster, as: 'grade', attributes: ['name', 'short_form'] },
       { model: BoardMaster, as: 'board', attributes: ['board_name', 'board_code'] },
@@ -69,6 +70,7 @@ const getAdmissionByIdRepo = async (id) => {
     where: { id: id, is_deleted: false },
     include: [
       { model: School, as: 'school' },
+      { model: GenderMaster, as: 'gender' },
       { model: GradeMaster, as: 'grade_applying_for' },
       { model: GradeMaster, as: 'grade' },
       { model: BoardMaster, as: 'board' },

@@ -4,7 +4,7 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, GenderMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
@@ -55,6 +55,9 @@ GradeMaster.hasMany(AdmissionInquiry, { foreignKey: 'grade_id' });
 // Student Admissions Associations
 StudentAdmissions.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
 School.hasMany(StudentAdmissions, { foreignKey: 'school_id' });
+
+StudentAdmissions.belongsTo(GenderMaster, { foreignKey: 'gender_id', as: 'gender' });
+GenderMaster.hasMany(StudentAdmissions, { foreignKey: 'gender_id' });
 
 StudentAdmissions.belongsTo(GradeMaster, { foreignKey: 'grade_applying_for_id', as: 'grade_applying_for' });
 StudentAdmissions.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade' });

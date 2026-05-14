@@ -24,7 +24,7 @@ const createAdmissionSchema = {
 
     student_name: Joi.string().required(),
     dob: Joi.date().required(),
-    gender: Joi.string().required(),
+    gender_id: Joi.number().required(),
     blood_group_id: Joi.number().optional().allow(null),
     nationality: Joi.string().optional().allow(''),
     religion_id: Joi.number().optional().allow(null),
@@ -102,7 +102,7 @@ const updateAdmissionSchema = {
     board_id: Joi.number().optional().allow(null),
     student_name: Joi.string().optional(),
     dob: Joi.date().optional(),
-    gender: Joi.string().optional(),
+    gender_id: Joi.number().optional(),
     blood_group: Joi.string().optional().allow(''),
     status: Joi.string().optional(),
     // ... add other fields as needed

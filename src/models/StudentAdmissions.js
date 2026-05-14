@@ -42,8 +42,8 @@ const StudentAdmissions = sequelize.define('StudentAdmissions', {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
-  gender: {
-    type: DataTypes.STRING(20),
+  gender_id: {
+    type: DataTypes.BIGINT,
     allowNull: false,
   },
   grade_id: {
