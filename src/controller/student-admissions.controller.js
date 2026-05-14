@@ -60,11 +60,22 @@ const deleteAdmissionController = async (req, res, next) => {
   }
 };
 
+const cancelAdmissionController = async (req, res, next) => {
+  try {
+    const data = await service.cancelAdmissionService(req.params.id);
+    if (!data) throw new ApiError(404, 'Admission record not found');
+    res.status(200).json(new ApiResponse(200, data, 'Admission record cancelled successfully'));
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createAdmissionController,
   getAllAdmissionsController,
   getAdmissionStatsController,
   getAdmissionByIdController,
   updateAdmissionController,
-  deleteAdmissionController
+  deleteAdmissionController,
+  cancelAdmissionController
 };

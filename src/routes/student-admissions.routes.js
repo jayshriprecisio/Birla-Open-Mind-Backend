@@ -33,4 +33,11 @@ router.delete(
   controller.deleteAdmissionController,
 );
 
+router.patch(
+  "/cancel/:id",
+  auth,
+  validate(validation.cancelAdmissionSchema),
+  controller.cancelAdmissionController,
+);
+
 module.exports = router;

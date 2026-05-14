@@ -169,9 +169,16 @@ const deleteAdmissionSchema = {
   }),
 };
 
+const cancelAdmissionSchema = {
+  params: Joi.object().keys({
+    id: Joi.string().uuid().required(),
+  }),
+};
+
 module.exports = {
   listQuerySchema,
   createAdmissionSchema,
   updateAdmissionSchema,
   deleteAdmissionSchema,
+  cancelAdmissionSchema,
 };
