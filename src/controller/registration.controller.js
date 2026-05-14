@@ -5,7 +5,17 @@ const searchRegistrationsController = async (req, res, next) => {
   try {
     const { enquiry_no, phone } = req.query;
     const data = await service.searchRegistrationsService({ enquiry_no, phone });
-    res.status(200).json(new ApiResponse(200, data, 'Search results retrieved successfully'));
+
+    // Check if no records found
+    const message = data.length === 0
+      ? phone
+        ? `No entry found with phone number ${phone}`
+        : enquiry_no
+          ? `No entry found with enquiry number ${enquiry_no}`
+          : 'No matching entries found'
+          : 'Search results retrieved successfully';
+
+    res.status(200).json(new ApiResponse(200, data, message));
   } catch (error) {
     next(error);
   }
