@@ -25,7 +25,9 @@ const createAdmissionRepo = async (data) => {
     console.log("DEBUG: Detected UUID in enquiry_no, resolving to number...");
     const enquiry = await SchoolEnquiry.findByPk(data.enquiry_no);
     if (enquiry) {
-      console.log(`DEBUG: Resolved UUID ${data.enquiry_no} to Enquiry No ${enquiry.enquiry_no}`);
+      console.log(
+        `DEBUG: Resolved UUID ${data.enquiry_no} to Enquiry No ${enquiry.enquiry_no}`,
+      );
       data.enquiry_no = enquiry.enquiry_no;
     } else {
       console.warn(`DEBUG: Could not find enquiry with ID ${data.enquiry_no}`);
@@ -34,13 +36,21 @@ const createAdmissionRepo = async (data) => {
 
   // Explicitly check if enquiry exists if enquiry_no is provided
   if (data.enquiry_no) {
-    const enquiryExists = await SchoolEnquiry.findOne({ where: { enquiry_no: data.enquiry_no } });
+    const enquiryExists = await SchoolEnquiry.findOne({
+      where: { enquiry_no: data.enquiry_no },
+    });
     if (!enquiryExists) {
-      throw new ApiError(400, `Invalid Enquiry Number: The enquiry '${data.enquiry_no}' does not exist in the database. Please verify the enquiry number or leave it blank if not applicable.`);
+      throw new ApiError(
+        400,
+        `Invalid Enquiry Number: The enquiry '${data.enquiry_no}' does not exist in the database. Please verify the enquiry number or leave it blank if not applicable.`,
+      );
     }
   }
 
-  console.log("DEBUG: Data being sent to StudentAdmissions.create:", JSON.stringify(data, null, 2));
+  console.log(
+    "DEBUG: Data being sent to StudentAdmissions.create:",
+    JSON.stringify(data, null, 2),
+  );
   return await StudentAdmissions.create(data);
 };
 
@@ -56,11 +66,17 @@ const getAllAdmissionsRepo = async (args) => {
       "student_name",
       "father_name",
       "father_mobile",
-      "grade_id",
-      "school_id",
       "created_at",
       "status",
       "payment_status",
+    ],
+    include: [
+      {
+        model: School,
+        as: "school",
+        attributes: ["school_name", "school_code"],
+      },
+      { model: GradeMaster, as: "grade", attributes: ["name", "short_form"] },
     ],
     order: [["created_at", "DESC"]],
     limit: args.limit,
@@ -107,11 +123,27 @@ const getAdmissionByIdRepo = async (id) => {
         as: "enquiry",
         attributes: ["enquiry_no", "enquiry_id"],
       },
-      { model: AcademicYearMaster, as: "academic_year", attributes: ["name", "short_form"] },
-      { model: BloodGroupMaster, as: "blood_group", attributes: ["name", "display_order"] },
-      { model: ReligionMaster, as: "religion", attributes: ["name", "display_order"] },
+      {
+        model: AcademicYearMaster,
+        as: "academic_year",
+        attributes: ["name", "short_form"],
+      },
+      {
+        model: BloodGroupMaster,
+        as: "blood_group",
+        attributes: ["name", "display_order"],
+      },
+      {
+        model: ReligionMaster,
+        as: "religion",
+        attributes: ["name", "display_order"],
+      },
       { model: CastMaster, as: "cast", attributes: ["name", "display_order"] },
-      { model: MotherTongueMaster, as: "mother_tongue", attributes: ["name", "display_order"] },
+      {
+        model: MotherTongueMaster,
+        as: "mother_tongue",
+        attributes: ["name", "display_order"],
+      },
     ],
   });
 };
