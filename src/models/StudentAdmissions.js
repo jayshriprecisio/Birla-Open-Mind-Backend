@@ -78,7 +78,7 @@ const StudentAdmissions = sequelize.define(
       allowNull: true,
     },
     // MODEL MISSING
-    category_id: {
+    cast_id: {
       type: DataTypes.BIGINT,
       allowNull: true,
     },
