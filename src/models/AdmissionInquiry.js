@@ -14,10 +14,8 @@ const AdmissionInquiry = sequelize.define('AdmissionInquiry', {
   parent_last_name: { type: DataTypes.STRING(255) },
   email: { type: DataTypes.STRING(255) },
   comment: { type: DataTypes.TEXT },
-  school: { type: DataTypes.STRING(255) },
-  grade: { type: DataTypes.STRING(255) },
-  relation: { type: DataTypes.STRING(100) },
   status: { type: DataTypes.STRING(50), defaultValue: 'NEW' },
+
   is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   deleted_at: { type: DataTypes.DATE },
   deleted_by: { type: DataTypes.UUID },

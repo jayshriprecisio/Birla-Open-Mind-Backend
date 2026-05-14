@@ -27,10 +27,10 @@ const listAdmissionInquiriesRepo = async (args) => {
     where['$grade_ref.name$'] = args.grade;
   }
 
-  if (args.dateFrom) {
+  if (args.dateFrom && args.dateFrom.trim() !== '') {
     where.created_at = { ...where.created_at, [Op.gte]: new Date(args.dateFrom) };
   }
-  if (args.dateTo) {
+  if (args.dateTo && args.dateTo.trim() !== '') {
     where.created_at = { ...where.created_at, [Op.lte]: new Date(args.dateTo) };
   }
 
@@ -41,25 +41,37 @@ const listAdmissionInquiriesRepo = async (args) => {
       { model: GradeMaster, as: 'grade_ref', attributes: ['name', 'short_form'] }
     ],
     order: [['created_at', 'DESC']],
-    limit: args.limit,
-    offset: (args.page - 1) * args.limit,
+    limit: Number(args.limit) || 10,
+    offset: (Number(args.page || 1) - 1) * (Number(args.limit) || 10),
     distinct: true
   });
 
   const schools = await School.findAll({
-    attributes: [[sequelize.fn('DISTINCT', sequelize.col('school_name')), 'school_name']],
+    attributes: ['school_name'],
     where: { deleted_at: null },
+    group: ['school_name'],
     order: [['school_name', 'ASC']]
   });
 
   const grades = await GradeMaster.findAll({
-    attributes: [[sequelize.fn('DISTINCT', sequelize.col('name')), 'name']],
+    attributes: ['name'],
     where: { is_deleted: false },
+    group: ['name'],
     order: [['name', 'ASC']]
   });
 
   return {
-    rows,
+    rows: rows.map(r => {
+      const json = r.toJSON();
+      // Strip metadata from comment if present: "actual comment [Relation: ...]"
+      const comment = (json.comment || '').replace(/\s*\[Relation:.*\]/i, '').trim();
+      return {
+        ...json,
+        comment: comment || '-',
+        school_name: json.school_ref?.school_name || json.school || '-',
+        grade: json.grade_ref?.short_form || json.grade || '-'
+      };
+    }),
     total: count,
     schools: schools.map(s => s.school_name).filter(Boolean),
     grades: grades.map(g => g.name).filter(Boolean)
@@ -115,10 +127,31 @@ const createAdmissionInquiryRepo = async (args) => {
     ...args,
     school_id: school?.school_id || null,
     grade_id: grade?.id || null,
-    school: args.school,
-    grade: args.grade,
     status: 'NEW'
   });
+
+};
+
+const getAdmissionInquiryByPhoneRepo = async (phone) => {
+  const inquiry = await AdmissionInquiry.findOne({
+    where: { phone_number: phone, is_deleted: false },
+    include: [
+      { model: School, as: 'school_ref', attributes: ['school_name', 'school_id', 'brand_code', 'zone_id'] },
+      { model: GradeMaster, as: 'grade_ref', attributes: ['name', 'short_form'] }
+    ],
+    order: [['created_at', 'DESC']]
+  });
+
+  if (!inquiry) return null;
+
+  const json = inquiry.toJSON();
+  return {
+    ...json,
+    school: json.school_ref?.school_name || '-',
+    brand_name: json.school_ref?.brand_code || '-',
+    zone_name: json.school_ref?.zone_id || '-',
+    grade: json.grade_ref?.short_form || json.grade_ref?.name || '-'
+  };
 };
 
 module.exports = {
@@ -126,4 +159,6 @@ module.exports = {
   updateAdmissionInquiryStatusRepo,
   softDeleteAdmissionInquiryRepo,
   createAdmissionInquiryRepo,
+  getAdmissionInquiryByPhoneRepo,
 };
+

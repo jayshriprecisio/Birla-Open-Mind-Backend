@@ -4,12 +4,13 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, GenderMaster, ModeOfPaymentMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
 const AdmissionInquiry = require('./AdmissionInquiry');
 const StudentAdmissions = require('./StudentAdmissions');
+const PasswordReset = require('./PasswordReset');
 
 // Associations
 
@@ -82,10 +83,13 @@ module.exports = {
   ZoneMaster,
   BrandMaster,
   GradeMaster,
+  BoardMaster,
+  SessionMaster,
   SchoolEnquiry,
   SchoolEnquirySibling,
   SchoolEnquiryFollowup,
   AdmissionInquiry,
   StudentAdmissions,
   PaymentEntityMaster,
+  PasswordReset,
 };
