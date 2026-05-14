@@ -56,7 +56,9 @@ GradeMaster.hasMany(AdmissionInquiry, { foreignKey: 'grade_id' });
 StudentAdmissions.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
 School.hasMany(StudentAdmissions, { foreignKey: 'school_id' });
 
+StudentAdmissions.belongsTo(GradeMaster, { foreignKey: 'grade_applying_for_id', as: 'grade_applying_for' });
 StudentAdmissions.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade' });
+GradeMaster.hasMany(StudentAdmissions, { foreignKey: 'grade_applying_for_id' });
 GradeMaster.hasMany(StudentAdmissions, { foreignKey: 'grade_id' });
 
 StudentAdmissions.belongsTo(BoardMaster, { foreignKey: 'board_id', as: 'board' });

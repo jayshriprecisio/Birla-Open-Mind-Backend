@@ -29,6 +29,10 @@ const getAllAdmissionsRepo = async (args) => {
     where.school_id = args.school_id;
   }
 
+  if (args.grade_applying_for_id) {
+    where.grade_applying_for_id = args.grade_applying_for_id;
+  }
+
   if (args.grade_id) {
     where.grade_id = args.grade_id;
   }
@@ -41,6 +45,7 @@ const getAllAdmissionsRepo = async (args) => {
     where,
     include: [
       { model: School, as: 'school', attributes: ['school_name', 'school_code'] },
+      { model: GradeMaster, as: 'grade_applying_for', attributes: ['name', 'short_form'] },
       { model: GradeMaster, as: 'grade', attributes: ['name', 'short_form'] },
       { model: BoardMaster, as: 'board', attributes: ['board_name', 'board_code'] },
       { model: SchoolEnquiry, as: 'enquiry', attributes: ['enquiry_no', 'enquiry_id'] }
@@ -61,9 +66,10 @@ const getAllAdmissionsRepo = async (args) => {
 
 const getAdmissionByIdRepo = async (id) => {
   return await StudentAdmissions.findOne({
-    where: { admission_id: id, is_deleted: false },
+    where: { id: id, is_deleted: false },
     include: [
       { model: School, as: 'school' },
+      { model: GradeMaster, as: 'grade_applying_for' },
       { model: GradeMaster, as: 'grade' },
       { model: BoardMaster, as: 'board' },
       { model: SchoolEnquiry, as: 'enquiry' }

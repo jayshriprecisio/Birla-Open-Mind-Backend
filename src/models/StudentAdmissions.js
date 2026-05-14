@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const StudentAdmissions = sequelize.define('StudentAdmissions', {
-  admission_id: {
+  id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
@@ -24,7 +24,7 @@ const StudentAdmissions = sequelize.define('StudentAdmissions', {
     type: DataTypes.UUID,
     allowNull: false,
   },
-  grade_id: {
+  grade_applying_for_id: {
     type: DataTypes.BIGINT,
     allowNull: false,
   },
@@ -46,20 +46,24 @@ const StudentAdmissions = sequelize.define('StudentAdmissions', {
     type: DataTypes.STRING(20),
     allowNull: false,
   },
-  blood_group: {
-    type: DataTypes.STRING(10),
+  grade_id: {
+    type: DataTypes.BIGINT,
+    allowNull: true,
+  },
+  blood_group_id: {
+    type: DataTypes.BIGINT,
     allowNull: true,
   },
   nationality: {
     type: DataTypes.STRING(50),
     allowNull: true,
   },
-  religion: {
-    type: DataTypes.STRING(50),
+  religion_id: {
+    type: DataTypes.BIGINT,
     allowNull: true,
   },
-  category: {
-    type: DataTypes.STRING(50),
+  category_id: {
+    type: DataTypes.BIGINT,
     allowNull: true,
   },
   mother_tongue: {
