@@ -21,7 +21,7 @@ const StudentAdmissions = sequelize.define('StudentAdmissions', {
     type: DataTypes.STRING(50),
     allowNull: true,
   },
-  academic_session_id: {
+  academic_year_id: {
     type: DataTypes.BIGINT,
     allowNull: false,
   },
