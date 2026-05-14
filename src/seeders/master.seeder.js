@@ -150,6 +150,12 @@ const seedMasters = async () => {
         { id: 5, name: "Gujarati", display_order: 5 },
         { id: 6, name: "Odia", display_order: 6 },
       ],
+      ModeOfPaymentMaster: [
+        { id: 1, mode_of_payment_name: "Cash", name_on_receipt: "Cash", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 1 },
+        { id: 2, mode_of_payment_name: "Cheque", name_on_receipt: "Cheque", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 2 },
+        { id: 3, mode_of_payment_name: "UPI", name_on_receipt: "UPI", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 3 },
+        { id: 4, mode_of_payment_name: "Card", name_on_receipt: "Card", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 4 },
+      ],
     };
 
     for (const [modelName, records] of Object.entries(data)) {
