@@ -25,6 +25,7 @@ const createAdmissionSchema = {
     board_id: Joi.number().optional().allow(null),
 
     student_name: Joi.string().required(),
+    aadhar_no: Joi.string().optional().allow(''),
     dob: Joi.date().required(),
     gender_id: Joi.number().required(),
     blood_group_id: Joi.number().optional().allow(null),
@@ -113,6 +114,7 @@ const updateAdmissionSchema = {
     grade_id: Joi.number().optional().allow(null),
     board_id: Joi.number().optional().allow(null),
     student_name: Joi.string().optional(),
+    aadhar_no: Joi.string().optional().allow(''),
     dob: Joi.date().optional(),
     gender_id: Joi.number().optional(),
     blood_group_id: Joi.number().optional().allow(null),

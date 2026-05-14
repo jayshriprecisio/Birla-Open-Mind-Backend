@@ -49,6 +49,10 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    aadhar_no: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+    },
     dob: {
       type: DataTypes.DATEONLY,
       allowNull: false,
@@ -205,6 +209,7 @@ const StudentAdmissions = sequelize.define(
           "admission_no",
           "upi_reference",
           "cheque_no",
+          "aadhar_no",
         ];
         nullableFields.forEach((field) => {
           const value = admission[field];

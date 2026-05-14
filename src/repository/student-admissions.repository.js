@@ -62,6 +62,7 @@ const getAllAdmissionsRepo = async (args) => {
       { registration_no: { [Op.iLike]: `%${args.search}%` } },
       { enrollment_no: { [Op.iLike]: `%${args.search}%` } },
       { student_name: { [Op.iLike]: `%${args.search}%` } },
+      { aadhar_no: { [Op.iLike]: `%${args.search}%` } },
     ];
   }
 
@@ -166,6 +167,7 @@ const getAdmissionByIdRepo = async (id) => {
       "enrollment_no",
       "enquiry_no",
       "student_name",
+      "aadhar_no",
       "dob",
       "nationality",
       "place_of_birth",
