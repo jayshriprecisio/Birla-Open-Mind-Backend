@@ -200,6 +200,31 @@ const StudentAdmissions = sequelize.define(
     underscored: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    hooks: {
+      beforeValidate: (admission) => {
+        // Convert empty strings or whitespace-only strings to null for unique nullable fields
+        const nullableFields = [
+          "enrollment_no",
+          "enquiry_no",
+          "admission_no",
+          "upi_reference",
+          "cheque_no",
+        ];
+        nullableFields.forEach((field) => {
+          const value = admission[field];
+          if (
+            value === "" || 
+            value === 0 || 
+            value === "0" || 
+            value === "null" || 
+            value === "undefined" || 
+            (typeof value === "string" && value.trim() === "")
+          ) {
+            admission[field] = null;
+          }
+        });
+      },
+    },
   },
 );
 

@@ -8,11 +8,18 @@ const generateRegistrationNo = async () => {
   const year = new Date().getFullYear();
   const prefix = `REG-${year}-`;
   
-  // In a real scenario, you'd get the last sequence from DB.
-  // For simplicity here, we use a random number or timestamp.
-  // Better: find max registration_no from DB and increment.
-  const randomStr = Math.floor(1000 + Math.random() * 9000).toString();
-  return `${prefix}${randomStr}`;
+  const lastRecord = await repository.getLastAdmissionRepo(prefix);
+  let nextSeq = 1;
+  
+  if (lastRecord && lastRecord.registration_no) {
+    const parts = lastRecord.registration_no.split('-');
+    const lastSeq = parseInt(parts[parts.length - 1], 10);
+    if (!isNaN(lastSeq)) {
+      nextSeq = lastSeq + 1;
+    }
+  }
+  
+  return `${prefix}${nextSeq.toString().padStart(4, '0')}`;
 };
 
 const createAdmissionService = async (data) => {

@@ -17,8 +17,30 @@ const {
   MotherTongueMaster,
 } = require("../models/masters.model");
 
+const ApiError = require("../utils/api-error");
+
 const createAdmissionRepo = async (data) => {
-  console.log("Creating admission with data:", data);
+  // If enquiry_no is passed as a UUID (common mistake in frontend), resolve it to the actual enquiry_no
+  if (data.enquiry_no && /^[0-9a-fA-F-]{36}$/.test(data.enquiry_no)) {
+    console.log("DEBUG: Detected UUID in enquiry_no, resolving to number...");
+    const enquiry = await SchoolEnquiry.findByPk(data.enquiry_no);
+    if (enquiry) {
+      console.log(`DEBUG: Resolved UUID ${data.enquiry_no} to Enquiry No ${enquiry.enquiry_no}`);
+      data.enquiry_no = enquiry.enquiry_no;
+    } else {
+      console.warn(`DEBUG: Could not find enquiry with ID ${data.enquiry_no}`);
+    }
+  }
+
+  // Explicitly check if enquiry exists if enquiry_no is provided
+  if (data.enquiry_no) {
+    const enquiryExists = await SchoolEnquiry.findOne({ where: { enquiry_no: data.enquiry_no } });
+    if (!enquiryExists) {
+      throw new ApiError(400, `Invalid Enquiry Number: The enquiry '${data.enquiry_no}' does not exist in the database. Please verify the enquiry number or leave it blank if not applicable.`);
+    }
+  }
+
+  console.log("DEBUG: Data being sent to StudentAdmissions.create:", JSON.stringify(data, null, 2));
   return await StudentAdmissions.create(data);
 };
 
@@ -110,10 +132,22 @@ const deleteAdmissionRepo = async (id, deletedBy) => {
   });
 };
 
+const getLastAdmissionRepo = async (prefix) => {
+  return await StudentAdmissions.findOne({
+    where: {
+      registration_no: {
+        [Op.like]: `${prefix}%`,
+      },
+    },
+    order: [["registration_no", "DESC"]],
+  });
+};
+
 module.exports = {
   createAdmissionRepo,
   getAllAdmissionsRepo,
   getAdmissionByIdRepo,
   updateAdmissionRepo,
   deleteAdmissionRepo,
+  getLastAdmissionRepo,
 };
