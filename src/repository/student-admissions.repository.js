@@ -41,6 +41,10 @@ const getAllAdmissionsRepo = async (args) => {
     where.academic_session_id = args.academic_session_id;
   }
 
+  if (args.payment_mode_id) {
+    where.payment_mode_id = args.payment_mode_id;
+  }
+
   const { count, rows } = await StudentAdmissions.findAndCountAll({
     where,
     include: [
@@ -49,6 +53,7 @@ const getAllAdmissionsRepo = async (args) => {
       { model: GradeMaster, as: 'grade_applying_for', attributes: ['name', 'short_form'] },
       { model: GradeMaster, as: 'grade', attributes: ['name', 'short_form'] },
       { model: BoardMaster, as: 'board', attributes: ['board_name', 'board_code'] },
+      { model: ModeOfPaymentMaster, as: 'payment_mode', attributes: ['mode_of_payment_name', 'name_on_receipt'] },
       { model: SchoolEnquiry, as: 'enquiry', attributes: ['enquiry_no', 'enquiry_id'] }
     ],
     order: [['created_at', 'DESC']],
@@ -74,6 +79,7 @@ const getAdmissionByIdRepo = async (id) => {
       { model: GradeMaster, as: 'grade_applying_for' },
       { model: GradeMaster, as: 'grade' },
       { model: BoardMaster, as: 'board' },
+      { model: ModeOfPaymentMaster, as: 'payment_mode' },
       { model: SchoolEnquiry, as: 'enquiry' }
     ]
   });

@@ -150,6 +150,18 @@ const StudentAdmissions = sequelize.define('StudentAdmissions', {
   // Student Custody Details
   custody_situation: { type: DataTypes.TEXT },
 
+  // Payment Details
+  admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
+  payment_mode_id: { type: DataTypes.BIGINT },
+  payment_status: { 
+    type: DataTypes.STRING(30),
+    defaultValue: 'PENDING'
+  },
+  cheque_no: { type: DataTypes.STRING(50) },
+  bank_name: { type: DataTypes.STRING(255) },
+  upi_reference: { type: DataTypes.STRING(100) },
+  card_last_four: { type: DataTypes.STRING(4) },
+
   // Metadata
   status: {
     type: DataTypes.STRING(50),
