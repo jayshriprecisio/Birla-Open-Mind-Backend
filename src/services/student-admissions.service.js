@@ -43,10 +43,6 @@ const getAdmissionByIdService = async (id) => {
   return await repository.getAdmissionByIdRepo(id);
 };
 
-const updateAdmissionService = async (id, data) => {
-  return await repository.updateAdmissionRepo(id, data);
-};
-
 const deleteAdmissionService = async (id, deletedBy) => {
   return await repository.deleteAdmissionRepo(id, deletedBy);
 };
@@ -60,7 +56,6 @@ module.exports = {
   getAllAdmissionsService,
   getAdmissionStatsService,
   getAdmissionByIdService,
-  updateAdmissionService,
   deleteAdmissionService,
   cancelAdmissionService
 };

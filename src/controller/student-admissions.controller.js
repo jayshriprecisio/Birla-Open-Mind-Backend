@@ -40,15 +40,6 @@ const getAdmissionByIdController = async (req, res, next) => {
   }
 };
 
-const updateAdmissionController = async (req, res, next) => {
-  try {
-    const data = await service.updateAdmissionService(req.params.id, req.body);
-    if (!data) throw new ApiError(404, 'Admission record not found');
-    res.status(200).json(new ApiResponse(200, data, 'Admission record updated successfully'));
-  } catch (error) {
-    next(error);
-  }
-};
 
 const deleteAdmissionController = async (req, res, next) => {
   try {
@@ -75,7 +66,6 @@ module.exports = {
   getAllAdmissionsController,
   getAdmissionStatsController,
   getAdmissionByIdController,
-  updateAdmissionController,
   deleteAdmissionController,
   cancelAdmissionController
 };

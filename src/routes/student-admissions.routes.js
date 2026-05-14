@@ -20,12 +20,7 @@ router.get(
 );
 router.get("/stats", auth, controller.getAdmissionStatsController);
 router.get("/:id", auth, controller.getAdmissionByIdController);
-router.patch(
-  "/:id",
-  auth,
-  validate(validation.updateAdmissionSchema),
-  controller.updateAdmissionController,
-);
+
 router.delete(
   "/:id",
   auth,
