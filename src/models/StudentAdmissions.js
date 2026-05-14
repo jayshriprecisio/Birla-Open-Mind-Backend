@@ -168,8 +168,9 @@ const StudentAdmissions = sequelize.define(
     custody_situation: { type: DataTypes.TEXT },
 
     // Payment Details
-    admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
+    // use model - ModeOfPaymentMaster
     payment_mode_id: { type: DataTypes.BIGINT },
+    admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
     payment_status: {
       type: DataTypes.STRING(30),
       defaultValue: "PENDING",
