@@ -101,10 +101,12 @@ const getAllAdmissionsRepo = async (args) => {
   });
 
   return {
+    pagination: {
+      total: count,
+      page: args.page,
+      limit: args.limit,
+    },
     rows,
-    total: count,
-    page: args.page,
-    limit: args.limit,
   };
 };
 
