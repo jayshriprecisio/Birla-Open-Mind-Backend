@@ -57,6 +57,14 @@ const createAdmissionRepo = async (data) => {
 const getAllAdmissionsRepo = async (args) => {
   const where = { is_deleted: false };
 
+  if (args.search) {
+    where[Op.or] = [
+      { registration_no: { [Op.iLike]: `%${args.search}%` } },
+      { enrollment_no: { [Op.iLike]: `%${args.search}%` } },
+      { student_name: { [Op.iLike]: `%${args.search}%` } },
+    ];
+  }
+
   const { count, rows } = await StudentAdmissions.findAndCountAll({
     where,
     attributes: [
