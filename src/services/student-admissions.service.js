@@ -43,6 +43,10 @@ const getAdmissionByIdService = async (id) => {
   return await repository.getAdmissionByIdRepo(id);
 };
 
+const updateAdmissionService = async (id, data) => {
+  return await repository.updateAdmissionRepo(id, data);
+};
+
 const deleteAdmissionService = async (id, deletedBy) => {
   return await repository.deleteAdmissionRepo(id, deletedBy);
 };
@@ -51,11 +55,20 @@ const cancelAdmissionService = async (id) => {
   return await repository.updateAdmissionRepo(id, { status: 'CANCELLED' });
 };
 
+const clearChequeService = async (id) => {
+  return await repository.updateAdmissionRepo(id, { 
+    status: 'COMPLETED',
+    is_cheque_cleared: true 
+  });
+};
+
 module.exports = {
   createAdmissionService,
   getAllAdmissionsService,
   getAdmissionStatsService,
   getAdmissionByIdService,
+  updateAdmissionService,
   deleteAdmissionService,
-  cancelAdmissionService
+  cancelAdmissionService,
+  clearChequeService
 };
