@@ -101,16 +101,10 @@ const getAdmissionByIdRepo = async (id) => {
       "enrollment_no",
       "enquiry_no",
       "grade_applying_for_id",
-      "board_id",
       "student_name",
       "dob",
-      "gender_id",
       "grade_id",
-      "blood_group_id",
       "nationality",
-      "religion_id",
-      "cast_id",
-      "mother_tongue_id",
       "place_of_birth",
       "prev_school_tc_no",
       "prev_school_leaving_date",
@@ -171,7 +165,6 @@ const getAdmissionByIdRepo = async (id) => {
       "custody_situation",
 
       // Payment
-      "payment_mode_id",
       "admission_fee_amount",
       "payment_status",
       "cheque_no",
@@ -197,30 +190,34 @@ const getAdmissionByIdRepo = async (id) => {
         as: "school",
         attributes: ["school_id", "school_name", "school_code"],
       },
-      { model: GradeMaster, as: "grade", attributes: ["name", "short_form"] },
-      // { model: GenderMaster, as: "gender", attributes: ["name"] },
-      // { model: BoardMaster, as: "board", attributes: ["name"] },
-      // {
-      //   model: ModeOfPaymentMaster,
-      //   as: "payment_mode",
-      //   attributes: ["name"],
-      // },
-      // {
-      //   model: BloodGroupMaster,
-      //   as: "blood_group",
-      //   attributes: ["name"],
-      // },
-      // {
-      //   model: ReligionMaster,
-      //   as: "religion",
-      //   attributes: ["name"],
-      // },
-      // { model: CastMaster, as: "cast", attributes: ["name"] },
-      // {
-      //   model: MotherTongueMaster,
-      //   as: "mother_tongue",
-      //   attributes: ["name"],
-      // },
+      { model: GradeMaster, as: "grade", attributes: ["id","name", "short_form"] },
+      {
+        model: BoardMaster,
+        as: "board",
+        attributes: ["id","board_code", "board_name"],
+      },
+      { model: GenderMaster, as: "gender", attributes: ["id","name"] },
+      {
+        model: BloodGroupMaster,
+        as: "blood_group",
+        attributes: ["id","name"],
+      },
+      {
+        model: ReligionMaster,
+        as: "religion",
+        attributes: ["id","name"],
+      },
+      { model: CastMaster, as: "cast", attributes: ["id","name"] },
+      {
+        model: MotherTongueMaster,
+        as: "mother_tongue",
+        attributes: ["id","name"],
+      },
+      {
+        model: ModeOfPaymentMaster,
+        as: "payment_mode",
+        attributes: ["id","mode_of_payment_name" , "name_on_receipt"],
+      }
     ],
   });
 };
