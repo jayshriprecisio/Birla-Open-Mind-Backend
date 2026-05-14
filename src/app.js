@@ -11,6 +11,7 @@ const schoolEnquiryRoutes = require('./routes/school-enquiry.routes');
 const admissionInquiryRoutes = require('./routes/admission-inquiry.routes');
 const lookupRoutes = require('./routes/lookup.routes');
 const registrationRoutes = require('./routes/registration.routes');
+const masterRoutes = require('./modules/masters/master.module');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/api/v1/enquiries/school', schoolEnquiryRoutes);
 app.use('/api/v1/enquiries/admission', admissionInquiryRoutes);
 app.use('/api/v1/enquiries/lookups', lookupRoutes);
 app.use('/api/v1/registration', registrationRoutes);
+app.use('/api/v1/masters', masterRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
