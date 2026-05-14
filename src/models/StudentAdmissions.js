@@ -171,10 +171,6 @@ const StudentAdmissions = sequelize.define(
     // use model - ModeOfPaymentMaster
     payment_mode_id: { type: DataTypes.BIGINT },
     admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
-    payment_status: {
-      type: DataTypes.STRING(30),
-      defaultValue: "PENDING", // PENDING, COMPLETED, CANCELLED
-    },
     cheque_no: { type: DataTypes.STRING(50) },
     cheque_bank_name: { type: DataTypes.STRING(255) },
     is_cheque_cleared: {
@@ -187,7 +183,7 @@ const StudentAdmissions = sequelize.define(
     // Metadata
     status: {
       type: DataTypes.STRING(50),
-      defaultValue: "PENDING",
+      defaultValue: "PENDING", // DRAFT , PENDING , CANCELLED , COMPLETED
     },
     is_deleted: {
       type: DataTypes.BOOLEAN,

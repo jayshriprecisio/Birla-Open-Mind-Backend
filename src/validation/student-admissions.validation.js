@@ -91,7 +91,6 @@ const createAdmissionSchema = {
     // Payment Details
     admission_fee_amount: Joi.number().optional().allow(null),
     payment_mode_id: Joi.number().optional().allow(null),
-    payment_status: Joi.string().valid('PENDING', 'ACCEPTED', 'ON_HOLD', 'CANCELLED').optional(),
     cheque_no: Joi.string().optional().allow(''),
     cheque_bank_name: Joi.string().optional().allow(''),
     is_cheque_cleared: Joi.boolean().optional(),
@@ -153,7 +152,6 @@ const updateAdmissionSchema = {
     custody_situation: Joi.string().optional().allow(''),
     admission_fee_amount: Joi.number().optional().allow(null),
     payment_mode_id: Joi.number().optional().allow(null),
-    payment_status: Joi.string().valid('PENDING', 'ACCEPTED', 'ON_HOLD', 'CANCELLED').optional(),
     cheque_no: Joi.string().optional().allow(''),
     cheque_bank_name: Joi.string().optional().allow(''),
     is_cheque_cleared: Joi.boolean().optional(),
