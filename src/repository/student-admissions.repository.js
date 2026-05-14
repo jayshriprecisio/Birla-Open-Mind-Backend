@@ -107,7 +107,6 @@ const deleteAdmissionRepo = async (id, deletedBy) => {
 
   return await admission.update({
     is_deleted: true,
-    updated_by: deletedBy,
   });
 };
 

@@ -193,8 +193,6 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    created_by: { type: DataTypes.BIGINT },
-    updated_by: { type: DataTypes.BIGINT },
   },
   {
     tableName: "student_admissions",
