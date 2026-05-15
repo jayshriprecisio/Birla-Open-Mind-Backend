@@ -20,19 +20,11 @@ const {
 const ApiError = require("../utils/api-error");
 
 const createAdmissionRepo = async (data) => {
-  // Explicitly check if enquiry exists if enquiry_no is provided
   if (data.enquiry_no) {
     const enquiryExists = await SchoolEnquiry.findOne({
       where: { enquiry_no: data.enquiry_no },
       raw: true,
     });
-
-    console.log(
-      "DEBUG: Enquiry lookup for enquiry_no:",
-      data.enquiry_no,
-      "Result:",
-      enquiryExists,
-    );
 
     if (!enquiryExists) {
       throw new ApiError(
@@ -154,6 +146,161 @@ const getAdmissionStatsRepo = async () => {
   });
 
   return result;
+};
+
+const getAdmissionBySearchRepo = async (args) => {
+  const where = { is_deleted: false };
+
+  // If both exist → match both
+  if (args.registration_no && args.father_mobile) {
+    where.registration_no = args.registration_no;
+    where.father_mobile = args.father_mobile;
+  }
+
+  // If only registration_no exists
+  else if (args.registration_no) {
+    where.registration_no = args.registration_no;
+  }
+
+  // If only father_mobile exists
+  else if (args.father_mobile) {
+    where.father_mobile = args.father_mobile;
+  }
+
+  return await StudentAdmissions.findOne({
+    where,
+    attributes: [
+      "id",
+      "registration_no",
+      "enrollment_no",
+      "enquiry_no",
+      "student_name",
+      "aadhar_no",
+      "dob",
+      "nationality",
+      "place_of_birth",
+      "prev_school_tc_no",
+      "prev_school_leaving_date",
+      "prev_class_passed",
+      "prev_class_percentage",
+
+      // Father Details
+      "father_name",
+      "father_mobile",
+      "father_email",
+      "father_occupation",
+      "father_aadhar_no",
+      "father_pan_no",
+      "father_employer_name",
+      "father_designation",
+      "father_annual_income",
+      "father_employer_address",
+      "father_employer_city",
+      "father_employer_state",
+      "father_employer_pincode",
+      "father_employer_country",
+
+      // Mother Details
+      "mother_name",
+      "mother_mobile",
+      "mother_email",
+      "mother_occupation",
+      "mother_aadhar_no",
+      "mother_pan_no",
+      "mother_employer_name",
+      "mother_designation",
+      "mother_annual_income",
+      "mother_employer_address",
+      "mother_employer_city",
+      "mother_employer_state",
+      "mother_employer_pincode",
+      "mother_employer_country",
+
+      // Guardian Details
+      "guardian_name",
+      "guardian_mobile",
+      "guardian_email",
+      "guardian_relation",
+      "guardian_aadhar_no",
+      "guardian_pan_no",
+
+      // Address
+      "address",
+      "city",
+      "state",
+      "country",
+      "pincode",
+
+      // Admission & Medical
+      "admission_no",
+      "medical_conditions",
+      "emergency_contact",
+      "custody_situation",
+
+      // Payment
+      "admission_fee_amount",
+      "cheque_no",
+      "cheque_bank_name",
+      "is_cheque_cleared",
+      "upi_reference",
+      "card_last_four",
+
+      // Status
+      "status",
+      "is_deleted",
+      "created_at",
+      "updated_at",
+    ],
+    include: [
+      {
+        model: AcademicYearMaster,
+        as: "academic_year",
+        attributes: ["id", "name"],
+      },
+      {
+        model: School,
+        as: "school",
+        attributes: ["school_id", "school_name", "school_code"],
+      },
+      {
+        model: GradeMaster,
+        as: "grade",
+        attributes: ["id", "name", "short_form"],
+      },
+      {
+        model: GradeMaster,
+        as: "grade_applying_for",
+        attributes: ["id", "name", "short_form"],
+      },
+      {
+        model: BoardMaster,
+        as: "board",
+        attributes: ["id", "board_code", "board_name"],
+      },
+      { model: GenderMaster, as: "gender", attributes: ["id", "name"] },
+      {
+        model: BloodGroupMaster,
+        as: "blood_group",
+        attributes: ["id", "name"],
+      },
+      {
+        model: ReligionMaster,
+        as: "religion",
+        attributes: ["id", "name"],
+      },
+      { model: CastMaster, as: "cast", attributes: ["id", "name"] },
+      {
+        model: MotherTongueMaster,
+        as: "mother_tongue",
+        attributes: ["id", "name"],
+      },
+      {
+        model: ModeOfPaymentMaster,
+        as: "payment_mode",
+        attributes: ["id", "mode_of_payment_name", "name_on_receipt"],
+      },
+    ],
+  });
 };
 
 const getAdmissionByIdRepo = async (id) => {
@@ -324,6 +471,7 @@ module.exports = {
   createAdmissionRepo,
   getAllAdmissionsRepo,
   getAdmissionStatsRepo,
+  getAdmissionBySearchRepo,
   getAdmissionByIdRepo,
   updateAdmissionRepo,
   deleteAdmissionRepo,

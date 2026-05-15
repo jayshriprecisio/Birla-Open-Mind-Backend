@@ -4,7 +4,6 @@ const ApiError = require("../utils/api-error");
 
 const createDraftAdmissionController = async (req, res, next) => {
   try {
-    console.log("Received request to create admission with body:", req.user);
     const data = await service.createAdmissionService({
       ...req.body,
       status: "draft",
@@ -22,7 +21,6 @@ const createDraftAdmissionController = async (req, res, next) => {
 
 const createAdmissionController = async (req, res, next) => {
   try {
-    console.log("Received request to create admission with body:", req.user);
     const data = await service.createAdmissionService(req.body);
     res
       .status(201)
@@ -65,6 +63,20 @@ const getAdmissionStatsController = async (req, res, next) => {
 const getAdmissionByIdController = async (req, res, next) => {
   try {
     const data = await service.getAdmissionByIdService(req.params.id);
+    if (!data) throw new ApiError(404, "Admission record not found");
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, data, "Admission record retrieved successfully"),
+      );
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAdmissionBySearchController = async (req, res, next) => {
+  try {
+    const data = await service.getAdmissionBySearchService(req.query);
     if (!data) throw new ApiError(404, "Admission record not found");
     res
       .status(200)
@@ -144,6 +156,7 @@ module.exports = {
   createDraftAdmissionController,
   getAllAdmissionsController,
   getAdmissionStatsController,
+  getAdmissionBySearchController,
   getAdmissionByIdController,
   updateAdmissionController,
   deleteAdmissionController,
