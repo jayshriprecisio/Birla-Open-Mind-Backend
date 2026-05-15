@@ -48,11 +48,5 @@ router.patch(
   controller.cancelAdmissionController,
 );
 
-router.patch(
-  "/clear-cheque/:id",
-  auth,
-  validate(validation.clearChequeSchema),
-  controller.clearChequeController,
-);
 
 module.exports = router;

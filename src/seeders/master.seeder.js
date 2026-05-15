@@ -12,7 +12,7 @@ const seedMasters = async () => {
         { id: 2, zone_name: "West", short_form: "WT" },
         { id: 3, zone_name: "North", short_form: "NT" },
         { id: 4, zone_name: "South", short_form: "ST" },
-        { id: 5, zone_name: "East", short_form: "ET" }
+        { id: 5, zone_name: "East", short_form: "ET" },
       ],
       BrandMaster: [
         {
@@ -151,10 +151,54 @@ const seedMasters = async () => {
         { id: 6, name: "Odia", display_order: 6 },
       ],
       ModeOfPaymentMaster: [
-        { id: 1, mode_of_payment_name: "Cash", name_on_receipt: "Cash", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 1 },
-        { id: 2, mode_of_payment_name: "Cheque", name_on_receipt: "Cheque", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 2 },
-        { id: 3, mode_of_payment_name: "UPI", name_on_receipt: "UPI", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 3 },
-        { id: 4, mode_of_payment_name: "Card", name_on_receipt: "Card", visible_to_parent: "YES", visible_to_fee_counter: "YES", order_of_preference: 4 },
+        {
+          id: 1,
+          mode_of_payment_name: "Cash",
+          name_on_receipt: "Cash",
+          visible_to_parent: "YES",
+          visible_to_fee_counter: "YES",
+          order_of_preference: 1,
+        },
+        {
+          id: 2,
+          mode_of_payment_name: "Cheque",
+          name_on_receipt: "Cheque",
+          visible_to_parent: "YES",
+          visible_to_fee_counter: "YES",
+          order_of_preference: 2,
+        },
+        {
+          id: 3,
+          mode_of_payment_name: "UPI",
+          name_on_receipt: "UPI",
+          visible_to_parent: "YES",
+          visible_to_fee_counter: "YES",
+          order_of_preference: 3,
+        },
+        {
+          id: 4,
+          mode_of_payment_name: "Card",
+          name_on_receipt: "Card",
+          visible_to_parent: "YES",
+          visible_to_fee_counter: "YES",
+          order_of_preference: 4,
+        },
+      ],
+      SourceMaster: [
+        { id: 1, name: "Website" },
+        { id: 2, name: "Walk-in" },
+        { id: 3, name: "Referral" },
+        { id: 4, name: "Social Media" },
+        { id: 5, name: "Google Search" },
+        { id: 6, name: "Advertisement" },
+        { id: 7, name: "WhatsApp" },
+      ],
+      ContactModeMaster: [
+        { id: 1, name: "Call" },
+        { id: 2, name: "Email" },
+        { id: 3, name: "SMS" },
+        { id: 4, name: "In Person" },
+        { id: 5, name: "WhatsApp" },
       ],
     };
 
