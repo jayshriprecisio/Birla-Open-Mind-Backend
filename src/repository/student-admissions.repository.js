@@ -33,12 +33,6 @@ const createAdmissionRepo = async (data) => {
         `Invalid Enquiry ID: The enquiry with ID '${data.enquiry_id}' does not exist in the database.`,
       );
     }
-
-    // Populate missing fields from enquiry
-    data.enquiry_no = data.enquiry_no || enquiryExists.enquiry_no;
-    data.source_id = data.source_id || enquiryExists.source_id;
-    data.contact_mode_id =
-      data.contact_mode_id || enquiryExists.contact_mode_id;
   }
 
   // Handle Update or Create based on enquiry_id or id
