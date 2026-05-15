@@ -11,9 +11,7 @@ const createDraftAdmissionController = async (req, res, next) => {
 
     res
       .status(201)
-      .json(
-        new ApiResponse(201, data, "Student Admission created successfully"),
-      );
+      .json(new ApiResponse(201, data, "Draft Save Successfully"));
   } catch (error) {
     next(error);
   }
@@ -21,12 +19,14 @@ const createDraftAdmissionController = async (req, res, next) => {
 
 const createAdmissionController = async (req, res, next) => {
   try {
-    const data = await service.createAdmissionService(req.body);
+    const data = await service.createAdmissionService({
+      ...req.body,
+      status: "PENDING",
+    });
+
     res
       .status(201)
-      .json(
-        new ApiResponse(201, data, "Student Admission created successfully"),
-      );
+      .json(new ApiResponse(201, data, "Student Admission created successfully"));
   } catch (error) {
     next(error);
   }
@@ -133,7 +133,6 @@ const cancelAdmissionController = async (req, res, next) => {
     next(error);
   }
 };
-
 
 module.exports = {
   createAdmissionController,

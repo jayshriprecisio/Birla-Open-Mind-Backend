@@ -95,8 +95,8 @@ const createDraftAdmissionSchema = {
 
 const createAdmissionSchema = {
   body: Joi.object().keys({
-    registration_no: Joi.string().required(),
-    enrollment_no: Joi.string().optional().allow(''),
+    registration_no: Joi.string().optional().allow(null, ''),
+    enrollment_no: Joi.string().optional().allow(null, ''),
     enquiry_no: Joi.string().required(),
     enquiry_id: Joi.string().uuid().optional().allow(null, ''),
     source_id: Joi.number().optional().allow(null),
@@ -167,7 +167,7 @@ const createAdmissionSchema = {
     country: Joi.string().optional().allow(''),
     pincode: Joi.string().optional().allow(''),
 
-    admission_no: Joi.string().optional().allow(''),
+    admission_no: Joi.string().optional().allow(null, ''),
     medical_conditions: Joi.string().optional().allow(''),
     emergency_contact: Joi.string().optional().allow(''),
     custody_situation: Joi.string().optional().allow(''),
