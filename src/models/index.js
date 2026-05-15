@@ -4,7 +4,7 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster, SourceMaster, ContactModeMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
@@ -61,6 +61,14 @@ BoardMaster.hasMany(SchoolEnquiry, { foreignKey: 'board_id' });
 // Enquiry <-> Academic Year
 SchoolEnquiry.belongsTo(AcademicYearMaster, { foreignKey: 'academic_year_id', as: 'academic_year' });
 AcademicYearMaster.hasMany(SchoolEnquiry, { foreignKey: 'academic_year_id' });
+
+// Enquiry <-> Source
+SchoolEnquiry.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source' });
+SourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
+
+// Enquiry <-> Contact Mode
+SchoolEnquiry.belongsTo(ContactModeMaster, { foreignKey: 'contact_mode_id', as: 'contact_mode' });
+ContactModeMaster.hasMany(SchoolEnquiry, { foreignKey: 'contact_mode_id' });
 
 // Admission Inquiry <-> School
 AdmissionInquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school_ref' });
@@ -123,4 +131,6 @@ module.exports = {
   StudentAdmissions,
   PaymentEntityMaster,
   PasswordReset,
+  SourceMaster,
+  ContactModeMaster,
 };
