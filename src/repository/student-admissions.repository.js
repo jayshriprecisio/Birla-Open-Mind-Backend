@@ -547,7 +547,12 @@ const getAdmissionByIdRepo = async (id) => {
       "admission_no",
       "medical_conditions",
       "emergency_contact",
+
       "custody_situation",
+
+      "student_documents",
+      "parent_documents",
+      "guardian_documents",
 
       // Status
       "status",
