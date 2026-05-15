@@ -98,10 +98,11 @@ const seedMasters = async () => {
         { id: 3, session_name: "May" },
       ],
       BoardMaster: [
-        { id: 1, board_code: "BRD-001", board_name: "CBSE" },
-        { id: 2, board_code: "BRD-002", board_name: "CIE" },
-        { id: 3, board_code: "BRD-003", board_name: "CISCE" },
-        { id: 4, board_code: "BRD-004", board_name: "KSEAB" },
+        { id: 1, board_code: "CBSE", board_name: "CBSE" },
+        { id: 2, board_code: "ICSE", board_name: "ICSE" },
+        { id: 3, board_code: "IB", board_name: "IB" },
+        { id: 4, board_code: "IGCSE", board_name: "IGCSE" },
+        { id: 5, board_code: "STATE", board_name: "State Board" },
       ],
       TermMaster: [
         { id: 1, term_name: "Term 1", short_form: "T1" },
