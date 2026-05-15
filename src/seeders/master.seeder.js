@@ -154,6 +154,14 @@ const seedMasters = async () => {
         { id: 6, name: "NRI", short_form: "NRI", display_order: 6 },
         { id: 7, name: "Other", short_form: "OTH", display_order: 7 },
       ],
+      RelationshipMaster: [
+        { id: 1, name: "Guardian", short_form: "GUA", display_order: 1 },
+        { id: 2, name: "Uncle", short_form: "UNC", display_order: 2 },
+        { id: 3, name: "Aunt", short_form: "AUNT", display_order: 3 },
+        { id: 4, name: "Grandparent", short_form: "GP", display_order: 4 },
+        { id: 5, name: "Sibling", short_form: "SIB", display_order: 5 },
+        { id: 6, name: "Other", short_form: "OTH", display_order: 6 },
+      ],
       TermMaster: [
         { id: 1, term_name: "Term 1", short_form: "T1" },
         { id: 2, term_name: "Term 2", short_form: "T2" },
