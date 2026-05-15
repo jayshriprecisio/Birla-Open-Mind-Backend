@@ -4,7 +4,7 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, BatchMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, ModeOfContactMaster, LeadStageMaster, SchoolTypeMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, BatchMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, ModeOfContactMaster, LeadStageMaster, SchoolTypeMaster, EnquirySourceMaster, EnquirySubSourceMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
@@ -61,6 +61,14 @@ LeadStageMaster.hasMany(SchoolEnquiry, { foreignKey: 'lead_stage_id' });
 // Enquiry <-> School Type
 SchoolEnquiry.belongsTo(SchoolTypeMaster, { foreignKey: 'school_type_id', as: 'school_type' });
 SchoolTypeMaster.hasMany(SchoolEnquiry, { foreignKey: 'school_type_id' });
+
+// Enquiry <-> Source
+SchoolEnquiry.belongsTo(EnquirySourceMaster, { foreignKey: 'source_id', as: 'source' });
+EnquirySourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
+
+// Enquiry <-> Sub Source
+SchoolEnquiry.belongsTo(EnquirySubSourceMaster, { foreignKey: 'sub_source_id', as: 'sub_source' });
+EnquirySubSourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'sub_source_id' });
 
 // Admission Inquiry <-> School
 AdmissionInquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school_ref' });
