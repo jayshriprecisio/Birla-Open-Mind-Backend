@@ -166,7 +166,7 @@ const getAdmissionBySearchRepo = async (args) => {
     where.father_mobile = args.father_mobile;
   }
 
-  return await StudentAdmissions.findOne({
+  const result = await StudentAdmissions.findOne({
     where,
     attributes: [
       "id",
@@ -281,9 +281,80 @@ const getAdmissionBySearchRepo = async (args) => {
         model: MotherTongueMaster,
         as: "mother_tongue",
         attributes: ["id", "name"],
-      }
+      },
     ],
   });
+
+  if (!result) {
+    const newResult = await SchoolEnquiry.findOne({
+      where: {
+        father_mobile: args.father_mobile || null,
+      },
+      attributes: [
+        "enquiry_id",
+        "enquiry_no",
+        "source_id",
+        "contact_mode_id",
+        "academic_year_id",
+        "grade_applying_for_id",
+        "board_id",
+        "grade_id",
+        "student_name",
+        "dob",
+        "gender_id",
+        "aadhaar_no",
+
+      ],
+      include: [
+        // {
+        //   model: AcademicYearMaster,
+        //   as: "academic_year",
+        //   attributes: ["id", "name"],
+        // },
+        {
+          model: School,
+          as: "school",
+          attributes: ["school_id", "school_name", "school_code"],
+        },
+        // {
+        //   model: GradeMaster,
+        //   as: "grade",
+        //   attributes: ["id", "name", "short_form"],
+        // },
+        // {
+        //   model: GradeMaster,
+        //   as: "grade_applying_for",
+        //   attributes: ["id", "name", "short_form"],
+        // },
+        // {
+        //   model: BoardMaster,
+        //   as: "board",
+        //   attributes: ["id", "board_code", "board_name"],
+        // },
+        // { model: GenderMaster, as: "gender", attributes: ["id", "name"] },
+        // {
+        //   model: BloodGroupMaster,
+        //   as: "blood_group",
+        //   attributes: ["id", "name"],
+        // },
+        // {
+        //   model: ReligionMaster,
+        //   as: "religion",
+        //   attributes: ["id", "name"],
+        // },
+        // { model: CastMaster, as: "cast", attributes: ["id", "name"] },
+        // {
+        //   model: MotherTongueMaster,
+        //   as: "mother_tongue",
+        //   attributes: ["id", "name"],
+        // },
+      ],
+    });
+    console.log("DEBUG - No admission found, checking enquiries:", newResult);
+    return newResult;
+  }
+
+  return result;
 };
 
 const getAdmissionByIdRepo = async (id) => {
