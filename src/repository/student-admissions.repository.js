@@ -316,6 +316,11 @@ const getAdmissionBySearchRepo = async (args) => {
           as: "grade",
           attributes: ["id", "name", "short_form"],
         },
+        // {
+        //   model: GradeMaster,
+        //   as: "current_grade",
+        //   attributes: ["id", "name", "short_form"],
+        // },
         {
           model: BoardMaster,
           as: "board",
@@ -325,6 +330,7 @@ const getAdmissionBySearchRepo = async (args) => {
       ],
     });
 
+    console.log("Enquiry found ", enquiry);
     if (!enquiry) return null;
 
     const plainEnquiry = enquiry.get({ plain: true });
@@ -342,6 +348,7 @@ const getAdmissionBySearchRepo = async (args) => {
       dob: plainEnquiry.dob,
       nationality: plainEnquiry.nationality || null,
       place_of_birth: plainEnquiry.place_of_birth || null,
+
       prev_school_tc_no: plainEnquiry.prev_school_tc_no || null,
       prev_school_leaving_date: plainEnquiry.prev_school_leaving_date || null,
       prev_class_passed: plainEnquiry.prev_class_passed || null,
@@ -396,7 +403,7 @@ const getAdmissionBySearchRepo = async (args) => {
           plainEnquiry.address_line3,
         ]
           .filter(Boolean)
-          .join(" ") ||
+          .join(",") ||
         "",
       city: plainEnquiry.city,
       state: plainEnquiry.state,
@@ -416,7 +423,8 @@ const getAdmissionBySearchRepo = async (args) => {
       academic_year: plainEnquiry.academic_year,
       school: plainEnquiry.school,
       grade: plainEnquiry.grade || plainEnquiry.current_grade_id || null,
-      grade_applying_for: plainEnquiry.grade_applying_for || plainEnquiry.grade  || null, // Map from grade
+      grade_applying_for:
+        plainEnquiry.grade_applying_for || plainEnquiry.grade || null, // Map from grade
       board: plainEnquiry.board, // verified
       gender: plainEnquiry.gender, // verified
       blood_group: plainEnquiry.blood_group || null, // verified
