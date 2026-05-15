@@ -7,6 +7,13 @@ const auth = require("../middleware/auth.middleware");
 const router = express.Router();
 
 router.post(
+  "/draft",
+  auth,
+  validate(validation.createDraftAdmissionSchema),
+  controller.createDraftAdmissionController,
+);
+
+router.post(
   "/",
   auth,
   validate(validation.createAdmissionSchema),

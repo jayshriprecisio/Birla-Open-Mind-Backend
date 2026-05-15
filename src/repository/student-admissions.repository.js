@@ -20,38 +20,36 @@ const {
 const ApiError = require("../utils/api-error");
 
 const createAdmissionRepo = async (data) => {
-  // If enquiry_no is passed as a UUID (common mistake in frontend), resolve it to the actual enquiry_no
-  if (data.enquiry_no && /^[0-9a-fA-F-]{36}$/.test(data.enquiry_no)) {
-    console.log("DEBUG: Detected UUID in enquiry_no, resolving to number...");
-    const enquiry = await SchoolEnquiry.findByPk(data.enquiry_no);
-    if (enquiry) {
-      console.log(
-        `DEBUG: Resolved UUID ${data.enquiry_no} to Enquiry No ${enquiry.enquiry_no}`,
-      );
-      data.enquiry_no = enquiry.enquiry_no;
-    } else {
-      console.warn(`DEBUG: Could not find enquiry with ID ${data.enquiry_no}`);
-    }
-  }
-
   // Explicitly check if enquiry exists if enquiry_no is provided
   if (data.enquiry_no) {
     const enquiryExists = await SchoolEnquiry.findOne({
       where: { enquiry_no: data.enquiry_no },
+      raw: true,
     });
+
+    console.log(
+      "DEBUG: Enquiry lookup for enquiry_no:",
+      data.enquiry_no,
+      "Result:",
+      enquiryExists,
+    );
+
     if (!enquiryExists) {
       throw new ApiError(
         400,
         `Invalid Enquiry Number: The enquiry '${data.enquiry_no}' does not exist in the database. Please verify the enquiry number or leave it blank if not applicable.`,
       );
     }
+
+    // data.source_id = enquiryExists.id;
+    // data.contact_mode_id = enquiryExists.contact_mode_id;
   }
 
-  console.log(
-    "DEBUG: Data being sent to StudentAdmissions.create:",
-    JSON.stringify(data, null, 2),
-  );
-  return await StudentAdmissions.create(data);
+  const [admission, created] = await StudentAdmissions.upsert(data, {
+    returning: true,
+  });
+
+  return admission || created;
 };
 
 const getAllAdmissionsRepo = async (args) => {
