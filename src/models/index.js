@@ -105,8 +105,8 @@ SchoolEnquiry.belongsTo(BatchMaster, { foreignKey: 'batch_id', as: 'batch' });
 BatchMaster.hasMany(SchoolEnquiry, { foreignKey: 'batch_id' });
 
 // Enquiry <-> Mode of Contact
-SchoolEnquiry.belongsTo(ModeOfContactMaster, { foreignKey: 'contact_mode_id', as: 'contact_mode' });
-ModeOfContactMaster.hasMany(SchoolEnquiry, { foreignKey: 'contact_mode_id' });
+SchoolEnquiry.belongsTo(ContactModeMaster, { foreignKey: 'contact_mode_id', as: 'contact_mode' });
+ContactModeMaster.hasMany(SchoolEnquiry, { foreignKey: 'contact_mode_id' });
 
 // Enquiry <-> Lead Stage
 SchoolEnquiry.belongsTo(LeadStageMaster, { foreignKey: 'lead_stage_id', as: 'lead_stage' });
@@ -117,8 +117,8 @@ SchoolEnquiry.belongsTo(SchoolTypeMaster, { foreignKey: 'school_type_id', as: 's
 SchoolTypeMaster.hasMany(SchoolEnquiry, { foreignKey: 'school_type_id' });
 
 // Enquiry <-> Source
-SchoolEnquiry.belongsTo(EnquirySourceMaster, { foreignKey: 'source_id', as: 'source' });
-EnquirySourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
+SchoolEnquiry.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source' });
+SourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
 
 // Enquiry <-> Sub Source
 SchoolEnquiry.belongsTo(EnquirySubSourceMaster, { foreignKey: 'sub_source_id', as: 'sub_source' });
