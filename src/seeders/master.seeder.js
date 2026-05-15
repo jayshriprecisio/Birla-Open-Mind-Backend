@@ -114,6 +114,15 @@ const seedMasters = async () => {
         { id: 7, name: "Email", short_form: "EM", display_order: 7 },
         { id: 8, name: "WhatsApp", short_form: "WA", display_order: 8 },
       ],
+      LeadStageMaster: [
+        { id: 1, name: "New", short_form: "NEW", display_order: 1 },
+        { id: 2, name: "Contacted", short_form: "CON", display_order: 2 },
+        { id: 3, name: "Interested", short_form: "INT", display_order: 3 },
+        { id: 4, name: "Site Visit", short_form: "SV", display_order: 4 },
+        { id: 5, name: "Application", short_form: "APP", display_order: 5 },
+        { id: 6, name: "Enrolled", short_form: "ENR", display_order: 6 },
+        { id: 7, name: "Lost", short_form: "LOST", display_order: 7 },
+      ],
       TermMaster: [
         { id: 1, term_name: "Term 1", short_form: "T1" },
         { id: 2, term_name: "Term 2", short_form: "T2" },

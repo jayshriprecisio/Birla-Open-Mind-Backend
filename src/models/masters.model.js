@@ -250,6 +250,21 @@ const ModeOfContactMaster = sequelize.define(
   { ...commonOptions, tableName: "mode_of_contact_master" },
 );
 
+const LeadStageMaster = sequelize.define(
+  "LeadStageMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "lead_stage_master" },
+);
+
 const ParameterMaster = sequelize.define(
   "ParameterMaster",
   {
@@ -564,6 +579,7 @@ const masterModels = {
   GenderMaster,
   GradeMaster,
   HouseMaster,
+  LeadStageMaster,
   ModeOfPaymentMaster,
   ModeOfContactMaster,
   ParameterMaster,
@@ -608,6 +624,7 @@ const masterRegistry = {
   genders: GenderMaster,
   grades: GradeMaster,
   houses: HouseMaster,
+  "lead-stages": LeadStageMaster,
   "payment-modes": ModeOfPaymentMaster,
   "contact-modes": ModeOfContactMaster,
   parameters: ParameterMaster,
