@@ -237,19 +237,8 @@ const getAdmissionBySearchRepo = async (args) => {
       "emergency_contact",
       "custody_situation",
 
-      // Payment
-      "admission_fee_amount",
-      "cheque_no",
-      "cheque_bank_name",
-      "is_cheque_cleared",
-      "upi_reference",
-      "card_last_four",
-
       // Status
       "status",
-      "is_deleted",
-      "created_at",
-      "updated_at",
     ],
     include: [
       {
@@ -293,12 +282,7 @@ const getAdmissionBySearchRepo = async (args) => {
         model: MotherTongueMaster,
         as: "mother_tongue",
         attributes: ["id", "name"],
-      },
-      {
-        model: ModeOfPaymentMaster,
-        as: "payment_mode",
-        attributes: ["id", "mode_of_payment_name", "name_on_receipt"],
-      },
+      }
     ],
   });
 };
