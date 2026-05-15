@@ -20,22 +20,17 @@ const {
 const ApiError = require("../utils/api-error");
 
 const createAdmissionRepo = async (data) => {
-  if (data.enquiry_no) {
-    const enquiryExists = await SchoolEnquiry.findOne({
-      where: { enquiry_no: data.enquiry_no },
-      raw: true,
-    });
+  console.log("createAdmissionRepo called with data: ", data);
+  const enquiryExists = await SchoolEnquiry.findOne({
+    where: { id: data.enquiry_id },
+    raw: true,
+  });
 
-    if (!enquiryExists) {
-      throw new ApiError(
-        400,
-        `Invalid Enquiry Number: The enquiry '${data.enquiry_no}' does not exist in the database. Please verify the enquiry number or leave it blank if not applicable.`,
-      );
-    }
-
-    data.enquiry_id = enquiryExists.enquiry_id;
-    data.source_id = enquiryExists.source_id;
-    data.contact_mode_id = enquiryExists.contact_mode_id;
+  if (!enquiryExists) {
+    throw new ApiError(
+      400,
+      `Invalid Enquiry ID: The enquiry with ID '${data.enquiry_id}' does not exist in the database. Please verify the enquiry ID or leave it blank if not applicable.`,
+    );
   }
 
   const [admission, created] = await StudentAdmissions.upsert(data, {
@@ -412,8 +407,8 @@ const getAdmissionBySearchRepo = async (args) => {
 
       // Admission & Medical
       admission_no: null,
-      medical_conditions:  null,
-      emergency_contact:  null,
+      medical_conditions: null,
+      emergency_contact: null,
       custody_situation: null,
 
       // Status
