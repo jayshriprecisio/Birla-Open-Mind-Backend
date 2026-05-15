@@ -1,8 +1,8 @@
 require('dotenv').config();
-const masters = require('./models/masters.model');
+const { masterModels } = require('./models/masters.model');
 
 const checkCounts = async () => {
-  for (const [name, model] of Object.entries(masters)) {
+  for (const [name, model] of Object.entries(masterModels)) {
     try {
       const count = await model.count();
       console.log(`Checking ${name}: ${count} records`);

@@ -1,5 +1,5 @@
 require("dotenv").config();
-const masters = require("../models/masters.model");
+const { masterModels } = require("../models/masters.model");
 const sequelize = require("../config/database");
 
 const seedMasters = async () => {
@@ -115,6 +115,112 @@ const seedMasters = async () => {
         { id: 1, name: "Science", short_form: "SCI" },
         { id: 2, name: "Commerce", short_form: "COM" },
       ],
+      AcademicSubjectMaster: [
+        { id: 1, name: "Computer", short_form: "CO" },
+      ],
+      ChequeFavourMaster: [
+        {
+          id: 1,
+          cheque_in_favour_of: "Birla Open Minds International School",
+          fees_type: "Birla Open Minds International School",
+        },
+      ],
+      CourseMaster: [
+        {
+          id: 1,
+          course_code: "CRS-1777530534407",
+          course_name: "CSS",
+          status: "ACTIVE",
+          is_deleted: true,
+        },
+        {
+          id: 2,
+          course_code: "CRS-1777530687840",
+          course_name: "IT",
+          status: "INACTIVE",
+          is_deleted: true,
+        },
+        {
+          id: 3,
+          course_code: "CRS-1777533248143",
+          course_name: "CSS",
+          status: "ACTIVE",
+          is_deleted: false,
+        },
+      ],
+      DivisionMaster: [
+        { id: 1, division_name: "A", is_deleted: true },
+        { id: 2, division_name: "C" },
+        { id: 3, division_name: "B" },
+      ],
+      ParameterMaster: [
+        {
+          id: 1,
+          parameter_name:
+            "Asks questions to extend own understanding about the things seen in the environment",
+        },
+        {
+          id: 2,
+          parameter_name: "Attempts to make decisions/choices",
+        },
+      ],
+      PaymentEntityMaster: [
+        { id: 1, entity_name: "Maste" },
+        { id: 2, entity_name: "Visa" },
+      ],
+      PdcStatusMaster: [
+        {
+          id: 1,
+          pdc_status: "Action pendings",
+          description:
+            "Fee Executive created token for PDC but not updated PDC detail in PDC Module",
+        },
+      ],
+      PrePrimaryPhaseMaster: [{ id: 1, phase_name: "Phase 1" }],
+      PrePrimarySubjectMaster: [
+        { id: 1, name: "Integrated Learning Time", short_form: "IL" },
+      ],
+      SchoolTimingMaster: [
+        {
+          id: 1,
+          timing_code: "TIM-1777532530231",
+          shift_name: "morning shift",
+          start_time: "10:30:00",
+          end_time: "13:00:00",
+        },
+      ],
+      StudentAttendanceStatusMaster: [
+        { id: 1, name: "Absent", short_form: "A" },
+        { id: 2, name: "Present", short_form: "P" },
+      ],
+      SubjectGroupMaster: [
+        { id: 1, subject_group_name: "Social Studies" },
+        { id: 2, subject_group_name: "Science" },
+      ],
+      SubjectTypeMaster: [
+        { id: 1, name: "Compulsory", short_form: "CO" },
+      ],
+      TransactionTypeMaster: [
+        { id: 1, transaction_type: "Commercial Credit Card" },
+        { id: 2, transaction_type: "Credit Card" },
+      ],
+      WinterDurationMaster: [
+        {
+          id: 1,
+          winter_code: "WIN-1777540088059",
+          winter_duration_days: 3,
+          winter_start_date: "2026-04-22",
+          winter_end_date: "2026-04-28",
+        },
+        {
+          id: 2,
+          winter_code: "WIN-1777701589932",
+          winter_duration_days: 4,
+          winter_start_date: "2026-05-01",
+          winter_end_date: "2026-05-10",
+        },
+      ],
+      WinterTimingGapMaster: [{ id: 1, winter_timing_gap: "12:34:00" }],
       BloodGroupMaster: [
         { id: 1, name: "A+", display_order: 1 },
         { id: 2, name: "A-", display_order: 2 },
@@ -160,7 +266,7 @@ const seedMasters = async () => {
 
     for (const [modelName, records] of Object.entries(data)) {
       console.log(`Seeding ${modelName}...`);
-      await masters[modelName].bulkCreate(records, { ignoreDuplicates: true });
+      await masterModels[modelName].bulkCreate(records, { ignoreDuplicates: true });
     }
 
     console.log("--- Master Data Seeding Completed Successfully ---");

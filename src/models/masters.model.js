@@ -531,7 +531,8 @@ const MotherTongueMaster = sequelize.define(
   { ...commonOptions, tableName: "mother_tongue_master" },
 );
 
-module.exports = {
+
+const masterModels = {
   AcademicMaster,
   AcademicSubjectMaster,
   AcademicYearMaster,
@@ -571,4 +572,53 @@ module.exports = {
   ReligionMaster,
   CastMaster,
   MotherTongueMaster,
+};
+
+
+const masterRegistry = {
+  "academic-masters": AcademicMaster,
+  "academic-subjects": AcademicSubjectMaster,
+  "academic-years": AcademicYearMaster,
+  batches: BatchMaster,
+  boards: BoardMaster,
+  brands: BrandMaster,
+  "calculation-basis": CalculationBasisMaster,
+  "cheque-favour": ChequeFavourMaster,
+  courses: CourseMaster,
+  divisions: DivisionMaster,
+  "fees-categories": FeesCategoryMaster,
+  "fees-sub-types": FeesSubTypeMaster,
+  "fees-types": FeesTypeMaster,
+  genders: GenderMaster,
+  grades: GradeMaster,
+  houses: HouseMaster,
+  "payment-modes": ModeOfPaymentMaster,
+  parameters: ParameterMaster,
+  "payment-entities": PaymentEntityMaster,
+  "pdc-statuses": PdcStatusMaster,
+  "service-periods": PeriodOfServiceMaster,
+  "pre-primary-phases": PrePrimaryPhaseMaster,
+  "pre-primary-subjects": PrePrimarySubjectMaster,
+  timings: SchoolTimingMaster,
+  "service-providers": ServiceProviderMaster,
+  sessions: SessionMaster,
+  streams: StreamMaster,
+  "attendance-statuses": StudentAttendanceStatusMaster,
+  "subject-groups": SubjectGroupMaster,
+  "subject-types": SubjectTypeMaster,
+  terms: TermMaster,
+  "transaction-types": TransactionTypeMaster,
+  "winter-durations": WinterDurationMaster,
+  "winter-timing-gaps": WinterTimingGapMaster,
+  zones: ZoneMaster,
+  "blood-groups": BloodGroupMaster,
+  religions: ReligionMaster,
+  casts: CastMaster,
+  "mother-tongues": MotherTongueMaster,
+};
+
+module.exports = {
+  ...masterModels,
+  masterModels,
+  masterRegistry,
 };
