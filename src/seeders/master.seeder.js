@@ -133,8 +133,9 @@ const seedMasters = async () => {
         { id: 2, term_name: "Term 2", short_form: "T2" },
       ],
       BatchMaster: [
-        { id: 1, batch_name: "Batch 01", short_form: "B01" },
-        { id: 3, batch_name: "Batch 3", short_form: "B03" },
+        { id: 1, batch_name: "Morning", short_form: "MOR" },
+        { id: 2, batch_name: "Afternoon", short_form: "AFT" },
+        { id: 3, batch_name: "Evening", short_form: "EVE" },
       ],
       StreamMaster: [
         { id: 1, name: "Science", short_form: "SCI" },
