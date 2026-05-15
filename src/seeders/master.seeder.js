@@ -104,6 +104,16 @@ const seedMasters = async () => {
         { id: 4, board_code: "IGCSE", board_name: "IGCSE" },
         { id: 5, board_code: "STATE", board_name: "State Board" },
       ],
+      ModeOfContactMaster: [
+        { id: 1, name: "Walk In", short_form: "WI", display_order: 1 },
+        { id: 2, name: "Website", short_form: "WEB", display_order: 2 },
+        { id: 3, name: "Phone", short_form: "PH", display_order: 3 },
+        { id: 4, name: "Referral", short_form: "REF", display_order: 4 },
+        { id: 5, name: "Campaign", short_form: "CAM", display_order: 5 },
+        { id: 6, name: "Social Media", short_form: "SM", display_order: 6 },
+        { id: 7, name: "Email", short_form: "EM", display_order: 7 },
+        { id: 8, name: "WhatsApp", short_form: "WA", display_order: 8 },
+      ],
       TermMaster: [
         { id: 1, term_name: "Term 1", short_form: "T1" },
         { id: 2, term_name: "Term 2", short_form: "T2" },

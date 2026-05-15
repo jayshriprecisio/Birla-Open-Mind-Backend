@@ -4,7 +4,7 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, ModeOfContactMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
@@ -45,6 +45,10 @@ School.hasMany(SchoolEnquiry, { foreignKey: 'school_id' });
 // Enquiry <-> Grade
 SchoolEnquiry.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade' });
 GradeMaster.hasMany(SchoolEnquiry, { foreignKey: 'grade_id' });
+
+// Enquiry <-> Mode of Contact
+SchoolEnquiry.belongsTo(ModeOfContactMaster, { foreignKey: 'contact_mode_id', as: 'contact_mode' });
+ModeOfContactMaster.hasMany(SchoolEnquiry, { foreignKey: 'contact_mode_id' });
 
 // Admission Inquiry <-> School
 AdmissionInquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school_ref' });
