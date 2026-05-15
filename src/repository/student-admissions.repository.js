@@ -541,9 +541,6 @@ const getAdmissionByIdRepo = async (id) => {
       "emergency_contact",
       "custody_situation",
 
-      // Payment
-      "admission_fee_amount",
-
       // Status
       "status",
       "is_deleted",

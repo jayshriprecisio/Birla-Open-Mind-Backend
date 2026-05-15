@@ -186,11 +186,6 @@ const StudentAdmissions = sequelize.define(
     // Student Custody Details
     custody_situation: { type: DataTypes.TEXT },
 
-    // Payment Details
-    // use model - ModeOfPaymentMaster
-    payment_mode_id: { type: DataTypes.BIGINT },
-    admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
-
     // Metadata
     status: {
       type: DataTypes.STRING(50),

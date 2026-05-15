@@ -86,10 +86,6 @@ const createDraftAdmissionSchema = {
     medical_conditions: Joi.string().optional().allow(null, ''),
     emergency_contact: Joi.string().optional().allow(null, ''),
     custody_situation: Joi.string().optional().allow(null, ''),
-
-    // Payment Details
-    admission_fee_amount: Joi.number().optional().allow(null),
-    payment_mode_id: Joi.number().optional().allow(null),
   }),
 };
 
@@ -171,10 +167,6 @@ const createAdmissionSchema = {
     medical_conditions: Joi.string().optional().allow(''),
     emergency_contact: Joi.string().optional().allow(''),
     custody_situation: Joi.string().optional().allow(''),
-
-    // Payment Details
-    admission_fee_amount: Joi.number().optional().allow(null),
-    payment_mode_id: Joi.number().optional().allow(null),
   }),
 };
 
@@ -233,8 +225,6 @@ const updateAdmissionSchema = {
     medical_conditions: Joi.string().optional().allow(''),
     emergency_contact: Joi.string().optional().allow(''),
     custody_situation: Joi.string().optional().allow(''),
-    admission_fee_amount: Joi.number().optional().allow(null),
-    payment_mode_id: Joi.number().optional().allow(null),
     status: Joi.string().optional(),
   }).min(1),
 };
