@@ -1,16 +1,16 @@
-const { EnquiryImportBatch } = require('../models');
+const upload = require('../modules/enquiries/enquiry-import/services/upload.service');
+const previewMod = require('../modules/enquiries/enquiry-import/services/preview.service');
+const importMod = require('../modules/enquiries/enquiry-import/services/import.service');
 
-const createImportBatchRepo = async (payload) => {
+const uploadEnquiryFileService = (payload) => upload.processUpload(payload);
 
-  return await EnquiryImportBatch.create({
-    school_id: payload.school_id,
-    file_name: payload.file_name,
-    file_path: payload.file_path,
-    uploaded_by: payload.uploaded_by,
-  });
+const getEnquiryImportPreviewService = (batchId, query) =>
+  previewMod.getPreview(batchId, query);
 
-};
+const importEnquiryBatchService = (batchId) => importMod.importValidRows(batchId);
 
 module.exports = {
-  createImportBatchRepo,
+  uploadEnquiryFileService,
+  getEnquiryImportPreviewService,
+  importEnquiryBatchService,
 };

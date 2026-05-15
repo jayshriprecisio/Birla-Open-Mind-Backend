@@ -11,6 +11,8 @@ const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
 const AdmissionInquiry = require('./AdmissionInquiry');
 const StudentAdmissions = require('./StudentAdmissions');
 const PasswordReset = require('./PasswordReset');
+const EnquiryImportBatch = require('./enquiryImportBatches');
+const EnquiryImportRow = require('./enquiryImportRows');
 
 // Associations
 
@@ -89,6 +91,13 @@ MotherTongueMaster.hasMany(StudentAdmissions, { foreignKey: 'mother_tongue_id' }
 StudentAdmissions.belongsTo(SchoolEnquiry, { foreignKey: 'enquiry_no', targetKey: 'enquiry_no', as: 'enquiry' });
 SchoolEnquiry.hasOne(StudentAdmissions, { foreignKey: 'enquiry_no', sourceKey: 'enquiry_no' });
 
+// Enquiry import batches / rows
+EnquiryImportBatch.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
+School.hasMany(EnquiryImportBatch, { foreignKey: 'school_id' });
+
+EnquiryImportRow.belongsTo(EnquiryImportBatch, { foreignKey: 'batch_id', as: 'import_batch' });
+EnquiryImportBatch.hasMany(EnquiryImportRow, { foreignKey: 'batch_id', as: 'import_rows' });
+
 module.exports = {
   sequelize,
   User,
@@ -107,4 +116,6 @@ module.exports = {
   StudentAdmissions,
   PaymentEntityMaster,
   PasswordReset,
+  EnquiryImportBatch,
+  EnquiryImportRow,
 };

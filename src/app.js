@@ -38,7 +38,9 @@ app.use('/api/enquiry-management/admission-inquiries', admissionInquiryRoutes);
 app.use('/api/enquiry-management/admission-inquiry', admissionInquiryRoutes);
 app.use('/api/enquiry-management/school-enquiries', schoolEnquiryRoutes);
 app.use('/api/enquiry-management/lookups', lookupRoutes);
-app.use('/api/enquiry-management/enquiry-import', enquiryImportRoutes)
+app.use('/api/enquiry-management/enquiry-import', enquiryImportRoutes);
+// Mirror under /api/v1 so the frontend apiClient (NEXT_PUBLIC_API_BASE_URL …/api/v1) can reach import.
+app.use('/api/v1/enquiries/import', enquiryImportRoutes);
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/schools', schoolRoutes);
