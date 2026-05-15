@@ -173,6 +173,9 @@ const getAdmissionBySearchRepo = async (args) => {
       "registration_no",
       "enrollment_no",
       "enquiry_no",
+      "enquiry_id",
+      "source_id",
+      "contact_mode_id",
       "student_name",
       "aadhar_no",
       "dob",
@@ -238,6 +241,12 @@ const getAdmissionBySearchRepo = async (args) => {
 
       // Status
       "status",
+      "academic_year_id",
+      "school_id",
+      "grade_applying_for_id",
+      "grade_id",
+      "board_id",
+      "gender_id",
     ],
     include: [
       {
@@ -286,72 +295,135 @@ const getAdmissionBySearchRepo = async (args) => {
   });
 
   if (!result) {
-    const newResult = await SchoolEnquiry.findOne({
+    const enquiry = await SchoolEnquiry.findOne({
       where: {
         father_mobile: args.father_mobile || null,
+        is_deleted: false,
       },
-      attributes: [
-        "enquiry_id",
-        "enquiry_no",
-        "source_id",
-        "contact_mode_id",
-        "academic_year_id",
-        "grade_applying_for_id",
-        "board_id",
-        "grade_id",
-        "student_name",
-        "dob",
-        "gender_id",
-        "aadhaar_no",
-
-      ],
       include: [
-        // {
-        //   model: AcademicYearMaster,
-        //   as: "academic_year",
-        //   attributes: ["id", "name"],
-        // },
+        {
+          model: AcademicYearMaster,
+          as: "academic_year",
+          attributes: ["id", "name"],
+        },
         {
           model: School,
           as: "school",
           attributes: ["school_id", "school_name", "school_code"],
         },
-        // {
-        //   model: GradeMaster,
-        //   as: "grade",
-        //   attributes: ["id", "name", "short_form"],
-        // },
-        // {
-        //   model: GradeMaster,
-        //   as: "grade_applying_for",
-        //   attributes: ["id", "name", "short_form"],
-        // },
-        // {
-        //   model: BoardMaster,
-        //   as: "board",
-        //   attributes: ["id", "board_code", "board_name"],
-        // },
-        // { model: GenderMaster, as: "gender", attributes: ["id", "name"] },
-        // {
-        //   model: BloodGroupMaster,
-        //   as: "blood_group",
-        //   attributes: ["id", "name"],
-        // },
-        // {
-        //   model: ReligionMaster,
-        //   as: "religion",
-        //   attributes: ["id", "name"],
-        // },
-        // { model: CastMaster, as: "cast", attributes: ["id", "name"] },
-        // {
-        //   model: MotherTongueMaster,
-        //   as: "mother_tongue",
-        //   attributes: ["id", "name"],
-        // },
+        {
+          model: GradeMaster,
+          as: "grade",
+          attributes: ["id", "name", "short_form"],
+        },
+        {
+          model: BoardMaster,
+          as: "board",
+          attributes: ["id", "board_code", "board_name"],
+        },
+        { model: GenderMaster, as: "gender", attributes: ["id", "name"] },
       ],
     });
-    console.log("DEBUG - No admission found, checking enquiries:", newResult);
-    return newResult;
+
+    if (!enquiry) return null;
+
+    const plainEnquiry = enquiry.get({ plain: true });
+
+    // Map SchoolEnquiry to StudentAdmissions format
+    return {
+      registration_no: plainEnquiry.registration_no || null,
+      enrollment_no: plainEnquiry.enrollment_no || null,
+      enquiry_no: plainEnquiry.enquiry_no,
+      enquiry_id: plainEnquiry.enquiry_id,
+      source_id: plainEnquiry.source_id,
+      contact_mode_id: plainEnquiry.contact_mode_id,
+      student_name: plainEnquiry.student_name,
+      aadhar_no: plainEnquiry.aadhaar_no,
+      dob: plainEnquiry.dob,
+      nationality: plainEnquiry.nationality || null,
+      place_of_birth: plainEnquiry.place_of_birth || null,
+      prev_school_tc_no: plainEnquiry.prev_school_tc_no || null,
+      prev_school_leaving_date: plainEnquiry.prev_school_leaving_date || null,
+      prev_class_passed: plainEnquiry.prev_class_passed || null,
+      prev_class_percentage: plainEnquiry.prev_class_percentage || null,
+
+      // Father Details
+      father_name: plainEnquiry.father_name,
+      father_mobile: plainEnquiry.father_mobile,
+      father_email: plainEnquiry.father_email,
+      father_occupation: plainEnquiry.father_occupation || null,
+      father_aadhar_no: plainEnquiry.father_aadhar_no || null,
+      father_pan_no: plainEnquiry.father_pan_no || null,
+      father_employer_name: plainEnquiry.father_employer_name || null,
+      father_designation: plainEnquiry.father_designation || null,
+      father_annual_income: plainEnquiry.father_annual_income || null,
+      father_employer_address: plainEnquiry.father_employer_address || null,
+      father_employer_city: plainEnquiry.father_employer_city || null,
+      father_employer_state: plainEnquiry.father_employer_state || null,
+      father_employer_pincode: plainEnquiry.father_employer_pincode || null,
+      father_employer_country: plainEnquiry.father_employer_country || null,
+
+      // Mother Details
+      mother_name: plainEnquiry.mother_name,
+      mother_mobile: plainEnquiry.mother_mobile,
+      mother_email: plainEnquiry.mother_email,
+      mother_occupation: plainEnquiry.mother_occupation || null,
+      mother_aadhar_no: plainEnquiry.mother_aadhar_no || null,
+      mother_pan_no: plainEnquiry.mother_pan_no || null,
+      mother_employer_name: plainEnquiry.mother_employer_name || null,
+      mother_designation: plainEnquiry.mother_designation || null,
+      mother_annual_income: plainEnquiry.mother_annual_income || null,
+      mother_employer_address: plainEnquiry.mother_employer_address || null,
+      mother_employer_city: plainEnquiry.mother_employer_city || null,
+      mother_employer_state: plainEnquiry.mother_employer_state || null,
+      mother_employer_pincode: plainEnquiry.mother_employer_pincode || null,
+      mother_employer_country: plainEnquiry.mother_employer_country || null,
+
+      // Guardian Details
+      guardian_name: plainEnquiry.guardian_name,
+      guardian_mobile: plainEnquiry.guardian_mobile,
+      guardian_email: plainEnquiry.guardian_email || null,
+      guardian_relation: plainEnquiry.guardian_relation || null,
+      guardian_aadhar_no: plainEnquiry.guardian_aadhar_no || null,
+      guardian_pan_no: plainEnquiry.guardian_pan_no || null,
+
+      // Address
+      address:
+        plainEnquiry?.address ||
+        [
+          plainEnquiry.address_line1,
+          plainEnquiry.address_line2,
+          plainEnquiry.address_line3,
+        ]
+          .filter(Boolean)
+          .join(" ") ||
+        "",
+      city: plainEnquiry.city,
+      state: plainEnquiry.state,
+      country: plainEnquiry.country,
+      pincode: plainEnquiry.pincode,
+
+      // Admission & Medical
+      admission_no: plainEnquiry.admission_no || null,
+      medical_conditions: plainEnquiry.medical_conditions || null,
+      emergency_contact: plainEnquiry.emergency_contact || null,
+      custody_situation: plainEnquiry.custody_situation || null,
+
+      // Status
+      status: "ENQUIRY_FOUND",
+
+      // Associations
+      academic_year: plainEnquiry.academic_year,
+      school: plainEnquiry.school,
+      grade: plainEnquiry.grade || plainEnquiry.current_grade_id || null,
+      grade_applying_for: plainEnquiry.grade_applying_for || plainEnquiry.grade  || null, // Map from grade
+      board: plainEnquiry.board, // verified
+      gender: plainEnquiry.gender, // verified
+      blood_group: plainEnquiry.blood_group || null, // verified
+      religion: plainEnquiry.religion || null, // verified
+      cast: plainEnquiry.cast || null, // verified
+      mother_tongue: plainEnquiry.mother_tongue || null, // verified
+    };
   }
 
   return result;
