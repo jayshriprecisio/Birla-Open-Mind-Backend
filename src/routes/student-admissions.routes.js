@@ -26,7 +26,12 @@ router.get(
   controller.getAllAdmissionsController,
 );
 router.get("/stats", auth, controller.getAdmissionStatsController);
-router.get("/search", auth, controller.getAdmissionBySearchController);
+router.get(
+  "/search",
+  auth,
+  validate(validation.searchAdmissionSchema),
+  controller.getAdmissionBySearchController,
+);
 router.get("/:id", auth, controller.getAdmissionByIdController);
 
 router.delete(

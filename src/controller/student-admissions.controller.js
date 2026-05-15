@@ -76,6 +76,7 @@ const getAdmissionByIdController = async (req, res, next) => {
 
 const getAdmissionBySearchController = async (req, res, next) => {
   try {
+    console.log("getAdmissionBySearchController Search query:", req.query);
     const data = await service.getAdmissionBySearchService(req.query);
     if (!data) throw new ApiError(404, "Admission record not found");
     res

@@ -268,6 +268,13 @@ const clearChequeSchema = {
   }),
 };
 
+const searchAdmissionSchema = {
+  query: Joi.object().keys({
+    registration_no: Joi.string().optional(),
+    father_mobile: Joi.string().optional(),
+  }).or('registration_no', 'father_mobile'),
+};
+
 module.exports = {
   listQuerySchema,
   createAdmissionSchema,
@@ -276,4 +283,5 @@ module.exports = {
   deleteAdmissionSchema,
   cancelAdmissionSchema,
   clearChequeSchema,
+  searchAdmissionSchema,
 };
