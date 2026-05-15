@@ -69,7 +69,8 @@ const StudentAdmissions = sequelize.define(
     },
     dob: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: null,
     },
     // use model - GenderMaster
     gender_id: {

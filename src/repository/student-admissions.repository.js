@@ -37,7 +37,8 @@ const createAdmissionRepo = async (data) => {
     // Populate missing fields from enquiry
     data.enquiry_no = data.enquiry_no || enquiryExists.enquiry_no;
     data.source_id = data.source_id || enquiryExists.source_id;
-    data.contact_mode_id = data.contact_mode_id || enquiryExists.contact_mode_id;
+    data.contact_mode_id =
+      data.contact_mode_id || enquiryExists.contact_mode_id;
   }
 
   // Handle Update or Create based on enquiry_id or id
@@ -61,14 +62,17 @@ const createAdmissionRepo = async (data) => {
 };
 
 const getAllAdmissionsRepo = async (args) => {
-  const where = { is_deleted: false };
+  const where = {
+    is_deleted: false,
+    status: { [Op.ne]: "DRAFT" },
+  };
 
   if (args.search) {
     where[Op.or] = [
       { registration_no: { [Op.iLike]: `%${args.search}%` } },
       { enrollment_no: { [Op.iLike]: `%${args.search}%` } },
       { student_name: { [Op.iLike]: `%${args.search}%` } },
-      { aadhar_no: { [Op.iLike]: `%${args.search}%` } },
+      { father_mobile: { [Op.iLike]: `%${args.search}%` } },
     ];
   }
 
@@ -124,7 +128,7 @@ const getAllAdmissionsRepo = async (args) => {
 
 const getAdmissionStatsRepo = async () => {
   const stats = await StudentAdmissions.findAll({
-    where: { is_deleted: false },
+    where: { is_deleted: false, status: { [Op.ne]: "DRAFT" } },
     attributes: [
       "status",
       [sequelize.fn("COUNT", sequelize.col("id")), "count"],
