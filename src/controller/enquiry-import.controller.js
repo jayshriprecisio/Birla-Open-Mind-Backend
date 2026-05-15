@@ -39,3 +39,5 @@ console.log('FILE:', req.file);
     next(error);
   }
 };
+
+module.exports = {uploadEnquiryFileController}

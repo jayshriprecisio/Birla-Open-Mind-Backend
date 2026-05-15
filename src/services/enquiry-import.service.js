@@ -1,21 +1,16 @@
-const repository =
-  require('../repository/enquiry-import.respository');
+const { EnquiryImportBatch } = require('../models');
 
-const uploadEnquiryFileService = async (
-  payload
-) => {
+const createImportBatchRepo = async (payload) => {
 
-  return repository.createImportBatchRepo({
+  return await EnquiryImportBatch.create({
     school_id: payload.school_id,
-
-    file_name: payload.file.originalname,
-
-    file_path: payload.file.path,
-
+    file_name: payload.file_name,
+    file_path: payload.file_path,
     uploaded_by: payload.uploaded_by,
   });
+
 };
 
 module.exports = {
-  uploadEnquiryFileService,
+  createImportBatchRepo,
 };
