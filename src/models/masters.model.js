@@ -28,8 +28,8 @@ const AcademicSubjectMaster = sequelize.define(
     short_form: { type: DataTypes.STRING(20) },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "academic_subject_master" },
 );
@@ -43,8 +43,8 @@ const AcademicYearMaster = sequelize.define(
     short_form_2_digit: { type: DataTypes.STRING(10) },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "academic_year_master" },
 );
@@ -108,8 +108,8 @@ const ChequeFavourMaster = sequelize.define(
     fees_type: { type: DataTypes.STRING(100), allowNull: false },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "cheque_favour_master" },
 );
@@ -122,8 +122,8 @@ const CourseMaster = sequelize.define(
     course_name: { type: DataTypes.STRING(150), allowNull: false },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "course_master" },
 );
@@ -185,8 +185,8 @@ const GenderMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "gender_master" },
 );
@@ -200,8 +200,8 @@ const GradeMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "grade_master" },
 );
@@ -244,8 +244,8 @@ const ModeOfContactMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "mode_of_contact_master" },
 );
@@ -259,8 +259,8 @@ const LeadStageMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "lead_stage_master" },
 );
@@ -274,8 +274,8 @@ const SchoolTypeMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "school_type_master" },
 );
@@ -289,8 +289,8 @@ const EnquirySourceMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "enquiry_source_master" },
 );
@@ -304,8 +304,8 @@ const EnquirySubSourceMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "enquiry_sub_source_master" },
 );
@@ -319,8 +319,8 @@ const FatherOccupationMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "father_occupation_master" },
 );
@@ -334,8 +334,8 @@ const RelationshipMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "relationship_master" },
 );
@@ -349,8 +349,8 @@ const ConcessionTypeMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "concession_type_master" },
 );
@@ -364,8 +364,8 @@ const InteractionModeMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "interaction_mode_master" },
 );
@@ -379,8 +379,8 @@ const InteractionStatusMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "interaction_status_master" },
 );
@@ -392,8 +392,8 @@ const ParameterMaster = sequelize.define(
     parameter_name: { type: DataTypes.STRING(150), allowNull: false },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "parameter_master" },
 );
@@ -405,8 +405,8 @@ const PaymentEntityMaster = sequelize.define(
     entity_name: { type: DataTypes.STRING(150), allowNull: false },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "payment_entity_master" },
 );
@@ -419,8 +419,8 @@ const PdcStatusMaster = sequelize.define(
     description: { type: DataTypes.TEXT },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "pdc_status_master" },
 );
@@ -444,8 +444,8 @@ const PrePrimaryPhaseMaster = sequelize.define(
     phase_name: { type: DataTypes.STRING(150), allowNull: false },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "pre_primary_phase_master" },
 );
@@ -458,8 +458,8 @@ const PrePrimarySubjectMaster = sequelize.define(
     short_form: { type: DataTypes.STRING(20) },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "pre_primary_subject_master" },
 );
@@ -474,8 +474,8 @@ const SchoolTimingMaster = sequelize.define(
     end_time: { type: DataTypes.TIME, allowNull: false },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "school_timing_master" },
 );
@@ -512,8 +512,8 @@ const StreamMaster = sequelize.define(
     short_form: { type: DataTypes.STRING(20) },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "stream_master" },
 );
@@ -526,8 +526,8 @@ const StudentAttendanceStatusMaster = sequelize.define(
     short_form: { type: DataTypes.STRING(20) },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "student_attendance_status_master" },
 );
@@ -539,8 +539,8 @@ const SubjectGroupMaster = sequelize.define(
     subject_group_name: { type: DataTypes.STRING(150), allowNull: false },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "subject_group_master" },
 );
@@ -553,8 +553,8 @@ const SubjectTypeMaster = sequelize.define(
     short_form: { type: DataTypes.STRING(20) },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "subject_type_master" },
 );
@@ -579,8 +579,8 @@ const TransactionTypeMaster = sequelize.define(
     transaction_type: { type: DataTypes.STRING(100), allowNull: false },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "transaction_type_master" },
 );
@@ -632,8 +632,8 @@ const BloodGroupMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "blood_group_master" },
 );
@@ -646,8 +646,8 @@ const ReligionMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "religion_master" },
 );
@@ -661,8 +661,8 @@ const CastMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "cast_master" },
 );
@@ -675,8 +675,8 @@ const MotherTongueMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.STRING(50) },
-    updated_by: { type: DataTypes.STRING(50) },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "mother_tongue_master" },
 );
@@ -685,17 +685,6 @@ const SourceMaster = sequelize.define(
   "SourceMaster",
   {
     id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
-<<<<<<< HEAD
-    name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
-    display_order: { type: DataTypes.INTEGER, defaultValue: 0 },
-    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
-    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-  },
-  { ...commonOptions, tableName: "source_masters" },
-);
-
-module.exports = {
-=======
     name: { type: DataTypes.STRING(100), allowNull: false },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
@@ -719,7 +708,6 @@ const ContactModeMaster = sequelize.define(
 );
 
 const masterModels = {
->>>>>>> 87d584f39dde098f9dbdb4020cd070bc69c5bc55
   AcademicMaster,
   AcademicSubjectMaster,
   AcademicYearMaster,
@@ -770,8 +758,6 @@ const masterModels = {
   CastMaster,
   MotherTongueMaster,
   SourceMaster,
-<<<<<<< HEAD
-=======
   ContactModeMaster,
 };
 
@@ -834,5 +820,4 @@ module.exports = {
   ...masterModels,
   masterModels,
   masterRegistry,
->>>>>>> 87d584f39dde098f9dbdb4020cd070bc69c5bc55
 };

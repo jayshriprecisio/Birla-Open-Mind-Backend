@@ -4,7 +4,8 @@ const {
   School, 
   GradeMaster, 
   User, 
-  InteractionMaster,
+  InteractionModeMaster,
+  InteractionStatusMaster,
   PriorityMaster,
   StageMaster,
   FollowupStatusMaster,
@@ -55,10 +56,10 @@ const getFollowupByIdRepo = async (followupId) => {
           { model: GradeMaster, as: 'grade', attributes: ['name'] }
         ] 
       },
-      { model: InteractionMaster, as: 'interaction_mode', attributes: ['name'] },
+      { model: InteractionModeMaster, as: 'interaction_mode', attributes: ['name'] },
       { model: PriorityMaster, as: 'priority_ref', attributes: ['name', 'color_code'] },
       { model: StageMaster, as: 'stage', attributes: ['name'] },
-      { model: FollowupStatusMaster, as: 'interaction_status', attributes: ['name'] },
+      { model: InteractionStatusMaster, as: 'interaction_status', attributes: ['name'] },
       { model: FollowupStatusMaster, as: 'followup_status_ref', attributes: ['name'] },
       { model: User, as: 'counsellor', attributes: ['full_name'] }
     ]
@@ -83,10 +84,10 @@ const listFollowupsRepo = async (filters) => {
           { model: School, as: 'school', attributes: ['school_name'] }
         ]
       },
-      { model: InteractionMaster, as: 'interaction_mode', attributes: ['name'] },
+      { model: InteractionModeMaster, as: 'interaction_mode', attributes: ['name'] },
       { model: PriorityMaster, as: 'priority_ref', attributes: ['name', 'color_code'] },
       { model: StageMaster, as: 'stage', attributes: ['name'] },
-      { model: FollowupStatusMaster, as: 'interaction_status', attributes: ['name'] },
+      { model: InteractionStatusMaster, as: 'interaction_status', attributes: ['name'] },
       { model: FollowupStatusMaster, as: 'followup_status_ref', attributes: ['name'] },
       { model: User, as: 'counsellor', attributes: ['full_name'] }
     ],
