@@ -1,5 +1,5 @@
 const { EnquiryImportBatch } = require('../../../../models');
-
+const { SourceMaster } = require('../../../../models');
 /**
  * @param {object} data
  */
@@ -23,8 +23,11 @@ async function updateBatchById(id, patch, transaction) {
   return EnquiryImportBatch.update(patch, { where: { id }, transaction });
 }
 
+
+
 module.exports = {
   createBatch,
   findBatchById,
-  updateBatchById,
+  updateBatchById
+
 };

@@ -4,7 +4,7 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster, SourceMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
@@ -118,4 +118,5 @@ module.exports = {
   PasswordReset,
   EnquiryImportBatch,
   EnquiryImportRow,
+  SourceMaster,
 };

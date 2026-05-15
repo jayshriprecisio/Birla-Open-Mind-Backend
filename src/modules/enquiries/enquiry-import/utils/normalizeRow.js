@@ -58,17 +58,24 @@ function mapRawToFields(raw) {
     'standard',
     'applying_grade',
   ]);
-  const parentName = pickRaw(raw, [
-    'parent_name',
-    'parentname',
-    'parentguardian_name',
-    'name_of_parent',
-    'guardian_name',
-    'father_mother_name',
-    'fathermother_name',
-    'father_name',
-    'mother_name',
-  ]);
+  const parentFirstName = pickRaw(raw, [
+  'parent_first_name',
+  'first_name',
+  'parentfirstname',
+]);
+
+const parentLastName = pickRaw(raw, [
+  'parent_last_name',
+  'last_name',
+  'parentlastname',
+]);
+
+const parentName = pickRaw(raw, [
+  'parent_name',
+  'parentname',
+  'guardian_name',
+]);
+
   const phoneRaw = pickRaw(raw, [
     'phone',
     'phone_number',
@@ -79,10 +86,13 @@ function mapRawToFields(raw) {
     'parent_mobile',
   ]);
   const emailRaw = pickRaw(raw, ['email', 'email_id', 'e_mail', 'parent_email']);
+
   const relationship = pickRaw(raw, [
     'relationship_with_student',
     'relationship',
     'relation',
+    'i_am',
+    'iam',
   ]);
   const source = pickRaw(raw, [
     'source',
@@ -122,6 +132,8 @@ function mapRawToFields(raw) {
 
   return {
     grade_raw: gradeRaw,
+    parent_first_name: parentFirstName,
+    parent_last_name: parentLastName,
     parent_name: parentName,
     phone_raw: phoneRaw,
     email_raw: emailRaw,

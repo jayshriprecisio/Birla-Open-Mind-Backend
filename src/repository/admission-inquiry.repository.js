@@ -124,11 +124,20 @@ const createAdmissionInquiryRepo = async (args) => {
   ]);
 
   return AdmissionInquiry.create({
-    ...args,
-    school_id: school?.school_id || null,
-    grade_id: grade?.id || null,
-    status: 'NEW'
-  });
+  school_id: school?.school_id || null,
+  grade_id: grade?.id || null,
+
+  parent_first_name: args.parent_first_name,
+  parent_last_name: args.parent_last_name,
+  email: args.email,
+  phone_number: args.phone_number,
+
+  relationship_with_student: args.relationship_with_student, 
+  counsellor_name: args.counsellor_name || null,            
+
+  comment: args.comment || null,
+  status: 'NEW'
+});
 
 };
 

@@ -41,11 +41,21 @@ async function buildInitialStagingPayloads(parsedRows) {
   return parsedRows.map(({ row_number, raw }) => {
     const mapped = mapRawToFields(raw);
     const n = normalizeMapped(mapped);
-    const { parent_first_name, parent_last_name } = splitParentName(n.parent_name);
+    let parent_first_name = n.parent_first_name;
+let parent_last_name = n.parent_last_name;
 
-    let errors = [
+
+// fallback if CSV has only parent_name
+if (n.parent_name && (!parent_first_name || !parent_last_name)) {
+  const split = splitParentName(n.parent_name);
+
+  parent_first_name = parent_first_name || split.parent_first_name;
+  parent_last_name = parent_last_name || split.parent_last_name;
+}
+    let errors = [   
       ...validateRequired({
-        parent_name: n.parent_name,
+        parent_first_name,
+        parent_last_name,
         phone_number: n.phone_number,
         grade_raw: n.grade_raw,
       }),

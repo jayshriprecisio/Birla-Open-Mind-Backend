@@ -3,29 +3,35 @@ const { sequelize } = require('../../../../models');
 const importBatchRepo = require('../repositories/importBatch.repository');
 const importRowsRepo = require('../repositories/importRows.repository');
 const enquiryRepo = require('../repositories/enquiry.repository');
+const { SourceMaster } = require('../../../../models');
 
 /**
  * @param {object} row — Sequelize model instance or plain
  */
-function buildAdmissionComment(row) {
-  const j = row.toJSON ? row.toJSON() : row;
-  const parts = ['[Source: IMPORT]'];
-  if (j.relationship_with_student) {
-    parts.push(`Relation: ${j.relationship_with_student}`);
-  }
-  if (j.counsellor_name) {
-    parts.push(`Counsellor: ${j.counsellor_name}`);
-  }
-  if (j.comment) {
-    parts.push(j.comment);
-  }
-  return parts.join(' | ');
-}
+
 
 /**
  * Import VALID staging rows into admission_inquiry inside a single transaction.
  * @param {number|string} batchId
  */
+
+
+
+//fetch imported source id 
+async function getImportedSourceId() {
+  const source = await SourceMaster.findOne({
+    where: { name: 'Imported', is_deleted: false },
+    attributes: ['id'],
+  });
+
+  if (!source) {
+    throw new Error('Imported source not found in source_master');
+  }
+
+  return source.id;
+}
+
+
 async function importValidRows(batchId) {
   const id = Number(batchId);
   if (!Number.isFinite(id) || id <= 0) {
@@ -50,6 +56,9 @@ async function importValidRows(batchId) {
     throw new ApiError(400, 'No valid rows to import');
   }
 
+  const importedSourceId = await getImportedSourceId();
+
+
   const payloads = rows.map((r) => {
     const j = r.toJSON ? r.toJSON() : r;
     return {
@@ -59,7 +68,10 @@ async function importValidRows(batchId) {
       parent_first_name: j.parent_first_name,
       parent_last_name: j.parent_last_name,
       email: j.email || null,
-      comment: buildAdmissionComment(r),
+      relationship_with_student: j.relationship_with_student,
+      counsellor_name: j.counsellor_name,
+      source_id: importedSourceId,
+      comment: j.comment,
       status: 'NEW',
       is_deleted: false,
     };
@@ -101,6 +113,8 @@ async function importValidRows(batchId) {
   }
 }
 
+
 module.exports = {
   importValidRows,
+  getImportedSourceId
 };

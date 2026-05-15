@@ -4,8 +4,11 @@
  */
 function validateRequired(n) {
   const errors = [];
-  if (!n.parent_name?.trim()) {
-    errors.push('Parent name is required');
+  if (!n.parent_first_name?.trim()) {
+    errors.push('Parent first name is required');
+  }
+  if(!n.parent_last_name?.trim()) {
+    errors.push('Parent last name is required');
   }
   if (!n.phone_number?.trim()) {
     errors.push('Phone number is required');

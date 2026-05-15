@@ -48,6 +48,7 @@ const EnquiryImportRow = sequelize.define('EnquiryImportRow', {
 
   source: {
     type: DataTypes.STRING(100),
+    defaultValue: 'Imported'
   },
 
   counsellor_name: {
@@ -85,6 +86,10 @@ const EnquiryImportRow = sequelize.define('EnquiryImportRow', {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
+  updated_at: {
+  type: DataTypes.DATE,
+  defaultValue: DataTypes.NOW,
+},
 }, {
   tableName: 'enquiry_import_rows',
   timestamps: false,

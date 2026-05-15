@@ -26,6 +26,9 @@ const AdmissionInquiry = sequelize.define('AdmissionInquiry', {
   counsellor_name: {
     type: DataTypes.STRING(255),
   },
+  source_id: {
+    type: DataTypes.BIGINT,
+  },
 
   comment: { type: DataTypes.TEXT },
 
