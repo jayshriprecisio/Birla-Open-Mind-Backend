@@ -4,7 +4,7 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, BatchMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, ModeOfContactMaster, LeadStageMaster, SchoolTypeMaster, EnquirySourceMaster, EnquirySubSourceMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
+const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, BatchMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, ModeOfContactMaster, LeadStageMaster, SchoolTypeMaster, EnquirySourceMaster, EnquirySubSourceMaster, ConcessionTypeMaster, InteractionModeMaster, InteractionStatusMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
@@ -69,6 +69,22 @@ EnquirySourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
 // Enquiry <-> Sub Source
 SchoolEnquiry.belongsTo(EnquirySubSourceMaster, { foreignKey: 'sub_source_id', as: 'sub_source' });
 EnquirySubSourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'sub_source_id' });
+
+// Enquiry <-> Concession Type
+SchoolEnquiry.belongsTo(ConcessionTypeMaster, { foreignKey: 'concession_type_id', as: 'concession_type' });
+ConcessionTypeMaster.hasMany(SchoolEnquiry, { foreignKey: 'concession_type_id' });
+
+// Enquiry <-> Interaction Mode / Status
+SchoolEnquiry.belongsTo(InteractionModeMaster, { foreignKey: 'interaction_mode_id', as: 'interaction_mode' });
+InteractionModeMaster.hasMany(SchoolEnquiry, { foreignKey: 'interaction_mode_id' });
+SchoolEnquiry.belongsTo(InteractionStatusMaster, { foreignKey: 'interaction_status_id', as: 'interaction_status' });
+InteractionStatusMaster.hasMany(SchoolEnquiry, { foreignKey: 'interaction_status_id' });
+
+// Enquiry Followup <-> Interaction Mode / Status
+SchoolEnquiryFollowup.belongsTo(InteractionModeMaster, { foreignKey: 'interaction_mode_id', as: 'interaction_mode' });
+InteractionModeMaster.hasMany(SchoolEnquiryFollowup, { foreignKey: 'interaction_mode_id' });
+SchoolEnquiryFollowup.belongsTo(InteractionStatusMaster, { foreignKey: 'interaction_status_id', as: 'interaction_status' });
+InteractionStatusMaster.hasMany(SchoolEnquiryFollowup, { foreignKey: 'interaction_status_id' });
 
 // Admission Inquiry <-> School
 AdmissionInquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school_ref' });

@@ -162,6 +162,27 @@ const seedMasters = async () => {
         { id: 5, name: "Sibling", short_form: "SIB", display_order: 5 },
         { id: 6, name: "Other", short_form: "OTH", display_order: 6 },
       ],
+      ConcessionTypeMaster: [
+        { id: 1, name: "RTE", short_form: "RTE", display_order: 1 },
+        { id: 2, name: "Defence", short_form: "DEF", display_order: 2 },
+        { id: 3, name: "Govt Employee", short_form: "GOVT", display_order: 3 },
+        { id: 4, name: "Partner", short_form: "PTN", display_order: 4 },
+        { id: 5, name: "Staff", short_form: "STF", display_order: 5 },
+      ],
+      InteractionStatusMaster: [
+        { id: 1, name: "Completed", short_form: "CMP", display_order: 1 },
+        { id: 2, name: "Pending", short_form: "PND", display_order: 2 },
+        { id: 3, name: "Rescheduled", short_form: "RSC", display_order: 3 },
+        { id: 4, name: "No Response", short_form: "NR", display_order: 4 },
+      ],
+      InteractionModeMaster: [
+        { id: 1, name: "Phone Call", short_form: "PH", display_order: 1 },
+        { id: 2, name: "Walk In", short_form: "WI", display_order: 2 },
+        { id: 3, name: "Email", short_form: "EM", display_order: 3 },
+        { id: 4, name: "WhatsApp", short_form: "WA", display_order: 4 },
+        { id: 5, name: "Video Call", short_form: "VC", display_order: 5 },
+        { id: 6, name: "SMS", short_form: "SMS", display_order: 6 },
+      ],
       TermMaster: [
         { id: 1, term_name: "Term 1", short_form: "T1" },
         { id: 2, term_name: "Term 2", short_form: "T2" },

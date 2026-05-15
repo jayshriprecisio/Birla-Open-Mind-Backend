@@ -340,6 +340,51 @@ const RelationshipMaster = sequelize.define(
   { ...commonOptions, tableName: "relationship_master" },
 );
 
+const ConcessionTypeMaster = sequelize.define(
+  "ConcessionTypeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "concession_type_master" },
+);
+
+const InteractionModeMaster = sequelize.define(
+  "InteractionModeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "interaction_mode_master" },
+);
+
+const InteractionStatusMaster = sequelize.define(
+  "InteractionStatusMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "interaction_status_master" },
+);
+
 const ParameterMaster = sequelize.define(
   "ParameterMaster",
   {
@@ -646,6 +691,7 @@ const masterModels = {
   BrandMaster,
   CalculationBasisMaster,
   ChequeFavourMaster,
+  ConcessionTypeMaster,
   CourseMaster,
   DivisionMaster,
   EnquirySourceMaster,
@@ -657,6 +703,8 @@ const masterModels = {
   GenderMaster,
   GradeMaster,
   HouseMaster,
+  InteractionModeMaster,
+  InteractionStatusMaster,
   LeadStageMaster,
   ModeOfPaymentMaster,
   ModeOfContactMaster,
@@ -696,6 +744,7 @@ const masterRegistry = {
   brands: BrandMaster,
   "calculation-basis": CalculationBasisMaster,
   "cheque-favour": ChequeFavourMaster,
+  "concession-types": ConcessionTypeMaster,
   courses: CourseMaster,
   divisions: DivisionMaster,
   "enquiry-sources": EnquirySourceMaster,
@@ -707,6 +756,8 @@ const masterRegistry = {
   genders: GenderMaster,
   grades: GradeMaster,
   houses: HouseMaster,
+  "interaction-modes": InteractionModeMaster,
+  "interaction-statuses": InteractionStatusMaster,
   "lead-stages": LeadStageMaster,
   "payment-modes": ModeOfPaymentMaster,
   "contact-modes": ModeOfContactMaster,
