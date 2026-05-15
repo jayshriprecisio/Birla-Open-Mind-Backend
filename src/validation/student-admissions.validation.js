@@ -170,8 +170,8 @@ const createAdmissionSchema = {
     admission_no: Joi.string().optional().allow(null, ""),
     medical_conditions: Joi.string().optional().allow(""),
     emergency_contact: Joi.string().optional().allow(""),
-    custody_situation: Joi.string().optional().allow(""),
-    
+    custody_situation: Joi.string().optional().allow(null, ""),
+
     student_documents: Joi.array().items(Joi.any()).optional(),
     parent_documents: Joi.array().items(Joi.any()).optional(),
     guardian_documents: Joi.array().items(Joi.any()).optional(),
