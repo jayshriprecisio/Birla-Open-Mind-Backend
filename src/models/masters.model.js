@@ -265,6 +265,21 @@ const LeadStageMaster = sequelize.define(
   { ...commonOptions, tableName: "lead_stage_master" },
 );
 
+const SchoolTypeMaster = sequelize.define(
+  "SchoolTypeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "school_type_master" },
+);
+
 const ParameterMaster = sequelize.define(
   "ParameterMaster",
   {
@@ -589,6 +604,7 @@ const masterModels = {
   PrePrimaryPhaseMaster,
   PrePrimarySubjectMaster,
   SchoolTimingMaster,
+  SchoolTypeMaster,
   ServiceProviderMaster,
   SessionMaster,
   StreamMaster,
@@ -634,6 +650,7 @@ const masterRegistry = {
   "pre-primary-phases": PrePrimaryPhaseMaster,
   "pre-primary-subjects": PrePrimarySubjectMaster,
   timings: SchoolTimingMaster,
+  "school-types": SchoolTypeMaster,
   "service-providers": ServiceProviderMaster,
   sessions: SessionMaster,
   streams: StreamMaster,

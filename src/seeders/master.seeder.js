@@ -123,6 +123,11 @@ const seedMasters = async () => {
         { id: 6, name: "Enrolled", short_form: "ENR", display_order: 6 },
         { id: 7, name: "Lost", short_form: "LOST", display_order: 7 },
       ],
+      SchoolTypeMaster: [
+        { id: 1, name: "Residential", short_form: "RES", display_order: 1 },
+        { id: 2, name: "Non Residential", short_form: "NRES", display_order: 2 },
+        { id: 3, name: "Day Boarding", short_form: "DB", display_order: 3 },
+      ],
       TermMaster: [
         { id: 1, term_name: "Term 1", short_form: "T1" },
         { id: 2, term_name: "Term 2", short_form: "T2" },
