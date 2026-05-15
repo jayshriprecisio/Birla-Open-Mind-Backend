@@ -62,7 +62,6 @@ BoardMaster.hasMany(SchoolEnquiry, { foreignKey: 'board_id' });
 SchoolEnquiry.belongsTo(AcademicYearMaster, { foreignKey: 'academic_year_id', as: 'academic_year' });
 AcademicYearMaster.hasMany(SchoolEnquiry, { foreignKey: 'academic_year_id' });
 
-/*
 // Enquiry <-> Source
 SchoolEnquiry.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source' });
 SourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
@@ -70,7 +69,6 @@ SourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
 // Enquiry <-> Contact Mode
 SchoolEnquiry.belongsTo(ContactModeMaster, { foreignKey: 'contact_mode_id', as: 'contact_mode' });
 ContactModeMaster.hasMany(SchoolEnquiry, { foreignKey: 'contact_mode_id' });
-*/
 
 // Admission Inquiry <-> School
 AdmissionInquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school_ref' });
@@ -111,6 +109,12 @@ CastMaster.hasMany(StudentAdmissions, { foreignKey: 'cast_id' });
 
 StudentAdmissions.belongsTo(MotherTongueMaster, { foreignKey: 'mother_tongue_id', as: 'mother_tongue' });
 MotherTongueMaster.hasMany(StudentAdmissions, { foreignKey: 'mother_tongue_id' });
+
+StudentAdmissions.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source' });
+SourceMaster.hasMany(StudentAdmissions, { foreignKey: 'source_id' });
+
+StudentAdmissions.belongsTo(ContactModeMaster, { foreignKey: 'contact_mode_id', as: 'contact_mode' });
+ContactModeMaster.hasMany(StudentAdmissions, { foreignKey: 'contact_mode_id' });
 
 StudentAdmissions.belongsTo(SchoolEnquiry, { foreignKey: 'enquiry_no', targetKey: 'enquiry_no', as: 'enquiry' });
 SchoolEnquiry.hasOne(StudentAdmissions, { foreignKey: 'enquiry_no', sourceKey: 'enquiry_no' });

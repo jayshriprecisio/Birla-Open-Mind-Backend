@@ -15,6 +15,8 @@ const {
   ReligionMaster,
   CastMaster,
   MotherTongueMaster,
+  SourceMaster,
+  ContactModeMaster,
 } = require("../models/masters.model");
 
 const ApiError = require("../utils/api-error");
@@ -103,6 +105,12 @@ const getAllAdmissionsRepo = async (args) => {
         as: "payment_mode",
         attributes: ["id", "mode_of_payment_name", "name_on_receipt"],
       },
+      { model: SourceMaster, as: "source", attributes: ["id", "name"] },
+      {
+        model: ContactModeMaster,
+        as: "contact_mode",
+        attributes: ["id", "name"],
+      },
     ],
     order: [["created_at", "DESC"]],
     limit: args.limit,
@@ -186,8 +194,6 @@ const getAdmissionBySearchRepo = async (args) => {
       "enrollment_no",
       "enquiry_no",
       "enquiry_id",
-      "source_id",
-      "contact_mode_id",
       "student_name",
       "aadhar_no",
       "dob",
@@ -303,6 +309,12 @@ const getAdmissionBySearchRepo = async (args) => {
         as: "mother_tongue",
         attributes: ["id", "name"],
       },
+      { model: SourceMaster, as: "source", attributes: ["id", "name"] },
+      {
+        model: ContactModeMaster,
+        as: "contact_mode",
+        attributes: ["id", "name"],
+      },
     ],
   });
 
@@ -339,6 +351,12 @@ const getAdmissionBySearchRepo = async (args) => {
           attributes: ["id", "board_code", "board_name"],
         },
         { model: GenderMaster, as: "gender", attributes: ["id", "name"] },
+        { model: SourceMaster, as: "source", attributes: ["id", "name"] },
+        {
+          model: ContactModeMaster,
+          as: "contact_mode",
+          attributes: ["id", "name"],
+        },
       ],
     });
 
@@ -354,8 +372,7 @@ const getAdmissionBySearchRepo = async (args) => {
       enrollment_no: plainEnquiry.enrollment_no || null,
       enquiry_no: plainEnquiry.enquiry_no,
       enquiry_id: plainEnquiry.enquiry_id,
-      source_id: plainEnquiry.source_id,
-      contact_mode_id: plainEnquiry.contact_mode_id,
+
       student_name: plainEnquiry.student_name,
       aadhar_no: plainEnquiry.aadhaar_no,
       dob: plainEnquiry.dob,
@@ -433,6 +450,8 @@ const getAdmissionBySearchRepo = async (args) => {
       status: "DRAFT",
 
       // Associations
+      source: plainEnquiry.source || null,
+      contact_mode: plainEnquiry.contact_mode || null,
       academic_year: plainEnquiry.academic_year,
       school: plainEnquiry.school,
       grade: plainEnquiry.current_grade || null,
@@ -443,6 +462,8 @@ const getAdmissionBySearchRepo = async (args) => {
       religion: plainEnquiry.religion || null,
       cast: plainEnquiry.cast || null,
       mother_tongue: plainEnquiry.mother_tongue || null,
+      source: plainEnquiry.source || null,
+      contact_mode: plainEnquiry.contact_mode || null,
     };
   }
 
@@ -576,6 +597,12 @@ const getAdmissionByIdRepo = async (id) => {
         model: ModeOfPaymentMaster,
         as: "payment_mode",
         attributes: ["id", "mode_of_payment_name", "name_on_receipt"],
+      },
+      { model: SourceMaster, as: "source", attributes: ["id", "name"] },
+      {
+        model: ContactModeMaster,
+        as: "contact_mode",
+        attributes: ["id", "name"],
       },
     ],
   });
