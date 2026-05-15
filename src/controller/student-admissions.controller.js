@@ -6,7 +6,7 @@ const createDraftAdmissionController = async (req, res, next) => {
   try {
     const data = await service.createAdmissionService({
       ...req.body,
-      status: "draft",
+      status: "DRAFT",
     });
 
     res
