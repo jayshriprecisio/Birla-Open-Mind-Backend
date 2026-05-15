@@ -12,7 +12,7 @@ const StudentAdmissions = sequelize.define(
     registration_no: {
       type: DataTypes.STRING(50),
       unique: true,
-      allowNull: false,
+      allowNull: true,
     },
     enrollment_no: {
       type: DataTypes.STRING(50),
