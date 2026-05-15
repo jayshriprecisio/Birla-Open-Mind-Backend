@@ -1,21 +1,16 @@
-const repository =
-  require('../repository/enquiry-import.respository');
+const upload = require('../modules/enquiries/enquiry-import/services/upload.service');
+const previewMod = require('../modules/enquiries/enquiry-import/services/preview.service');
+const importMod = require('../modules/enquiries/enquiry-import/services/import.service');
 
-const uploadEnquiryFileService = async (
-  payload
-) => {
+const uploadEnquiryFileService = (payload) => upload.processUpload(payload);
 
-  return repository.createImportBatchRepo({
-    school_id: payload.school_id,
+const getEnquiryImportPreviewService = (batchId, query) =>
+  previewMod.getPreview(batchId, query);
 
-    file_name: payload.file.originalname,
-
-    file_path: payload.file.path,
-
-    uploaded_by: payload.uploaded_by,
-  });
-};
+const importEnquiryBatchService = (batchId) => importMod.importValidRows(batchId);
 
 module.exports = {
   uploadEnquiryFileService,
+  getEnquiryImportPreviewService,
+  importEnquiryBatchService,
 };

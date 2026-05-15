@@ -19,6 +19,18 @@ router.post(
   controller.uploadEnquiryFileController
 );
 
+router.get(
+  '/:batchId/preview',
+  auth,
+  controller.previewEnquiryImportController
+);
+
+router.post(
+  '/:batchId/import',
+  auth,
+  controller.importEnquiryBatchController
+);
+
 module.exports = router;
 
 
