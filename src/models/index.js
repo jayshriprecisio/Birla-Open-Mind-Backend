@@ -40,7 +40,6 @@ const InteractionMaster = require('./InteractionMaster');
 const PriorityMaster = require('./PriorityMaster');
 const StageMaster = require('./StageMaster');
 const FollowupStatusMaster = require('./FollowupStatusMaster');
-const { SourceMaster } = masters;
 
 // Associations
 
@@ -134,11 +133,6 @@ InteractionModeMaster.hasMany(SchoolEnquiry, { foreignKey: 'interaction_mode_id'
 SchoolEnquiry.belongsTo(InteractionStatusMaster, { foreignKey: 'interaction_status_id', as: 'interaction_status' });
 InteractionStatusMaster.hasMany(SchoolEnquiry, { foreignKey: 'interaction_status_id' });
 
-// Enquiry Followup <-> Interaction Mode / Status
-SchoolEnquiryFollowup.belongsTo(InteractionModeMaster, { foreignKey: 'interaction_mode_id', as: 'interaction_mode' });
-InteractionModeMaster.hasMany(SchoolEnquiryFollowup, { foreignKey: 'interaction_mode_id' });
-SchoolEnquiryFollowup.belongsTo(InteractionStatusMaster, { foreignKey: 'interaction_status_id', as: 'interaction_status' });
-InteractionStatusMaster.hasMany(SchoolEnquiryFollowup, { foreignKey: 'interaction_status_id' });
 
 // Admission Inquiry <-> School
 AdmissionInquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school_ref' });
@@ -224,7 +218,6 @@ module.exports = {
   PriorityMaster,
   StageMaster,
   FollowupStatusMaster,
-  SourceMaster,
   SourceMaster,
   ContactModeMaster,
 };

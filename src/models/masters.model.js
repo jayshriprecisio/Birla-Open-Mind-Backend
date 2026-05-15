@@ -685,18 +685,8 @@ const SourceMaster = sequelize.define(
   "SourceMaster",
   {
     id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
-<<<<<<< HEAD
     name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
     display_order: { type: DataTypes.INTEGER, defaultValue: 0 },
-    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
-    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-  },
-  { ...commonOptions, tableName: "source_masters" },
-);
-
-module.exports = {
-=======
-    name: { type: DataTypes.STRING(100), allowNull: false },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
     created_by: { type: DataTypes.BIGINT },
@@ -719,7 +709,6 @@ const ContactModeMaster = sequelize.define(
 );
 
 const masterModels = {
->>>>>>> 87d584f39dde098f9dbdb4020cd070bc69c5bc55
   AcademicMaster,
   AcademicSubjectMaster,
   AcademicYearMaster,
@@ -770,8 +759,6 @@ const masterModels = {
   CastMaster,
   MotherTongueMaster,
   SourceMaster,
-<<<<<<< HEAD
-=======
   ContactModeMaster,
 };
 
@@ -834,5 +821,4 @@ module.exports = {
   ...masterModels,
   masterModels,
   masterRegistry,
->>>>>>> 87d584f39dde098f9dbdb4020cd070bc69c5bc55
 };
