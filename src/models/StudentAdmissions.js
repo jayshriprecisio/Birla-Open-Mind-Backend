@@ -12,7 +12,7 @@ const StudentAdmissions = sequelize.define(
     registration_no: {
       type: DataTypes.STRING(50),
       unique: true,
-      allowNull: false,
+      allowNull: true,
     },
     enrollment_no: {
       type: DataTypes.STRING(50),
@@ -21,6 +21,20 @@ const StudentAdmissions = sequelize.define(
     },
     enquiry_no: {
       type: DataTypes.STRING(50),
+      unique: true,
+      allowNull: true,
+    },
+    enquiry_id: {
+      type: DataTypes.UUID,
+      unique: true,
+      allowNull: true,
+    },
+    source_id: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+    },
+    contact_mode_id: {
+      type: DataTypes.BIGINT,
       allowNull: true,
     },
     // use model - AcademicYearMaster
@@ -49,9 +63,14 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    aadhar_no: {
+      type: DataTypes.STRING(20),
+      allowNull: true,
+    },
     dob: {
       type: DataTypes.DATEONLY,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: null,
     },
     // use model - GenderMaster
     gender_id: {
@@ -167,34 +186,15 @@ const StudentAdmissions = sequelize.define(
     // Student Custody Details
     custody_situation: { type: DataTypes.TEXT },
 
-    // Payment Details
-    // use model - ModeOfPaymentMaster
-    payment_mode_id: { type: DataTypes.BIGINT },
-    admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
-    payment_status: {
-      type: DataTypes.STRING(30),
-      defaultValue: "PENDING",
-    },
-    cheque_no: { type: DataTypes.STRING(50) },
-    cheque_bank_name: { type: DataTypes.STRING(255) },
-    is_cheque_cleared: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    upi_reference: { type: DataTypes.STRING(100) },
-    card_last_four: { type: DataTypes.STRING(4) },
-
     // Metadata
     status: {
       type: DataTypes.STRING(50),
-      defaultValue: "PENDING",
+      defaultValue: "PENDING", // DRAFT , PENDING , CANCELLED , COMPLETED
     },
     is_deleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    created_by: { type: DataTypes.UUID },
-    updated_by: { type: DataTypes.UUID },
   },
   {
     tableName: "student_admissions",
@@ -202,6 +202,33 @@ const StudentAdmissions = sequelize.define(
     underscored: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    hooks: {
+      beforeValidate: (admission) => {
+        // Convert empty strings or whitespace-only strings to null for unique nullable fields
+        const nullableFields = [
+          "enrollment_no",
+          "enquiry_no",
+          "admission_no",
+          "aadhar_no",
+          "enquiry_id",
+          "source_id",
+          "contact_mode_id",
+        ];
+        nullableFields.forEach((field) => {
+          const value = admission[field];
+          if (
+            value === "" ||
+            value === 0 ||
+            value === "0" ||
+            value === "null" ||
+            value === "undefined" ||
+            (typeof value === "string" && value.trim() === "")
+          ) {
+            admission[field] = null;
+          }
+        });
+      },
+    },
   },
 );
 

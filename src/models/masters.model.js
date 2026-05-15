@@ -235,6 +235,156 @@ const ModeOfPaymentMaster = sequelize.define(
   { ...commonOptions, tableName: "mode_of_payment_master" },
 );
 
+const ModeOfContactMaster = sequelize.define(
+  "ModeOfContactMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "mode_of_contact_master" },
+);
+
+const LeadStageMaster = sequelize.define(
+  "LeadStageMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "lead_stage_master" },
+);
+
+const SchoolTypeMaster = sequelize.define(
+  "SchoolTypeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "school_type_master" },
+);
+
+const EnquirySourceMaster = sequelize.define(
+  "EnquirySourceMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "enquiry_source_master" },
+);
+
+const EnquirySubSourceMaster = sequelize.define(
+  "EnquirySubSourceMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "enquiry_sub_source_master" },
+);
+
+const FatherOccupationMaster = sequelize.define(
+  "FatherOccupationMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "father_occupation_master" },
+);
+
+const RelationshipMaster = sequelize.define(
+  "RelationshipMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "relationship_master" },
+);
+
+const ConcessionTypeMaster = sequelize.define(
+  "ConcessionTypeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "concession_type_master" },
+);
+
+const InteractionModeMaster = sequelize.define(
+  "InteractionModeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "interaction_mode_master" },
+);
+
+const InteractionStatusMaster = sequelize.define(
+  "InteractionStatusMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    short_form: { type: DataTypes.STRING(20) },
+    display_order: { type: DataTypes.INTEGER },
+    status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.STRING(50) },
+    updated_by: { type: DataTypes.STRING(50) },
+  },
+  { ...commonOptions, tableName: "interaction_status_master" },
+);
+
 const ParameterMaster = sequelize.define(
   "ParameterMaster",
   {
@@ -535,6 +685,7 @@ const SourceMaster = sequelize.define(
   "SourceMaster",
   {
     id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+<<<<<<< HEAD
     name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
     display_order: { type: DataTypes.INTEGER, defaultValue: 0 },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
@@ -544,6 +695,31 @@ const SourceMaster = sequelize.define(
 );
 
 module.exports = {
+=======
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
+  },
+  { ...commonOptions, tableName: "source_master" },
+);
+
+const ContactModeMaster = sequelize.define(
+  "ContactModeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
+  },
+  { ...commonOptions, tableName: "contact_mode_master" },
+);
+
+const masterModels = {
+>>>>>>> 87d584f39dde098f9dbdb4020cd070bc69c5bc55
   AcademicMaster,
   AcademicSubjectMaster,
   AcademicYearMaster,
@@ -552,15 +728,23 @@ module.exports = {
   BrandMaster,
   CalculationBasisMaster,
   ChequeFavourMaster,
+  ConcessionTypeMaster,
   CourseMaster,
   DivisionMaster,
+  EnquirySourceMaster,
+  EnquirySubSourceMaster,
+  FatherOccupationMaster,
   FeesCategoryMaster,
   FeesSubTypeMaster,
   FeesTypeMaster,
   GenderMaster,
   GradeMaster,
   HouseMaster,
+  InteractionModeMaster,
+  InteractionStatusMaster,
+  LeadStageMaster,
   ModeOfPaymentMaster,
+  ModeOfContactMaster,
   ParameterMaster,
   PaymentEntityMaster,
   PdcStatusMaster,
@@ -568,6 +752,7 @@ module.exports = {
   PrePrimaryPhaseMaster,
   PrePrimarySubjectMaster,
   SchoolTimingMaster,
+  SchoolTypeMaster,
   ServiceProviderMaster,
   SessionMaster,
   StreamMaster,
@@ -581,7 +766,73 @@ module.exports = {
   ZoneMaster,
   BloodGroupMaster,
   ReligionMaster,
+  RelationshipMaster,
   CastMaster,
   MotherTongueMaster,
   SourceMaster,
+<<<<<<< HEAD
+=======
+  ContactModeMaster,
+};
+
+
+const masterRegistry = {
+  "academic-masters": AcademicMaster,
+  "academic-subjects": AcademicSubjectMaster,
+  "academic-years": AcademicYearMaster,
+  batches: BatchMaster,
+  boards: BoardMaster,
+  brands: BrandMaster,
+  "calculation-basis": CalculationBasisMaster,
+  "cheque-favour": ChequeFavourMaster,
+  "concession-types": ConcessionTypeMaster,
+  courses: CourseMaster,
+  divisions: DivisionMaster,
+  "enquiry-sources": EnquirySourceMaster,
+  "enquiry-sub-sources": EnquirySubSourceMaster,
+  "father-occupations": FatherOccupationMaster,
+  "fees-categories": FeesCategoryMaster,
+  "fees-sub-types": FeesSubTypeMaster,
+  "fees-types": FeesTypeMaster,
+  genders: GenderMaster,
+  grades: GradeMaster,
+  houses: HouseMaster,
+  "interaction-modes": InteractionModeMaster,
+  "interaction-statuses": InteractionStatusMaster,
+  "lead-stages": LeadStageMaster,
+  "payment-modes": ModeOfPaymentMaster,
+  "contact-modes": ModeOfContactMaster,
+  parameters: ParameterMaster,
+  "payment-entities": PaymentEntityMaster,
+  "pdc-statuses": PdcStatusMaster,
+  "service-periods": PeriodOfServiceMaster,
+  "pre-primary-phases": PrePrimaryPhaseMaster,
+  "pre-primary-subjects": PrePrimarySubjectMaster,
+  timings: SchoolTimingMaster,
+  "school-types": SchoolTypeMaster,
+  "service-providers": ServiceProviderMaster,
+  sessions: SessionMaster,
+  streams: StreamMaster,
+  "attendance-statuses": StudentAttendanceStatusMaster,
+  "subject-groups": SubjectGroupMaster,
+  "subject-types": SubjectTypeMaster,
+  terms: TermMaster,
+  "transaction-types": TransactionTypeMaster,
+  "winter-durations": WinterDurationMaster,
+  "winter-timing-gaps": WinterTimingGapMaster,
+  zones: ZoneMaster,
+  "blood-groups": BloodGroupMaster,
+  religions: ReligionMaster,
+  relationships: RelationshipMaster,
+  casts: CastMaster,
+  "mother-tongues": MotherTongueMaster,
+  sources: SourceMaster,
+  "admission-contact-modes": ContactModeMaster,
+};
+
+module.exports = {
+  ...masterModels,
+  masterModels,
+  masterRegistry,
+>>>>>>> 87d584f39dde098f9dbdb4020cd070bc69c5bc55
 };

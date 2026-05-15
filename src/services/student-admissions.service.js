@@ -8,24 +8,37 @@ const generateRegistrationNo = async () => {
   const year = new Date().getFullYear();
   const prefix = `REG-${year}-`;
   
-  // In a real scenario, you'd get the last sequence from DB.
-  // For simplicity here, we use a random number or timestamp.
-  // Better: find max registration_no from DB and increment.
-  const randomStr = Math.floor(1000 + Math.random() * 9000).toString();
-  return `${prefix}${randomStr}`;
+  const lastRecord = await repository.getLastAdmissionRepo(prefix);
+  let nextSeq = 1;
+  
+  if (lastRecord && lastRecord.registration_no) {
+    const parts = lastRecord.registration_no.split('-');
+    const lastSeq = parseInt(parts[parts.length - 1], 10);
+    if (!isNaN(lastSeq)) {
+      nextSeq = lastSeq + 1;
+    }
+  }
+  
+  return `${prefix}${nextSeq.toString().padStart(4, '0')}`;
 };
 
 const createAdmissionService = async (data) => {
-  if (!data.registration_no) {
-    data.registration_no = await generateRegistrationNo();
-  }
   return await repository.createAdmissionRepo(data);
 };
 
 const getAllAdmissionsService = async (queryParams) => {
-  const page = parseInt(queryParams.page || '1', 10);
-  const limit = parseInt(queryParams.limit || '10', 10);
+  const page = parseInt(queryParams.page || "1", 10);
+  const limit = parseInt(queryParams.limit || "10", 10);
   return await repository.getAllAdmissionsRepo({ ...queryParams, page, limit });
+};
+
+const getAdmissionStatsService = async () => {
+  return await repository.getAdmissionStatsRepo();
+};
+
+
+const getAdmissionBySearchService = async (args) => {
+  return await repository.getAdmissionBySearchRepo(args);
 };
 
 const getAdmissionByIdService = async (id) => {
@@ -40,10 +53,18 @@ const deleteAdmissionService = async (id, deletedBy) => {
   return await repository.deleteAdmissionRepo(id, deletedBy);
 };
 
+const cancelAdmissionService = async (id) => {
+  return await repository.updateAdmissionRepo(id, { status: 'CANCELLED' });
+};
+
+
 module.exports = {
   createAdmissionService,
   getAllAdmissionsService,
+  getAdmissionStatsService,
+  getAdmissionBySearchService,
   getAdmissionByIdService,
   updateAdmissionService,
-  deleteAdmissionService
+  deleteAdmissionService,
+  cancelAdmissionService
 };
