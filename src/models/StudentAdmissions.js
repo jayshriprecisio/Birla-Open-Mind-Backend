@@ -187,14 +187,6 @@ const StudentAdmissions = sequelize.define(
     // use model - ModeOfPaymentMaster
     payment_mode_id: { type: DataTypes.BIGINT },
     admission_fee_amount: { type: DataTypes.DECIMAL(10, 2) },
-    cheque_no: { type: DataTypes.STRING(50) },
-    cheque_bank_name: { type: DataTypes.STRING(255) },
-    is_cheque_cleared: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-    },
-    upi_reference: { type: DataTypes.STRING(100) },
-    card_last_four: { type: DataTypes.STRING(4) },
 
     // Metadata
     status: {
@@ -219,8 +211,6 @@ const StudentAdmissions = sequelize.define(
           "enrollment_no",
           "enquiry_no",
           "admission_no",
-          "upi_reference",
-          "cheque_no",
           "aadhar_no",
           "enquiry_id",
           "source_id",

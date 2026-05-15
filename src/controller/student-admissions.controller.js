@@ -134,23 +134,6 @@ const cancelAdmissionController = async (req, res, next) => {
   }
 };
 
-const clearChequeController = async (req, res, next) => {
-  try {
-    const data = await service.clearChequeService(req.params.id);
-    if (!data) throw new ApiError(404, "Admission record not found");
-    res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          data,
-          "Cheque cleared and admission completed successfully",
-        ),
-      );
-  } catch (error) {
-    next(error);
-  }
-};
 
 module.exports = {
   createAdmissionController,
@@ -162,5 +145,4 @@ module.exports = {
   updateAdmissionController,
   deleteAdmissionController,
   cancelAdmissionController,
-  clearChequeController,
 };

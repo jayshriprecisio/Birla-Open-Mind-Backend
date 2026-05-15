@@ -68,8 +68,6 @@ const getAllAdmissionsRepo = async (args) => {
       "father_mobile",
       "created_at",
       "status",
-      "is_cheque_cleared",
-      "created_at",
     ],
     include: [
       {
@@ -361,11 +359,6 @@ const getAdmissionByIdRepo = async (id) => {
 
       // Payment
       "admission_fee_amount",
-      "cheque_no",
-      "cheque_bank_name",
-      "is_cheque_cleared",
-      "upi_reference",
-      "card_last_four",
 
       // Status
       "status",

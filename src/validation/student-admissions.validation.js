@@ -90,11 +90,6 @@ const createDraftAdmissionSchema = {
     // Payment Details
     admission_fee_amount: Joi.number().optional().allow(null),
     payment_mode_id: Joi.number().optional().allow(null),
-    cheque_no: Joi.string().optional().allow(''),
-    cheque_bank_name: Joi.string().optional().allow(''),
-    is_cheque_cleared: Joi.boolean().optional(),
-    upi_reference: Joi.string().optional().allow(''),
-    card_last_four: Joi.string().length(4).optional().allow(''),
   }),
 };
 
@@ -180,11 +175,6 @@ const createAdmissionSchema = {
     // Payment Details
     admission_fee_amount: Joi.number().optional().allow(null),
     payment_mode_id: Joi.number().optional().allow(null),
-    cheque_no: Joi.string().optional().allow(''),
-    cheque_bank_name: Joi.string().optional().allow(''),
-    is_cheque_cleared: Joi.boolean().optional(),
-    upi_reference: Joi.string().optional().allow(''),
-    card_last_four: Joi.string().length(4).optional().allow(''),
   }),
 };
 
@@ -245,11 +235,6 @@ const updateAdmissionSchema = {
     custody_situation: Joi.string().optional().allow(''),
     admission_fee_amount: Joi.number().optional().allow(null),
     payment_mode_id: Joi.number().optional().allow(null),
-    cheque_no: Joi.string().optional().allow(''),
-    cheque_bank_name: Joi.string().optional().allow(''),
-    is_cheque_cleared: Joi.boolean().optional(),
-    upi_reference: Joi.string().optional().allow(''),
-    card_last_four: Joi.string().length(4).optional().allow(''),
     status: Joi.string().optional(),
   }).min(1),
 };
@@ -261,12 +246,6 @@ const deleteAdmissionSchema = {
 };
 
 const cancelAdmissionSchema = {
-  params: Joi.object().keys({
-    id: Joi.string().uuid().required(),
-  }),
-};
-
-const clearChequeSchema = {
   params: Joi.object().keys({
     id: Joi.string().uuid().required(),
   }),
@@ -286,6 +265,5 @@ module.exports = {
   updateAdmissionSchema,
   deleteAdmissionSchema,
   cancelAdmissionSchema,
-  clearChequeSchema,
   searchAdmissionSchema,
 };
