@@ -23,9 +23,6 @@ const generateRegistrationNo = async () => {
 };
 
 const createAdmissionService = async (data) => {
-  if (!data.registration_no) {
-    data.registration_no = await generateRegistrationNo();
-  }
   return await repository.createAdmissionRepo(data);
 };
 
@@ -37,6 +34,11 @@ const getAllAdmissionsService = async (queryParams) => {
 
 const getAdmissionStatsService = async () => {
   return await repository.getAdmissionStatsRepo();
+};
+
+
+const getAdmissionBySearchService = async (args) => {
+  return await repository.getAdmissionBySearchRepo(args);
 };
 
 const getAdmissionByIdService = async (id) => {
@@ -66,6 +68,7 @@ module.exports = {
   createAdmissionService,
   getAllAdmissionsService,
   getAdmissionStatsService,
+  getAdmissionBySearchService,
   getAdmissionByIdService,
   updateAdmissionService,
   deleteAdmissionService,

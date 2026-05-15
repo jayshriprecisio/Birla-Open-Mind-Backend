@@ -13,28 +13,115 @@ const listQuerySchema = {
   }),
 };
 
-const createAdmissionSchema = {
+const createDraftAdmissionSchema = {
   body: Joi.object().keys({
-    registration_no: Joi.string().optional().allow(''),
+    registration_no: Joi.string().required(),
     enrollment_no: Joi.string().optional().allow(''),
     enquiry_no: Joi.string().optional().allow(''),
+    academic_year_id: Joi.number().optional(),
+    school_id: Joi.string().uuid().optional(),
+    grade_applying_for_id: Joi.number().optional(),
+    grade_id: Joi.number().optional(),
+    board_id: Joi.number().optional(),
+
+    student_name: Joi.string().optional(),
+    aadhar_no: Joi.string().optional(),
+    dob: Joi.date().optional(),
+    gender_id: Joi.number().optional(),
+    blood_group_id: Joi.number().optional(),
+    nationality: Joi.string().optional(),
+    religion_id: Joi.number().optional(),
+    cast_id: Joi.number().optional(),
+    mother_tongue_id: Joi.number().optional(),
+    place_of_birth: Joi.string().optional(),
+    prev_school_tc_no: Joi.string().optional(),
+    prev_school_leaving_date: Joi.date().optional().allow(null),
+    prev_class_passed: Joi.string().optional().allow(''),
+    prev_class_percentage: Joi.string().optional().allow(''),
+
+    father_name: Joi.string().optional().allow(''),
+    father_mobile: Joi.string().optional().allow(''),
+    father_email: Joi.string().email().optional().allow(''),
+    father_occupation: Joi.string().optional().allow(''),
+    father_aadhar_no: Joi.string().optional().allow(''),
+    father_pan_no: Joi.string().optional().allow(''),
+    
+    father_employer_name: Joi.string().optional().allow(''),
+    father_designation: Joi.string().optional().allow(''),
+    father_annual_income: Joi.string().optional().allow(''),
+    father_employer_address: Joi.string().optional().allow(''),
+    father_employer_city: Joi.string().optional().allow(''),
+    father_employer_state: Joi.string().optional().allow(''),
+    father_employer_pincode: Joi.string().optional().allow(''),
+    father_employer_country: Joi.string().optional().allow(''),
+
+    mother_name: Joi.string().optional().allow(''),
+    mother_mobile: Joi.string().optional().allow(''),
+    mother_email: Joi.string().email().optional().allow(''),
+    mother_occupation: Joi.string().optional().allow(''),
+    mother_aadhar_no: Joi.string().optional().allow(''),
+    mother_pan_no: Joi.string().optional().allow(''),
+
+    mother_employer_name: Joi.string().optional().allow(''),
+    mother_designation: Joi.string().optional().allow(''),
+    mother_annual_income: Joi.string().optional().allow(''),
+    mother_employer_address: Joi.string().optional().allow(''),
+    mother_employer_city: Joi.string().optional().allow(''),
+    mother_employer_state: Joi.string().optional().allow(''),
+    mother_employer_pincode: Joi.string().optional().allow(''),
+    mother_employer_country: Joi.string().optional().allow(''),
+
+    guardian_name: Joi.string().optional().allow(''),
+    guardian_mobile: Joi.string().optional().allow(''),
+    guardian_email: Joi.string().email().optional().allow(''),
+    guardian_relation: Joi.string().optional().allow(''),
+    guardian_aadhar_no: Joi.string().optional().allow(''),
+    guardian_pan_no: Joi.string().optional().allow(''),
+
+    address: Joi.string().optional().allow(''),
+    city: Joi.string().optional().allow(''),
+    state: Joi.string().optional().allow(''),
+    country: Joi.string().optional().allow(''),
+    pincode: Joi.string().optional().allow(''),
+
+    admission_no: Joi.string().optional().allow(''),
+    medical_conditions: Joi.string().optional().allow(''),
+    emergency_contact: Joi.string().optional().allow(''),
+    custody_situation: Joi.string().optional().allow(''),
+
+    // Payment Details
+    admission_fee_amount: Joi.number().optional().allow(null),
+    payment_mode_id: Joi.number().optional().allow(null),
+    cheque_no: Joi.string().optional().allow(''),
+    cheque_bank_name: Joi.string().optional().allow(''),
+    is_cheque_cleared: Joi.boolean().optional(),
+    upi_reference: Joi.string().optional().allow(''),
+    card_last_four: Joi.string().length(4).optional().allow(''),
+  }),
+};
+
+const createAdmissionSchema = {
+  body: Joi.object().keys({
+    registration_no: Joi.string().required(),
+    enrollment_no: Joi.string().optional().allow(''),
+    enquiry_no: Joi.string().required(),
     academic_year_id: Joi.number().required(),
     school_id: Joi.string().uuid().required(),
     grade_applying_for_id: Joi.number().required(),
-    grade_id: Joi.number().optional().allow(null),
-    board_id: Joi.number().optional().allow(null),
+    grade_id: Joi.number().required(),
+    board_id: Joi.number().required(),
 
     student_name: Joi.string().required(),
-    aadhar_no: Joi.string().optional().allow(''),
+    aadhar_no: Joi.string().required(),
     dob: Joi.date().required(),
     gender_id: Joi.number().required(),
-    blood_group_id: Joi.number().optional().allow(null),
-    nationality: Joi.string().optional().allow(''),
-    religion_id: Joi.number().optional().allow(null),
-    cast_id: Joi.number().optional().allow(null),
-    mother_tongue_id: Joi.number().optional().allow(null),
-    place_of_birth: Joi.string().optional().allow(''),
-    prev_school_tc_no: Joi.string().optional().allow(''),
+    blood_group_id: Joi.number().required(),
+    nationality: Joi.string().required(),
+    religion_id: Joi.number().required(),
+    cast_id: Joi.number().required(),
+    mother_tongue_id: Joi.number().required(),
+    place_of_birth: Joi.string().required(),
+    prev_school_tc_no: Joi.string().required(),
     prev_school_leaving_date: Joi.date().optional().allow(null),
     prev_class_passed: Joi.string().optional().allow(''),
     prev_class_percentage: Joi.string().optional().allow(''),
@@ -181,11 +268,20 @@ const clearChequeSchema = {
   }),
 };
 
+const searchAdmissionSchema = {
+  query: Joi.object().keys({
+    registration_no: Joi.string().optional(),
+    father_mobile: Joi.string().optional(),
+  }).or('registration_no', 'father_mobile'),
+};
+
 module.exports = {
   listQuerySchema,
   createAdmissionSchema,
+  createDraftAdmissionSchema,
   updateAdmissionSchema,
   deleteAdmissionSchema,
   cancelAdmissionSchema,
   clearChequeSchema,
+  searchAdmissionSchema,
 };

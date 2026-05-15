@@ -7,6 +7,13 @@ const auth = require("../middleware/auth.middleware");
 const router = express.Router();
 
 router.post(
+  "/draft",
+  auth,
+  validate(validation.createDraftAdmissionSchema),
+  controller.createDraftAdmissionController,
+);
+
+router.post(
   "/",
   auth,
   validate(validation.createAdmissionSchema),
@@ -19,6 +26,12 @@ router.get(
   controller.getAllAdmissionsController,
 );
 router.get("/stats", auth, controller.getAdmissionStatsController);
+router.get(
+  "/search",
+  auth,
+  validate(validation.searchAdmissionSchema),
+  controller.getAdmissionBySearchController,
+);
 router.get("/:id", auth, controller.getAdmissionByIdController);
 
 router.delete(

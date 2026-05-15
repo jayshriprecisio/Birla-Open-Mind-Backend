@@ -40,6 +40,10 @@ const masterRegistry = {
   'winter-durations': masters.WinterDurationMaster,
   'winter-timing-gaps': masters.WinterTimingGapMaster,
   'zones': masters.ZoneMaster,
+  'blood-groups': masters.BloodGroupMaster,
+  'religions': masters.ReligionMaster,
+  'casts': masters.CastMaster,
+  'mother-tongues': masters.MotherTongueMaster,
 };
 
 // --- Middleware to Get Model ---
