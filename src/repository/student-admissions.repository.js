@@ -316,11 +316,11 @@ const getAdmissionBySearchRepo = async (args) => {
           as: "grade",
           attributes: ["id", "name", "short_form"],
         },
-        // {
-        //   model: GradeMaster,
-        //   as: "current_grade",
-        //   attributes: ["id", "name", "short_form"],
-        // },
+        {
+          model: GradeMaster,
+          as: "current_grade",
+          attributes: ["id", "name", "short_form"],
+        },
         {
           model: BoardMaster,
           as: "board",
@@ -331,6 +331,7 @@ const getAdmissionBySearchRepo = async (args) => {
     });
 
     console.log("Enquiry found ", enquiry);
+
     if (!enquiry) return null;
 
     const plainEnquiry = enquiry.get({ plain: true });
@@ -422,15 +423,14 @@ const getAdmissionBySearchRepo = async (args) => {
       // Associations
       academic_year: plainEnquiry.academic_year,
       school: plainEnquiry.school,
-      grade: plainEnquiry.grade || plainEnquiry.current_grade_id || null,
-      grade_applying_for:
-        plainEnquiry.grade_applying_for || plainEnquiry.grade || null, // Map from grade
-      board: plainEnquiry.board, // verified
-      gender: plainEnquiry.gender, // verified
-      blood_group: plainEnquiry.blood_group || null, // verified
-      religion: plainEnquiry.religion || null, // verified
-      cast: plainEnquiry.cast || null, // verified
-      mother_tongue: plainEnquiry.mother_tongue || null, // verified
+      grade: plainEnquiry.current_grade || null,
+      grade_applying_for: plainEnquiry.grade || null,
+      board: plainEnquiry.board,
+      gender: plainEnquiry.gender,
+      blood_group: plainEnquiry.blood_group || null,
+      religion: plainEnquiry.religion || null,
+      cast: plainEnquiry.cast || null,
+      mother_tongue: plainEnquiry.mother_tongue || null,
     };
   }
 

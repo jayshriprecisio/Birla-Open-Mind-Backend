@@ -46,6 +46,10 @@ School.hasMany(SchoolEnquiry, { foreignKey: 'school_id' });
 SchoolEnquiry.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade' });
 GradeMaster.hasMany(SchoolEnquiry, { foreignKey: 'grade_id' });
 
+// Enquiry <-> Current Grade
+SchoolEnquiry.belongsTo(GradeMaster, { foreignKey: 'current_grade_id', as: 'current_grade' });
+GradeMaster.hasMany(SchoolEnquiry, { foreignKey: 'current_grade_id' });
+
 // Enquiry <-> Gender
 SchoolEnquiry.belongsTo(GenderMaster, { foreignKey: 'gender_id', as: 'gender' });
 GenderMaster.hasMany(SchoolEnquiry, { foreignKey: 'gender_id' });
