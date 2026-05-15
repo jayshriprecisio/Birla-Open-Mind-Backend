@@ -14,6 +14,7 @@ const studentAdmissionsRoutes = require('./routes/student-admissions.routes');
 const lookupRoutes = require('./routes/lookup.routes');
 const registrationRoutes = require('./routes/registration.routes');
 const masterRoutes = require('./modules/masters/master.module');
+const uploadRoutes = require('./routes/upload.routes');
 
 const app = express();
 
@@ -32,6 +33,9 @@ app.use(cors({
 app.use(express.json());
 app.use(morgan('dev'));
 
+// Static files
+app.use('/uploads', express.static('uploads'));
+
 // API Routes
 // Legacy / Module-based Routes (Consistency with Frontend)
 app.use('/api/enquiry-management/admission-inquiries', admissionInquiryRoutes);
@@ -48,6 +52,7 @@ app.use('/api/v1/admissions/student', studentAdmissionsRoutes);
 app.use('/api/v1/enquiries/lookups', lookupRoutes);
 app.use('/api/v1/registration', registrationRoutes);
 app.use('/api/v1/masters', masterRoutes);
+app.use('/api/v1/upload', uploadRoutes);
 
 
 // Health check endpoint
