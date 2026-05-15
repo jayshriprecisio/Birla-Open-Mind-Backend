@@ -26,6 +26,7 @@ const StudentAdmissions = sequelize.define(
     },
     enquiry_id: {
       type: DataTypes.UUID,
+      unique: true,
       allowNull: true,
     },
     source_id: {

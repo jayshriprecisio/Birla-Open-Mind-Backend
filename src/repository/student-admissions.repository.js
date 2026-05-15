@@ -21,23 +21,43 @@ const ApiError = require("../utils/api-error");
 
 const createAdmissionRepo = async (data) => {
   console.log("createAdmissionRepo called with data: ", data);
-  const enquiryExists = await SchoolEnquiry.findOne({
-    where: { id: data.enquiry_id },
-    raw: true,
-  });
+  if (data.enquiry_id) {
+    const enquiryExists = await SchoolEnquiry.findOne({
+      where: { enquiry_id: data.enquiry_id },
+      raw: true,
+    });
 
-  if (!enquiryExists) {
-    throw new ApiError(
-      400,
-      `Invalid Enquiry ID: The enquiry with ID '${data.enquiry_id}' does not exist in the database. Please verify the enquiry ID or leave it blank if not applicable.`,
-    );
+    if (!enquiryExists) {
+      throw new ApiError(
+        400,
+        `Invalid Enquiry ID: The enquiry with ID '${data.enquiry_id}' does not exist in the database.`,
+      );
+    }
+
+    // Populate missing fields from enquiry
+    data.enquiry_no = data.enquiry_no || enquiryExists.enquiry_no;
+    data.source_id = data.source_id || enquiryExists.source_id;
+    data.contact_mode_id = data.contact_mode_id || enquiryExists.contact_mode_id;
   }
 
-  const [admission, created] = await StudentAdmissions.upsert(data, {
-    returning: true,
-  });
+  // Handle Update or Create based on enquiry_id or id
+  let admission = null;
 
-  return admission || created;
+  if (data.id) {
+    admission = await StudentAdmissions.findOne({
+      where: { id: data.id, is_deleted: false },
+    });
+  } else if (data.enquiry_id) {
+    admission = await StudentAdmissions.findOne({
+      where: { enquiry_id: data.enquiry_id, is_deleted: false },
+    });
+  }
+
+  if (admission) {
+    return await admission.update(data);
+  }
+
+  return await StudentAdmissions.create(data);
 };
 
 const getAllAdmissionsRepo = async (args) => {
