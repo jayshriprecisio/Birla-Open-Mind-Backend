@@ -23,6 +23,18 @@ const StudentAdmissions = sequelize.define(
       type: DataTypes.STRING(50),
       allowNull: true,
     },
+    enquiry_id: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+    source_id: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+    },
+    contact_mode_id: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+    },
     // use model - AcademicYearMaster
     academic_year_id: {
       type: DataTypes.BIGINT,
@@ -210,6 +222,9 @@ const StudentAdmissions = sequelize.define(
           "upi_reference",
           "cheque_no",
           "aadhar_no",
+          "enquiry_id",
+          "source_id",
+          "contact_mode_id",
         ];
         nullableFields.forEach((field) => {
           const value = admission[field];

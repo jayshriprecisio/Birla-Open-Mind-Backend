@@ -33,8 +33,9 @@ const createAdmissionRepo = async (data) => {
       );
     }
 
-    // data.source_id = enquiryExists.id;
-    // data.contact_mode_id = enquiryExists.contact_mode_id;
+    data.enquiry_id = enquiryExists.enquiry_id;
+    data.source_id = enquiryExists.source_id;
+    data.contact_mode_id = enquiryExists.contact_mode_id;
   }
 
   const [admission, created] = await StudentAdmissions.upsert(data, {
