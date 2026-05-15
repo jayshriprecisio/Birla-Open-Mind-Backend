@@ -28,7 +28,7 @@ const createEnquirySchema = {
     
     enquiry_purpose_id: Joi.number().integer().optional(),
     enquiry_for_id: Joi.number().integer().optional(),
-    academic_year_id: Joi.number().integer().optional(),
+    academic_session_id: Joi.number().integer().optional(),
     board_id: Joi.number().integer().optional(),
     grade_id: Joi.number().integer().optional(),
     batch_id: Joi.number().integer().optional(),

@@ -1,4 +1,4 @@
-const { AdmissionInquiry, School, GradeMaster, sequelize } = require('../models');
+const { AdmissionInquiry, School, GradeMaster, SourceMaster, User, sequelize } = require('../models');
 const { Op } = require('sequelize');
 
 const listAdmissionInquiriesRepo = async (args) => {
@@ -38,7 +38,9 @@ const listAdmissionInquiriesRepo = async (args) => {
     where,
     include: [
       { model: School, as: 'school_ref', attributes: ['school_name'] },
-      { model: GradeMaster, as: 'grade_ref', attributes: ['name', 'short_form'] }
+      { model: GradeMaster, as: 'grade_ref', attributes: ['name', 'short_form'] },
+      { model: SourceMaster, as: 'source_ref', attributes: ['name'] },
+      { model: User, as: 'counsellor', attributes: ['full_name'] }
     ],
     order: [['created_at', 'DESC']],
     limit: Number(args.limit) || 10,
@@ -69,7 +71,9 @@ const listAdmissionInquiriesRepo = async (args) => {
         ...json,
         comment: comment || '-',
         school_name: json.school_ref?.school_name || json.school || '-',
-        grade: json.grade_ref?.short_form || json.grade || '-'
+        grade: json.grade_ref?.short_form || json.grade || '-',
+        source_name: json.source_ref?.name || 'Website',
+        counsellor_name: json.counsellor?.full_name || 'Not Assigned'
       };
     }),
     total: count,
@@ -123,10 +127,24 @@ const createAdmissionInquiryRepo = async (args) => {
     })
   ]);
 
+  let sourceName = args.source || 'Website';
+  if (args.utm_source) {
+    const utm = args.utm_source.toLowerCase();
+    if (utm.includes('instagram')) sourceName = 'Instagram';
+    else if (utm.includes('facebook')) sourceName = 'Facebook';
+    else if (utm.includes('whatsapp')) sourceName = 'WhatsApp';
+    else if (utm.includes('google')) sourceName = 'Google Ads';
+  }
+
+  const source = await SourceMaster.findOne({
+    where: { name: sourceName, is_deleted: false }
+  });
+
   return AdmissionInquiry.create({
     ...args,
     school_id: school?.school_id || null,
     grade_id: grade?.id || null,
+    source_id: source?.id || null,
     status: 'NEW'
   });
 

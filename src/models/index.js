@@ -11,6 +11,11 @@ const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
 const AdmissionInquiry = require('./AdmissionInquiry');
 const StudentAdmissions = require('./StudentAdmissions');
 const PasswordReset = require('./PasswordReset');
+const InteractionMaster = require('./InteractionMaster');
+const PriorityMaster = require('./PriorityMaster');
+const StageMaster = require('./StageMaster');
+const FollowupStatusMaster = require('./FollowupStatusMaster');
+const { SourceMaster } = masters;
 
 // Associations
 
@@ -38,6 +43,14 @@ SchoolEnquirySibling.belongsTo(SchoolEnquiry, { foreignKey: 'enquiry_id' });
 SchoolEnquiry.hasMany(SchoolEnquiryFollowup, { foreignKey: 'enquiry_id', as: 'followups' });
 SchoolEnquiryFollowup.belongsTo(SchoolEnquiry, { foreignKey: 'enquiry_id' });
 
+// Followup <-> Masters
+SchoolEnquiryFollowup.belongsTo(InteractionMaster, { foreignKey: 'interaction_mode_id', as: 'interaction_mode' });
+SchoolEnquiryFollowup.belongsTo(PriorityMaster, { foreignKey: 'priority_id', as: 'priority_ref' });
+SchoolEnquiryFollowup.belongsTo(StageMaster, { foreignKey: 'stage_id', as: 'stage' });
+SchoolEnquiryFollowup.belongsTo(FollowupStatusMaster, { foreignKey: 'interaction_status_id', as: 'interaction_status' });
+SchoolEnquiryFollowup.belongsTo(FollowupStatusMaster, { foreignKey: 'followup_status_id', as: 'followup_status_ref' });
+SchoolEnquiryFollowup.belongsTo(User, { foreignKey: 'counsellor_id', as: 'counsellor' });
+
 // Enquiry <-> School
 SchoolEnquiry.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
 School.hasMany(SchoolEnquiry, { foreignKey: 'school_id' });
@@ -52,6 +65,18 @@ School.hasMany(AdmissionInquiry, { foreignKey: 'school_id' });
 
 AdmissionInquiry.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade_ref' });
 GradeMaster.hasMany(AdmissionInquiry, { foreignKey: 'grade_id' });
+
+// Admission Inquiry <-> Source
+AdmissionInquiry.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source_ref' });
+SourceMaster.hasMany(AdmissionInquiry, { foreignKey: 'source_id' });
+
+// Admission Inquiry <-> Counsellor (Assigned To)
+AdmissionInquiry.belongsTo(User, { foreignKey: 'assigned_to', as: 'counsellor' });
+User.hasMany(AdmissionInquiry, { foreignKey: 'assigned_to' });
+
+// Enquiry <-> Source
+SchoolEnquiry.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source_ref' });
+SourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
 
 // Student Admissions Associations
 StudentAdmissions.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
@@ -107,4 +132,9 @@ module.exports = {
   StudentAdmissions,
   PaymentEntityMaster,
   PasswordReset,
+  InteractionMaster,
+  PriorityMaster,
+  StageMaster,
+  FollowupStatusMaster,
+  SourceMaster,
 };

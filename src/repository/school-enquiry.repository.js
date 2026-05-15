@@ -4,6 +4,7 @@ const {
   SchoolEnquiryFollowup, 
   School, 
   GradeMaster, 
+  SourceMaster,
   User, 
   sequelize 
 } = require('../models');
@@ -198,7 +199,9 @@ const listSchoolEnquiriesFilteredRepo = async (filters) => {
     where,
     include: [
       { model: School, as: 'school', attributes: ['school_name'] },
-      { model: GradeMaster, as: 'grade', attributes: ['name'] }
+      { model: GradeMaster, as: 'grade', attributes: ['name'] },
+      { model: SourceMaster, as: 'source_ref', attributes: ['name'] },
+      { model: User, as: 'counsellor', attributes: ['full_name'] }
     ],
     order: [['created_at', 'DESC']],
     limit: parseInt(filters.pageSize || 10, 10),
@@ -206,12 +209,36 @@ const listSchoolEnquiriesFilteredRepo = async (filters) => {
     distinct: true
   });
 
+  const flattenedRows = rows.map(r => {
+    const json = r.toJSON();
+    return {
+      ...json,
+      grade: json.grade?.name || '',
+      school: json.school?.school_name || '',
+      source_name: json.source_ref?.name || 'Manual',
+      counsellor_name: json.counsellor?.full_name || 'Not Assigned'
+    };
+  });
+
+  const [schools, grades, sources, counsellors] = await Promise.all([
+    School.findAll({ attributes: ['school_name'], where: { deleted_at: null }, group: ['school_name'], order: [['school_name', 'ASC']] }),
+    GradeMaster.findAll({ attributes: ['name'], where: { is_deleted: false }, group: ['name'], order: [['name', 'ASC']] }),
+    SourceMaster.findAll({ attributes: ['name'], where: { is_deleted: false }, order: [['display_order', 'ASC']] }),
+    User.findAll({ attributes: ['full_name'], where: { is_deleted: false, role: 'school' }, order: [['full_name', 'ASC']] })
+  ]);
+
   return {
     total: count,
-    rows: rows,
-    items: rows,
-
-
+    rows: flattenedRows,
+    items: flattenedRows,
+    options: {
+      schools: schools.map(s => s.school_name),
+      grades: grades.map(g => g.name),
+      sources: sources.map(s => s.name),
+      counsellors: counsellors.map(c => c.full_name),
+      statuses: ['NEW', 'CONTACTED', 'INTERESTED', 'SITE VISIT', 'APPLICATION', 'ENROLLED', 'LOST'],
+      priorities: ['HOT', 'WARM', 'COLD']
+    },
     page: parseInt(filters.page || 1, 10),
     pageSize: parseInt(filters.pageSize || 10, 10),
   };
