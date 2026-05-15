@@ -2,12 +2,7 @@ const Joi = require('joi');
 
 const listQuerySchema = {
   query: Joi.object().keys({
-    q: Joi.string().optional().allow(''),
-    status: Joi.string().default('ALL'),
-    school_id: Joi.string().optional(),
-    grade_applying_for_id: Joi.string().optional(),
-    grade_id: Joi.string().optional(),
-    academic_year_id: Joi.string().optional(),
+    search: Joi.string().optional().allow(''),
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(100).default(10),
   }),
