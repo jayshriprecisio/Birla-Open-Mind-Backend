@@ -4,7 +4,32 @@ const School = require('./School');
 const SchoolPartner = require('./SchoolPartner');
 const SchoolContact = require('./SchoolContact');
 const masters = require('./masters.model');
-const { ZoneMaster, BrandMaster, GradeMaster, PaymentEntityMaster, BoardMaster, BatchMaster, SessionMaster, GenderMaster, ModeOfPaymentMaster, ModeOfContactMaster, LeadStageMaster, SchoolTypeMaster, EnquirySourceMaster, EnquirySubSourceMaster, ConcessionTypeMaster, InteractionModeMaster, InteractionStatusMaster, AcademicYearMaster, BloodGroupMaster, ReligionMaster, CastMaster, MotherTongueMaster } = masters;
+const {
+  ZoneMaster,
+  BrandMaster,
+  GradeMaster,
+  PaymentEntityMaster,
+  BoardMaster,
+  BatchMaster,
+  SessionMaster,
+  GenderMaster,
+  ModeOfPaymentMaster,
+  ModeOfContactMaster,
+  LeadStageMaster,
+  SchoolTypeMaster,
+  EnquirySourceMaster,
+  EnquirySubSourceMaster,
+  ConcessionTypeMaster,
+  InteractionModeMaster,
+  InteractionStatusMaster,
+  AcademicYearMaster,
+  BloodGroupMaster,
+  ReligionMaster,
+  CastMaster,
+  MotherTongueMaster,
+  SourceMaster,
+  ContactModeMaster,
+} = masters;
 const SchoolEnquiry = require('./SchoolEnquiry');
 const SchoolEnquirySibling = require('./SchoolEnquirySibling');
 const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
@@ -45,6 +70,22 @@ School.hasMany(SchoolEnquiry, { foreignKey: 'school_id' });
 // Enquiry <-> Grade
 SchoolEnquiry.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade' });
 GradeMaster.hasMany(SchoolEnquiry, { foreignKey: 'grade_id' });
+
+// Enquiry <-> Current Grade
+SchoolEnquiry.belongsTo(GradeMaster, { foreignKey: 'current_grade_id', as: 'current_grade' });
+GradeMaster.hasMany(SchoolEnquiry, { foreignKey: 'current_grade_id' });
+
+// Enquiry <-> Gender
+SchoolEnquiry.belongsTo(GenderMaster, { foreignKey: 'gender_id', as: 'gender' });
+GenderMaster.hasMany(SchoolEnquiry, { foreignKey: 'gender_id' });
+
+// Enquiry <-> Board
+SchoolEnquiry.belongsTo(BoardMaster, { foreignKey: 'board_id', as: 'board' });
+BoardMaster.hasMany(SchoolEnquiry, { foreignKey: 'board_id' });
+
+// Enquiry <-> Academic Year
+SchoolEnquiry.belongsTo(AcademicYearMaster, { foreignKey: 'academic_year_id', as: 'academic_year' });
+AcademicYearMaster.hasMany(SchoolEnquiry, { foreignKey: 'academic_year_id' });
 
 // Enquiry <-> Batch
 SchoolEnquiry.belongsTo(BatchMaster, { foreignKey: 'batch_id', as: 'batch' });
@@ -126,6 +167,12 @@ CastMaster.hasMany(StudentAdmissions, { foreignKey: 'cast_id' });
 StudentAdmissions.belongsTo(MotherTongueMaster, { foreignKey: 'mother_tongue_id', as: 'mother_tongue' });
 MotherTongueMaster.hasMany(StudentAdmissions, { foreignKey: 'mother_tongue_id' });
 
+StudentAdmissions.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source' });
+SourceMaster.hasMany(StudentAdmissions, { foreignKey: 'source_id' });
+
+StudentAdmissions.belongsTo(ContactModeMaster, { foreignKey: 'contact_mode_id', as: 'contact_mode' });
+ContactModeMaster.hasMany(StudentAdmissions, { foreignKey: 'contact_mode_id' });
+
 StudentAdmissions.belongsTo(SchoolEnquiry, { foreignKey: 'enquiry_no', targetKey: 'enquiry_no', as: 'enquiry' });
 SchoolEnquiry.hasOne(StudentAdmissions, { foreignKey: 'enquiry_no', sourceKey: 'enquiry_no' });
 
@@ -139,6 +186,7 @@ module.exports = {
   BrandMaster,
   GradeMaster,
   BoardMaster,
+  BatchMaster,
   SessionMaster,
   SchoolEnquiry,
   SchoolEnquirySibling,
@@ -147,4 +195,6 @@ module.exports = {
   StudentAdmissions,
   PaymentEntityMaster,
   PasswordReset,
+  SourceMaster,
+  ContactModeMaster,
 };

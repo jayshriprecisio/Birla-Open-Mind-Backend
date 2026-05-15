@@ -6,14 +6,12 @@ const createDraftAdmissionController = async (req, res, next) => {
   try {
     const data = await service.createAdmissionService({
       ...req.body,
-      status: "draft",
+      status: "DRAFT",
     });
 
     res
       .status(201)
-      .json(
-        new ApiResponse(201, data, "Student Admission created successfully"),
-      );
+      .json(new ApiResponse(201, data, "Draft Save Successfully"));
   } catch (error) {
     next(error);
   }
@@ -21,12 +19,14 @@ const createDraftAdmissionController = async (req, res, next) => {
 
 const createAdmissionController = async (req, res, next) => {
   try {
-    const data = await service.createAdmissionService(req.body);
+    const data = await service.createAdmissionService({
+      ...req.body,
+      status: "PENDING",
+    });
+
     res
       .status(201)
-      .json(
-        new ApiResponse(201, data, "Student Admission created successfully"),
-      );
+      .json(new ApiResponse(201, data, "Student Admission created successfully"));
   } catch (error) {
     next(error);
   }
@@ -134,24 +134,6 @@ const cancelAdmissionController = async (req, res, next) => {
   }
 };
 
-const clearChequeController = async (req, res, next) => {
-  try {
-    const data = await service.clearChequeService(req.params.id);
-    if (!data) throw new ApiError(404, "Admission record not found");
-    res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          data,
-          "Cheque cleared and admission completed successfully",
-        ),
-      );
-  } catch (error) {
-    next(error);
-  }
-};
-
 module.exports = {
   createAdmissionController,
   createDraftAdmissionController,
@@ -162,5 +144,4 @@ module.exports = {
   updateAdmissionController,
   deleteAdmissionController,
   cancelAdmissionController,
-  clearChequeController,
 };

@@ -57,12 +57,6 @@ const cancelAdmissionService = async (id) => {
   return await repository.updateAdmissionRepo(id, { status: 'CANCELLED' });
 };
 
-const clearChequeService = async (id) => {
-  return await repository.updateAdmissionRepo(id, { 
-    status: 'COMPLETED',
-    is_cheque_cleared: true 
-  });
-};
 
 module.exports = {
   createAdmissionService,
@@ -72,6 +66,5 @@ module.exports = {
   getAdmissionByIdService,
   updateAdmissionService,
   deleteAdmissionService,
-  cancelAdmissionService,
-  clearChequeService
+  cancelAdmissionService
 };

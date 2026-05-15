@@ -681,6 +681,31 @@ const MotherTongueMaster = sequelize.define(
   { ...commonOptions, tableName: "mother_tongue_master" },
 );
 
+const SourceMaster = sequelize.define(
+  "SourceMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
+  },
+  { ...commonOptions, tableName: "source_master" },
+);
+
+const ContactModeMaster = sequelize.define(
+  "ContactModeMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(100), allowNull: false },
+    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_by: { type: DataTypes.BIGINT },
+    updated_by: { type: DataTypes.BIGINT },
+  },
+  { ...commonOptions, tableName: "contact_mode_master" },
+);
 
 const masterModels = {
   AcademicMaster,
@@ -732,6 +757,8 @@ const masterModels = {
   RelationshipMaster,
   CastMaster,
   MotherTongueMaster,
+  SourceMaster,
+  ContactModeMaster,
 };
 
 
@@ -785,6 +812,8 @@ const masterRegistry = {
   relationships: RelationshipMaster,
   casts: CastMaster,
   "mother-tongues": MotherTongueMaster,
+  sources: SourceMaster,
+  "admission-contact-modes": ContactModeMaster,
 };
 
 module.exports = {
