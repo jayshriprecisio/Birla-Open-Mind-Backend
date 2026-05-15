@@ -1,50 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const masters = require('../../models/masters.model');
+const { masterRegistry } = require('../../models/masters.model');
 const { catchAsync } = require('../../utils/catchAsync'); // Assuming you have this helper
-
-// --- Master Registry ---
-const masterRegistry = {
-  'academic-masters': masters.AcademicMaster,
-  'academic-subjects': masters.AcademicSubjectMaster,
-  'academic-years': masters.AcademicYearMaster,
-  'batches': masters.BatchMaster,
-  'boards': masters.BoardMaster,
-  'brands': masters.BrandMaster,
-  'calculation-basis': masters.CalculationBasisMaster,
-  'cheque-favour': masters.ChequeFavourMaster,
-  'courses': masters.CourseMaster,
-  'divisions': masters.DivisionMaster,
-  'fees-categories': masters.FeesCategoryMaster,
-  'fees-sub-types': masters.FeesSubTypeMaster,
-  'fees-types': masters.FeesTypeMaster,
-  'genders': masters.GenderMaster,
-  'grades': masters.GradeMaster,
-  'houses': masters.HouseMaster,
-  'payment-modes': masters.ModeOfPaymentMaster,
-  'parameters': masters.ParameterMaster,
-  'payment-entities': masters.PaymentEntityMaster,
-  'pdc-statuses': masters.PdcStatusMaster,
-  'service-periods': masters.PeriodOfServiceMaster,
-  'pre-primary-phases': masters.PrePrimaryPhaseMaster,
-  'pre-primary-subjects': masters.PrePrimarySubjectMaster,
-  'timings': masters.SchoolTimingMaster,
-  'service-providers': masters.ServiceProviderMaster,
-  'sessions': masters.SessionMaster,
-  'streams': masters.StreamMaster,
-  'attendance-statuses': masters.StudentAttendanceStatusMaster,
-  'subject-groups': masters.SubjectGroupMaster,
-  'subject-types': masters.SubjectTypeMaster,
-  'terms': masters.TermMaster,
-  'transaction-types': masters.TransactionTypeMaster,
-  'winter-durations': masters.WinterDurationMaster,
-  'winter-timing-gaps': masters.WinterTimingGapMaster,
-  'zones': masters.ZoneMaster,
-  'blood-groups': masters.BloodGroupMaster,
-  'religions': masters.ReligionMaster,
-  'casts': masters.CastMaster,
-  'mother-tongues': masters.MotherTongueMaster,
-};
 
 // --- Middleware to Get Model ---
 const getMasterModel = (req, res, next) => {
