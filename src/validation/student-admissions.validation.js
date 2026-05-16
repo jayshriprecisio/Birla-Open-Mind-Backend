@@ -5,7 +5,7 @@ const listQuerySchema = {
     search: Joi.string().optional().allow(""),
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(100).default(10),
-  }),
+  }).unknown(true),
 };
 
 const createDraftAdmissionSchema = {
@@ -90,7 +90,9 @@ const createDraftAdmissionSchema = {
     student_documents: Joi.array().items(Joi.any()).optional(),
     parent_documents: Joi.array().items(Joi.any()).optional(),
     guardian_documents: Joi.array().items(Joi.any()).optional(),
-  }),
+    utm_source: Joi.string().optional().allow(''),
+    utm_medium: Joi.string().optional().allow(''),
+  }).unknown(true),
 };
 
 const createAdmissionSchema = {
@@ -175,7 +177,9 @@ const createAdmissionSchema = {
     student_documents: Joi.array().items(Joi.any()).optional(),
     parent_documents: Joi.array().items(Joi.any()).optional(),
     guardian_documents: Joi.array().items(Joi.any()).optional(),
-  }),
+    utm_source: Joi.string().optional().allow(''),
+    utm_medium: Joi.string().optional().allow(''),
+  }).unknown(true),
 };
 
 const updateAdmissionSchema = {
@@ -236,7 +240,7 @@ const updateAdmissionSchema = {
       custody_situation: Joi.string().optional().allow(""),
       status: Joi.string().optional(),
     })
-    .min(1),
+    .min(1).unknown(true),
 };
 
 const deleteAdmissionSchema = {
@@ -252,12 +256,10 @@ const cancelAdmissionSchema = {
 };
 
 const searchAdmissionSchema = {
-  query: Joi.object()
-    .keys({
-      registration_no: Joi.string().optional(),
-      father_mobile: Joi.string().optional(),
-    })
-    .or("registration_no", "father_mobile"),
+  query: Joi.object().keys({
+    registration_no: Joi.string().optional(),
+    father_mobile: Joi.string().optional(),
+  }).or('registration_no', 'father_mobile').unknown(true),
 };
 
 module.exports = {

@@ -30,16 +30,16 @@ const {
   SourceMaster,
   ContactModeMaster,
 } = masters;
-const SchoolEnquiry = require("./SchoolEnquiry");
-const SchoolEnquirySibling = require("./SchoolEnquirySibling");
-const SchoolEnquiryFollowup = require("./SchoolEnquiryFollowup");
-const AdmissionInquiry = require("./AdmissionInquiry");
-const StudentAdmissions = require("./StudentAdmissions");
-const PasswordReset = require("./PasswordReset");
-const InteractionMaster = require("./InteractionMaster");
-const PriorityMaster = require("./PriorityMaster");
-const StageMaster = require("./StageMaster");
-const FollowupStatusMaster = require("./FollowupStatusMaster");
+const SchoolEnquiry = require('./SchoolEnquiry');
+const SchoolEnquirySibling = require('./SchoolEnquirySibling');
+const SchoolEnquiryFollowup = require('./SchoolEnquiryFollowup');
+const AdmissionInquiry = require('./AdmissionInquiry');
+const StudentAdmissions = require('./StudentAdmissions');
+const PasswordReset = require('./PasswordReset');
+const InteractionMaster = require('./InteractionMaster');
+const PriorityMaster = require('./PriorityMaster');
+const StageMaster = require('./StageMaster');
+const FollowupStatusMaster = require('./FollowupStatusMaster');
 
 // Associations
 
@@ -119,11 +119,8 @@ SchoolEnquiry.belongsTo(BoardMaster, { foreignKey: "board_id", as: "board" });
 BoardMaster.hasMany(SchoolEnquiry, { foreignKey: "board_id" });
 
 // Enquiry <-> Academic Year
-SchoolEnquiry.belongsTo(AcademicYearMaster, {
-  foreignKey: "academic_year_id",
-  as: "academic_year",
-});
-AcademicYearMaster.hasMany(SchoolEnquiry, { foreignKey: "academic_year_id" });
+SchoolEnquiry.belongsTo(AcademicYearMaster, { foreignKey: 'academic_session_id', as: 'academic_year' });
+AcademicYearMaster.hasMany(SchoolEnquiry, { foreignKey: 'academic_session_id' });
 
 // Enquiry <-> Batch
 SchoolEnquiry.belongsTo(BatchMaster, { foreignKey: "batch_id", as: "batch" });

@@ -13,7 +13,7 @@ const createFollowupSchema = {
     remarks: Joi.string().max(4000).optional().allow(''),
     next_followup_date: Joi.date().optional(),
     next_followup_time: Joi.string().optional(),
-  })
+  }).unknown(true)
 };
 
 const updateFollowupSchema = {
@@ -31,7 +31,7 @@ const updateFollowupSchema = {
     remarks: Joi.string().max(4000).optional().allow(''),
     next_followup_date: Joi.date().optional(),
     next_followup_time: Joi.string().optional(),
-  })
+  }).unknown(true)
 };
 
 const listFollowupsQuerySchema = {
@@ -39,7 +39,7 @@ const listFollowupsQuerySchema = {
     page: Joi.number().integer().min(1).default(1),
     pageSize: Joi.number().integer().min(1).max(100).default(10),
     enquiry_id: Joi.string().uuid().optional(),
-  })
+  }).unknown(true)
 };
 
 const enquiryLookupSchema = {
