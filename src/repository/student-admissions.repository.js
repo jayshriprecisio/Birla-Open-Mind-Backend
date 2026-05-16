@@ -29,7 +29,7 @@ const generateRegistrationNo = async () => {
   const year = new Date().getFullYear();
   const prefix = `REG-${year}-`;
 
-  const lastRecord = await repository.getLastAdmissionRepo(prefix);
+  const lastRecord = await getLastAdmissionRepo(prefix);
   let nextSeq = 1;
 
   if (lastRecord && lastRecord.registration_no) {
@@ -404,7 +404,7 @@ const getAdmissionBySearchRepo = async (args) => {
 
     // Map SchoolEnquiry to StudentAdmissions format
     return {
-      registration_no: plainEnquiry.registration_no || generateRegistrationNo(),
+      registration_no: plainEnquiry.registration_no || (await generateRegistrationNo()),
       enrollment_no: plainEnquiry.enrollment_no || null,
       enquiry_no: plainEnquiry.enquiry_no,
       enquiry_id: plainEnquiry.enquiry_id,
