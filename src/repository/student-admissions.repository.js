@@ -214,11 +214,13 @@ const getAdmissionBySearchRepo = async (args) => {
       "father_employer_name",
       "father_designation",
       "father_annual_income",
-      "father_employer_address",
-      "father_employer_city",
-      "father_employer_state",
-      "father_employer_pincode",
+      "father_employer_address_line1",
+      "father_employer_address_line2",
+      "father_employer_address_line3",
       "father_employer_country",
+      "father_employer_state",
+      "father_employer_city",
+      "father_employer_pincode",
 
       // Mother Details
       "mother_name",
@@ -230,11 +232,13 @@ const getAdmissionBySearchRepo = async (args) => {
       "mother_employer_name",
       "mother_designation",
       "mother_annual_income",
-      "mother_employer_address",
-      "mother_employer_city",
-      "mother_employer_state",
-      "mother_employer_pincode",
+      "mother_employer_address_line1",
+      "mother_employer_address_line2",
+      "mother_employer_address_line3",
       "mother_employer_country",
+      "mother_employer_state",
+      "mother_employer_city",
+      "mother_employer_pincode",
 
       // Guardian Details
       "guardian_name",
@@ -245,10 +249,12 @@ const getAdmissionBySearchRepo = async (args) => {
       "guardian_pan_no",
 
       // Address
-      "address",
-      "city",
-      "state",
+      "address_line1",
+      "address_line2",
+      "address_line3",
       "country",
+      "state",
+      "city",
       "pincode",
 
       // Admission & Medical
@@ -398,11 +404,13 @@ const getAdmissionBySearchRepo = async (args) => {
       father_employer_name: null,
       father_designation: null,
       father_annual_income: null,
-      father_employer_address: null,
-      father_employer_city: null,
-      father_employer_state: null,
-      father_employer_pincode: null,
+      father_employer_address_line1: null,
+      father_employer_address_line2: null,
+      father_employer_address_line3: null,
       father_employer_country: null,
+      father_employer_state: null,
+      father_employer_city: null,
+      father_employer_pincode: null,
 
       // Mother Details
       mother_name: plainEnquiry.mother_name,
@@ -414,11 +422,13 @@ const getAdmissionBySearchRepo = async (args) => {
       mother_employer_name: null,
       mother_designation: null,
       mother_annual_income: null,
-      mother_employer_address: null,
-      mother_employer_city: null,
-      mother_employer_state: null,
-      mother_employer_pincode: null,
+      mother_employer_address_line1: null,
+      mother_employer_address_line2: null,
+      mother_employer_address_line3: null,
       mother_employer_country: null,
+      mother_employer_state: null,
+      mother_employer_city: null,
+      mother_employer_pincode: null,
 
       // Guardian Details
       guardian_name: plainEnquiry.guardian_name,
@@ -429,19 +439,12 @@ const getAdmissionBySearchRepo = async (args) => {
       guardian_pan_no: null,
 
       // Address
-      address:
-        plainEnquiry?.address ||
-        [
-          plainEnquiry.address_line1,
-          plainEnquiry.address_line2,
-          plainEnquiry.address_line3,
-        ]
-          .filter(Boolean)
-          .join(",") ||
-        "",
-      city: plainEnquiry.city,
-      state: plainEnquiry.state,
+      address_line1: plainEnquiry.address_line1,
+      address_line2: plainEnquiry.address_line2,
+      address_line3: plainEnquiry.address_line3,
       country: plainEnquiry.country,
+      state: plainEnquiry.state,
+      city: plainEnquiry.city,
       pincode: plainEnquiry.pincode,
 
       // Admission & Medical
@@ -506,11 +509,13 @@ const getAdmissionByIdRepo = async (id) => {
       "father_employer_name",
       "father_designation",
       "father_annual_income",
-      "father_employer_address",
-      "father_employer_city",
-      "father_employer_state",
-      "father_employer_pincode",
+      "father_employer_address_line1",
+      "father_employer_address_line2",
+      "father_employer_address_line3",
       "father_employer_country",
+      "father_employer_state",
+      "father_employer_city",
+      "father_employer_pincode",
 
       // Mother Details
       "mother_name",
@@ -522,11 +527,13 @@ const getAdmissionByIdRepo = async (id) => {
       "mother_employer_name",
       "mother_designation",
       "mother_annual_income",
-      "mother_employer_address",
-      "mother_employer_city",
-      "mother_employer_state",
-      "mother_employer_pincode",
+      "mother_employer_address_line1",
+      "mother_employer_address_line2",
+      "mother_employer_address_line3",
       "mother_employer_country",
+      "mother_employer_state",
+      "mother_employer_city",
+      "mother_employer_pincode",
 
       // Guardian Details
       "guardian_name",
@@ -537,10 +544,12 @@ const getAdmissionByIdRepo = async (id) => {
       "guardian_pan_no",
 
       // Address
-      "address",
-      "city",
-      "state",
+      "address_line1",
+      "address_line2",
+      "address_line3",
       "country",
+      "state",
+      "city",
       "pincode",
 
       // Admission & Medical
