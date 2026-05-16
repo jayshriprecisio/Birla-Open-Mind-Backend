@@ -154,7 +154,7 @@ const createAdmissionSchema = {
     mother_aadhar_no: Joi.string().pattern(/^\d{12}$/).required(),
     mother_pan_no: Joi.string().pattern(/^[A-Za-z]{5}\d{4}[A-Za-z]{1}$/).required(),
 
-    mother_employer_name: Joi.string().optional().allow(""),
+    mother_employer_name: Joi.string().optional().allow("" , null),
     mother_designation: Joi.string().optional().allow("", null),
     mother_annual_income: Joi.string().pattern(/^\d+$/).optional().allow("", null),
     mother_employer_address_line1: Joi.string().optional().allow("", null),
