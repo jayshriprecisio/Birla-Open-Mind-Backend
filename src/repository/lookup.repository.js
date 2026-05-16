@@ -52,7 +52,10 @@ const listSessionsLookup = async () => {
 
 const listUsersLookup = async () => {
   return User.findAll({
-    where: { is_active: true },
+    where: { 
+      is_active: true,
+      role: 5 
+    },
     attributes: ['id', 'full_name'],
     order: [['full_name', 'ASC']]
   });

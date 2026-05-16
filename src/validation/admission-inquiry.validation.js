@@ -6,11 +6,11 @@ const listQuerySchema = {
     status: Joi.string().default('ALL'),
     school: Joi.string().default('ALL'),
     grade: Joi.string().default('ALL'),
-    dateFrom: Joi.string().optional().allow(''),
-    dateTo: Joi.string().optional().allow(''),
+    dateFrom: Joi.string().max(20).optional().allow(''),
+    dateTo: Joi.string().max(20).optional().allow(''),
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(100).default(20),
-  }),
+  }).unknown(true),
 };
 
 const updateStatusSchema = {
@@ -19,7 +19,7 @@ const updateStatusSchema = {
   }),
   body: Joi.object().keys({
     status: Joi.string().min(1).max(30).required(),
-  }),
+  }).unknown(true),
 };
 
 const deleteAdmissionInquiryParamSchema = {
@@ -42,7 +42,9 @@ const createAdmissionInquirySchema = {
     comment: Joi.string().max(2000).optional().allow(''),
     captcha_token: Joi.string().min(1).max(2048).required(),
     captcha_answer: Joi.string().min(1).max(16).required(),
-  }),
+    utm_source: Joi.string().optional().allow(''),
+    utm_medium: Joi.string().optional().allow(''),
+  }).unknown(true),
 };
 
 module.exports = {

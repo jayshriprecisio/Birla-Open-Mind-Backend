@@ -689,10 +689,8 @@ const SourceMaster = sequelize.define(
     display_order: { type: DataTypes.INTEGER, defaultValue: 0 },
     status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    created_by: { type: DataTypes.BIGINT },
-    updated_by: { type: DataTypes.BIGINT },
   },
-  { ...commonOptions, tableName: "source_master" },
+  { ...commonOptions, tableName: "source_masters" },
 );
 
 const ContactModeMaster = sequelize.define(
@@ -706,6 +704,18 @@ const ContactModeMaster = sequelize.define(
     updated_by: { type: DataTypes.BIGINT },
   },
   { ...commonOptions, tableName: "contact_mode_master" },
+);
+
+const PriorityMaster = sequelize.define(
+  "PriorityMaster",
+  {
+    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING(50), allowNull: false, unique: true },
+    display_order: { type: DataTypes.INTEGER, defaultValue: 0 },
+    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
+    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+  },
+  { ...commonOptions, tableName: "priority_master" },
 );
 
 const masterModels = {
@@ -760,6 +770,7 @@ const masterModels = {
   MotherTongueMaster,
   SourceMaster,
   ContactModeMaster,
+  PriorityMaster,
 };
 
 
@@ -815,6 +826,7 @@ const masterRegistry = {
   "mother-tongues": MotherTongueMaster,
   sources: SourceMaster,
   "admission-contact-modes": ContactModeMaster,
+  priorities: PriorityMaster,
 };
 
 module.exports = {

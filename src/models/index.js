@@ -96,8 +96,8 @@ SchoolEnquiry.belongsTo(BoardMaster, { foreignKey: 'board_id', as: 'board' });
 BoardMaster.hasMany(SchoolEnquiry, { foreignKey: 'board_id' });
 
 // Enquiry <-> Academic Year
-SchoolEnquiry.belongsTo(AcademicYearMaster, { foreignKey: 'academic_year_id', as: 'academic_year' });
-AcademicYearMaster.hasMany(SchoolEnquiry, { foreignKey: 'academic_year_id' });
+SchoolEnquiry.belongsTo(AcademicYearMaster, { foreignKey: 'academic_session_id', as: 'academic_year' });
+AcademicYearMaster.hasMany(SchoolEnquiry, { foreignKey: 'academic_session_id' });
 
 // Enquiry <-> Batch
 SchoolEnquiry.belongsTo(BatchMaster, { foreignKey: 'batch_id', as: 'batch' });
@@ -152,6 +152,10 @@ User.hasMany(AdmissionInquiry, { foreignKey: 'assigned_to' });
 // Enquiry <-> Source
 SchoolEnquiry.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source_ref' });
 SourceMaster.hasMany(SchoolEnquiry, { foreignKey: 'source_id' });
+
+// Enquiry <-> Counsellor (Assigned To)
+SchoolEnquiry.belongsTo(User, { foreignKey: 'assigned_to', as: 'counsellor' });
+User.hasMany(SchoolEnquiry, { foreignKey: 'assigned_to' });
 
 // Student Admissions Associations
 StudentAdmissions.belongsTo(School, { foreignKey: 'school_id', as: 'school' });

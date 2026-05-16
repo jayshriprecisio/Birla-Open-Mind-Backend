@@ -5,7 +5,7 @@ const listQuerySchema = {
     search: Joi.string().optional().allow(''),
     page: Joi.number().integer().min(1).default(1),
     limit: Joi.number().integer().min(1).max(100).default(10),
-  }),
+  }).unknown(true),
 };
 
 const createDraftAdmissionSchema = {
@@ -86,7 +86,9 @@ const createDraftAdmissionSchema = {
     medical_conditions: Joi.string().optional().allow(null, ''),
     emergency_contact: Joi.string().optional().allow(null, ''),
     custody_situation: Joi.string().optional().allow(null, ''),
-  }),
+    utm_source: Joi.string().optional().allow(''),
+    utm_medium: Joi.string().optional().allow(''),
+  }).unknown(true),
 };
 
 const createAdmissionSchema = {
@@ -167,7 +169,9 @@ const createAdmissionSchema = {
     medical_conditions: Joi.string().optional().allow(''),
     emergency_contact: Joi.string().optional().allow(''),
     custody_situation: Joi.string().optional().allow(''),
-  }),
+    utm_source: Joi.string().optional().allow(''),
+    utm_medium: Joi.string().optional().allow(''),
+  }).unknown(true),
 };
 
 const updateAdmissionSchema = {
@@ -226,7 +230,7 @@ const updateAdmissionSchema = {
     emergency_contact: Joi.string().optional().allow(''),
     custody_situation: Joi.string().optional().allow(''),
     status: Joi.string().optional(),
-  }).min(1),
+  }).min(1).unknown(true),
 };
 
 const deleteAdmissionSchema = {
@@ -245,7 +249,7 @@ const searchAdmissionSchema = {
   query: Joi.object().keys({
     registration_no: Joi.string().optional(),
     father_mobile: Joi.string().optional(),
-  }).or('registration_no', 'father_mobile'),
+  }).or('registration_no', 'father_mobile').unknown(true),
 };
 
 module.exports = {
