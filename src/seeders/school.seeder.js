@@ -33,6 +33,12 @@ const brands = [
   { id: 2, name: "Birla Open Minds Pre School", brand_code: "BOMPS" },
   { id: 3, name: "Gopi Birla Memorial School", brand_code: "GBMS" }
 ];
+const campuses = [
+  "Main Campus", "North Campus", "South Campus", "East Wing", "West Wing",
+  "City Center", "Heritage Campus", "Global Campus", "Riverside Branch",
+  "Lakeside Campus", "Heights Branch", "Valley Campus", "Green Field Campus",
+  "Innovation Wing", "Excellence Center", "New Town Branch", "Central Campus"
+];
 const sessionMonths = ["April", "June"];
 
 const generateRandomPhone = () => {
@@ -67,10 +73,12 @@ const seedSchools = async () => {
       const seqStr = String(cityCount[cityCode]).padStart(2, '0');
       const schoolCode = `BOM-${cityCode}-${seqStr}`;
       
+      const campus = campuses[Math.floor(Math.random() * campuses.length)];
+      
       schools.push({
         school_id: crypto.randomUUID(),
         school_code: schoolCode,
-        school_name: `${brandData.name} ${cityData.city} ${seqStr}`,
+        school_name: `${brandData.name}, ${cityData.city} (${campus})`,
         brand_id: brandData.id,
         brand_code: brandData.brand_code,
         session_month: session,

@@ -1,264 +1,132 @@
 require("dotenv").config();
 const { SchoolEnquiry, School } = require("../models");
+const crypto = require("crypto");
+
+const firstNames = ["Aarav", "Vivaan", "Aditya", "Vihaan", "Arjun", "Sai", "Reyansh", "Ayaan", "Krishna", "Ishaan", "Shaurya", "Atharva", "Ananya", "Diya", "Avni", "Kavya", "Saanvi", "Myra", "Aadhya", "Riya", "Kriti", "Neha", "Rahul", "Priya"];
+const lastNames = ["Sharma", "Verma", "Gupta", "Malhotra", "Singh", "Patel", "Reddy", "Kumar", "Rao", "Das", "Joshi", "Chauhan"];
+const cities = ["Mumbai", "Pune", "Delhi", "Bangalore", "Hyderabad", "Kolkata", "Chennai", "Indore", "Bhopal", "Jaipur"];
+
+const usedMobiles = new Set();
+const generateUniquePhone = () => {
+  let phone;
+  do {
+    phone = "9";
+    for (let i = 0; i < 9; i++) {
+      phone += Math.floor(Math.random() * 10);
+    }
+  } while (usedMobiles.has(phone));
+  usedMobiles.add(phone);
+  return phone;
+};
+
+const usedEnquiryNos = new Set();
+const generateUniqueEnquiryNo = (index) => {
+  let enqNo;
+  do {
+    const randomPart = crypto.randomBytes(2).toString('hex').toUpperCase();
+    enqNo = `ENQ-2026-${String(index).padStart(4, '0')}-${randomPart}`;
+  } while (usedEnquiryNos.has(enqNo));
+  usedEnquiryNos.add(enqNo);
+  return enqNo;
+};
 
 const seedEnquiries = async () => {
   try {
     console.log("--- Starting Enquiry Seeding ---");
 
-    // Get a valid school_id
-    const school = await School.findOne();
-    if (!school) {
+    const schools = await School.findAll();
+    if (!schools || schools.length === 0) {
       console.error("No schools found. Please seed schools first.");
       process.exit(1);
     }
 
-    const enquiries = [
-      {
-        enquiry_no: "ENQ-2026-001",
-        school_id: school.school_id,
-        branch_id: 1,
-        enquiry_purpose_id: 1, // Admission
-        enquiry_for_id: 1, // New Admission
-        academic_session_id: 1,
-        student_name: "Test Student",
-        dob: "2018-05-15",
-        aadhaar_no: "123456789012",
-        academic_year_id: 1, // 2024-25
-        board_id: 1, // CBSE
-        grade_id: 1, // Learning Year 1
-        batch_id: 1, // Batch A
-        gender_id: 1, // Female
-        school_type_id: 1, // Day School
-        source_id: 1, // Website
-        sub_source_id: 1, // Online Ad
-        lead_stage_id: 1, // New Lead
-        contact_mode_id: 1, // Phone Call
+    const enquiries = [];
+    let enqCounter = 1;
 
-        current_school: "Test School",
-        current_board_id: 1, // CBSE
-        current_grade_id: 1, // Learning Year 1
+    for (const school of schools) {
+      // Create 2 enquiries per school
+      for (let i = 0; i < 2; i++) {
+        const studentFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const studentLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+        const fatherName = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + studentLastName;
+        const motherName = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + studentLastName;
+        const guardianName = firstNames[Math.floor(Math.random() * firstNames.length)] + " " + studentLastName;
 
-        father_name: "Test Father",
-        father_mobile: "9876543210",
-        father_email: "test.father@example.com",
+        const aadhaarNo = String(Math.floor(100000000000 + Math.random() * 900000000000));
+        const enqNo = generateUniqueEnquiryNo(enqCounter);
 
-        mother_name: "Test Mother",
-        mother_mobile: "9876543211",
-        mother_email: "test.mother@example.com",
+        const fatherMobile = generateUniquePhone();
+        const motherMobile = generateUniquePhone();
+        const guardianMobile = generateUniquePhone();
 
-        guardian_name: "Test Guardian",
-        guardian_mobile: "9876543212",
-        preferred_contact_id: 1, // Father
+        const city = cities[Math.floor(Math.random() * cities.length)];
 
-        address_line1: "123 Test Street",
-        address_line2: "Test Area",
-        address_line3: "Test City",
-        pincode: "123456",
-        country: "Test Country",
-        state: "Test State",
-        city: "Test City",
+        enquiries.push({
+          enquiry_no: enqNo,
+          school_id: school.school_id,
+          branch_id: 1,
+          enquiry_purpose_id: Math.random() > 0.5 ? 1 : 2, // Admission or Inquiry
+          enquiry_for_id: 1, // New Admission
+          academic_session_id: 1,
+          student_name: `${studentFirstName} ${studentLastName}`,
+          dob: `201${Math.floor(Math.random() * 5 + 4)}-0${Math.floor(Math.random() * 9 + 1)}-15`, // Random year 2014-2018
+          aadhaar_no: aadhaarNo,
+          academic_year_id: 1,
+          board_id: 1, // CBSE
+          grade_id: Math.floor(Math.random() * 6 + 1), // Grade 1 to 6
+          batch_id: 1, // Batch A
+          gender_id: Math.random() > 0.5 ? 1 : 2,
+          school_type_id: 1, // Day School
+          source_id: 1, // Website
+          sub_source_id: 1, // Online Ad
+          lead_stage_id: 1, // New Lead
+          contact_mode_id: 1, // Phone Call
 
-        status: "NEW",
-      },
-      {
-        enquiry_no: "ENQ-2026-002",
-        school_id: school.school_id,
-        branch_id: 1,
-        enquiry_purpose_id: 1, // Admission
-        academic_session_id: 1,
-        enquiry_for_id: 1, // New Admission
-        student_name: "Another Student",
-        dob: "2018-05-15",
-        aadhaar_no: "123456789013",
-        academic_year_id: 1,
-        board_id: 1, // CBSE
-        grade_id: 4, // Grade 1
-        batch_id: 1, // Batch
-        gender_id: 2, // Male
-        school_type_id: 1, // Day School
-        source_id: 1, // Website
-        sub_source_id: 1, // Online Ad
-        lead_stage_id: 1, // New Lead
-        contact_mode_id: 1, // Phone Call
+          current_school: `Previous School ${city}`,
+          current_board_id: 1, // CBSE
+          current_grade_id: Math.floor(Math.random() * 6 + 1),
 
-        current_school: "Test School",
-        current_board_id: 1, // CBSE
-        current_grade_id: 1, // Learning Year 1
+          father_name: fatherName,
+          father_mobile: fatherMobile,
+          father_email: `${fatherName.replace(/\s/g, '').toLowerCase()}@example.com`,
 
-        father_name: "Test Father",
-        father_mobile: "9876543210",
-        father_email: "test.father@example.com",
+          mother_name: motherName,
+          mother_mobile: motherMobile,
+          mother_email: `${motherName.replace(/\s/g, '').toLowerCase()}@example.com`,
 
-        mother_name: "Test Mother",
-        mother_mobile: "9876543211",
-        mother_email: "test.mother@example.com",
+          guardian_name: guardianName,
+          guardian_mobile: guardianMobile,
+          preferred_contact_id: Math.floor(Math.random() * 3 + 1), // 1: Father, 2: Mother, 3: Guardian
 
-        guardian_name: "Test Guardian",
-        guardian_mobile: "9876543212",
-        preferred_contact_id: 1, // Father
+          address_line1: `${Math.floor(Math.random() * 100) + 1}, Main Street`,
+          address_line2: `${city} Area`,
+          address_line3: `Near Landmark`,
+          pincode: `40000${Math.floor(Math.random() * 9)}`,
+          country: "India",
+          state: "State",
+          city: city,
 
-        address_line1: "123 Test Street",
-        address_line2: "Test Area",
-        address_line3: "Test City",
-        pincode: "123456",
-        country: "Test Country",
-        state: "Test State",
-        city: "Test City",
+          status: "NEW",
+        });
 
-        status: "NEW",
-      },
-      {
-        enquiry_no: "ENQ-2026-003",
-        school_id: school.school_id,
-        branch_id: 1,
-        enquiry_purpose_id: 1, // Admission
-        enquiry_for_id: 1, // New Admission
-        academic_session_id: 1,
-        student_name: "Aarav Sharma",
-        dob: "2018-05-15",
-        aadhaar_no: "123456789014",
-        academic_year_id: 2, // 2025-26
-        board_id: 1, // CBSE
-        grade_id: 5, // Grade 2
-        batch_id: 1, // Batch A
-        gender_id: 2,
-        school_type_id: 1, // Day School
-        source_id: 1, // Website
-        sub_source_id: 1, // Online Ad
-        lead_stage_id: 1, // New Lead
-        contact_mode_id: 1, // Phone Call
-
-        current_school: "Test School",
-        current_board_id: 1, // CBSE
-        current_grade_id: 1, // Learning Year 1
-
-        father_name: "Test Father",
-        father_mobile: "9876543210",
-        father_email: "test.father@example.com",
-
-        mother_name: "Test Mother",
-        mother_mobile: "9876543211",
-        mother_email: "test.mother@example.com",
-
-        guardian_name: "Test Guardian",
-        guardian_mobile: "9876543212",
-        preferred_contact_id: 1, // Father
-
-        address_line1: "123 Test Street",
-        address_line2: "Test Area",
-        address_line3: "Test City",
-        pincode: "123456",
-        country: "Test Country",
-        state: "Test State",
-        city: "Test City",
-
-        status: "NEW",
-      },
-      {
-        enquiry_no: "ENQ-2026-004",
-        school_id: school.school_id,
-        branch_id: 1,
-        enquiry_purpose_id: 2, // Inquiry
-        enquiry_for_id: 1, // New Admission
-        academic_session_id: 1,
-        student_name: "Ananya Iyer",
-        dob: "2018-05-15",
-        aadhaar_no: "123456789015",
-        academic_year_id: 2,
-        board_id: 1, // CBSE
-        grade_id: 6, // Grade 3
-        batch_id: 1, // Batch A
-        gender_id: 1,
-        school_type_id: 1, // Day School
-        source_id: 1, // Website
-        sub_source_id: 1, // Online Ad
-        lead_stage_id: 1, // New Lead
-        contact_mode_id: 1, // Phone Call
-
-        current_school: "Test School",
-        current_board_id: 1, // CBSE
-        current_grade_id: 1, // Learning Year 1
-
-        father_name: "Test Father",
-        father_mobile: "9876543210",
-        father_email: "test.father@example.com",
-
-        mother_name: "Test Mother",
-        mother_mobile: "9876543211",
-        mother_email: "test.mother@example.com",
-
-        guardian_name: "Test Guardian",
-        guardian_mobile: "9876543212",
-        preferred_contact_id: 1, // Father
-
-        address_line1: "123 Test Street",
-        address_line2: "Test Area",
-        address_line3: "Test City",
-        pincode: "123456",
-        country: "Test Country",
-        state: "Test State",
-        city: "Test City",
-
-        status: "NEW",
-      },
-      {
-        enquiry_no: "ENQ-2026-005",
-        school_id: school.school_id,
-        branch_id: 1,
-        enquiry_purpose_id: 2, // Inquiry
-        enquiry_for_id: 1, // New Admission
-        academic_session_id: 1,
-        student_name: "Vihaan Gupta",
-        dob: "2018-05-15",
-        aadhaar_no: "123456789016",
-        academic_year_id: 1,
-        board_id: 1, // CBSE
-        grade_id: 1,
-        batch_id: 1, // Batch A
-        gender_id: 2,
-        school_type_id: 1, // Day School
-        source_id: 1, // Website
-        sub_source_id: 1, // Online Ad
-        lead_stage_id: 1, // New Lead
-        contact_mode_id: 1, // Phone Call
-
-        current_school: "Test School",
-        current_board_id: 1, // CBSE
-        current_grade_id: 1, // Learning Year 1
-
-        father_name: "Test Father",
-        father_mobile: "9876543210",
-        father_email: "test.father@example.com",
-
-        mother_name: "Test Mother",
-        mother_mobile: "9876543211",
-        mother_email: "test.mother@example.com",
-
-        guardian_name: "Test Guardian",
-        guardian_mobile: "9876543212",
-        preferred_contact_id: 1, // Father
-
-        address_line1: "123 Test Street",
-        address_line2: "Test Area",
-        address_line3: "Test City",
-        pincode: "123456",
-        country: "Test Country",
-        state: "Test State",
-        city: "Test City",
-
-        status: "NEW",
-      },
-    ];
-
-    for (const enquiryData of enquiries) {
-      await SchoolEnquiry.findOrCreate({
-        where: { enquiry_no: enquiryData.enquiry_no },
-        defaults: enquiryData,
-      });
-      console.log(`Enquiry processed: ${enquiryData.enquiry_no}`);
+        enqCounter++;
+      }
     }
 
-    console.log("--- Enquiry Seeding Completed Successfully ---");
+    // Insert the enquiries in chunks to handle a large number properly
+    const CHUNK_SIZE = 100;
+    for (let i = 0; i < enquiries.length; i += CHUNK_SIZE) {
+      const chunk = enquiries.slice(i, i + CHUNK_SIZE);
+      for (const enquiryData of chunk) {
+        await SchoolEnquiry.findOrCreate({
+          where: { enquiry_no: enquiryData.enquiry_no },
+          defaults: enquiryData,
+        });
+      }
+      console.log(`Processed ${Math.min(i + CHUNK_SIZE, enquiries.length)} / ${enquiries.length} enquiries...`);
+    }
+
+    console.log(`--- Enquiry Seeding Completed Successfully. Seeded ${enquiries.length} dynamic enquiries ---`);
   } catch (error) {
     console.error("Error during enquiry seeding:", error);
   } finally {
