@@ -84,6 +84,14 @@ const patchSchoolStatusController = async (req, res, next) => {
     next(error);
   }
 };
+const getSchoolDropdownController = async (req, res, next) => {
+  try {
+    const data = await service.getSchoolDropdownService();
+    res.status(200).json(new ApiResponse(200, data, 'Schools retrieved successfully'));
+  } catch (e) {
+    next(e);
+  }
+};
 
 module.exports = {
   createSchoolController,
@@ -93,4 +101,6 @@ module.exports = {
   getSchoolByIdController,
   softDeleteSchoolController,
   patchSchoolStatusController,
+  getSchoolDropdownController
+  
 };

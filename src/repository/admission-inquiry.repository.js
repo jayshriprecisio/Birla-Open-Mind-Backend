@@ -17,7 +17,9 @@ const listAdmissionInquiriesRepo = async (args) => {
   }
 
   if (args.status && args.status.toUpperCase() !== 'ALL') {
-    where.status = args.status;
+    const statusFilter = args.status.toUpperCase();
+    // Imported rows may use OPEN; treat as NEW in filters
+    where.status = statusFilter === 'NEW' ? { [Op.in]: ['NEW', 'OPEN'] } : args.status;
   }
 
   if (args.school && args.school.toUpperCase() !== 'ALL') {
@@ -118,13 +120,16 @@ const listAdmissionInquiriesRepo = async (args) => {
       const json = r.toJSON();
       // Strip metadata from comment if present: "actual comment [Relation: ...]"
       const comment = (json.comment || '').replace(/\s*\[Relation:.*\]/i, '').trim();
+      const sourceName = json.source_ref?.name?.trim();
+      const isImported = Boolean(json.source_id);
       return {
         ...json,
         comment: comment || '-',
         school_name: json.school_ref?.school_name || json.school || '-',
-        grade: json.grade_ref?.short_form || json.grade || '-',
-        source_name: json.source_ref?.name || 'Website',
-        counsellor_name: json.counsellor?.full_name || 'Not Assigned'
+        grade: json.grade_ref?.short_form || json.grade_ref?.name || json.grade || '-',
+        relationship_with_student: json.relationship_with_student || null,
+        counsellor_name: null,
+        source: isImported ? 'Imported' : (sourceName || null),
       };
     }),
     total: count,

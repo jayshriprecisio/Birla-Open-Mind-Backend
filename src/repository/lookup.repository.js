@@ -1,5 +1,6 @@
 const { School, GradeMaster, ZoneMaster, BrandMaster, BoardMaster, SessionMaster, User } = require('../models');
 
+/** Active schools for dropdowns — school_id is UUID (see School / AdmissionInquiry models). */
 const listSchoolsLookup = async () => {
   return School.findAll({
     where: { status: 'active' },
