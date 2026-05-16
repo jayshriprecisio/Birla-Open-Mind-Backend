@@ -1,27 +1,5 @@
 const repository = require('../repository/student-admissions.repository');
 
-/**
- * Generate a unique registration number
- * Format: REG-YYYY-XXXX (e.g., REG-2026-0001)
- */
-const generateRegistrationNo = async () => {
-  const year = new Date().getFullYear();
-  const prefix = `REG-${year}-`;
-  
-  const lastRecord = await repository.getLastAdmissionRepo(prefix);
-  let nextSeq = 1;
-  
-  if (lastRecord && lastRecord.registration_no) {
-    const parts = lastRecord.registration_no.split('-');
-    const lastSeq = parseInt(parts[parts.length - 1], 10);
-    if (!isNaN(lastSeq)) {
-      nextSeq = lastSeq + 1;
-    }
-  }
-  
-  return `${prefix}${nextSeq.toString().padStart(4, '0')}`;
-};
-
 const createAdmissionService = async (data) => {
   return await repository.createAdmissionRepo(data);
 };

@@ -21,6 +21,28 @@ const {
 
 const ApiError = require("../utils/api-error");
 
+/**
+ * Generate a unique registration number
+ * Format: REG-YYYY-XXXX (e.g., REG-2026-0001)
+ */
+const generateRegistrationNo = async () => {
+  const year = new Date().getFullYear();
+  const prefix = `REG-${year}-`;
+
+  const lastRecord = await repository.getLastAdmissionRepo(prefix);
+  let nextSeq = 1;
+
+  if (lastRecord && lastRecord.registration_no) {
+    const parts = lastRecord.registration_no.split("-");
+    const lastSeq = parseInt(parts[parts.length - 1], 10);
+    if (!isNaN(lastSeq)) {
+      nextSeq = lastSeq + 1;
+    }
+  }
+
+  return `${prefix}${nextSeq.toString().padStart(4, "0")}`;
+};
+
 const createAdmissionRepo = async (data) => {
   console.log("createAdmissionRepo called with data: ", data);
   if (data.enquiry_id) {
@@ -378,7 +400,7 @@ const getAdmissionBySearchRepo = async (args) => {
 
     // Map SchoolEnquiry to StudentAdmissions format
     return {
-      registration_no: plainEnquiry.registration_no || null,
+      registration_no: plainEnquiry.registration_no || generateRegistrationNo(),
       enrollment_no: plainEnquiry.enrollment_no || null,
       enquiry_no: plainEnquiry.enquiry_no,
       enquiry_id: plainEnquiry.enquiry_id,
