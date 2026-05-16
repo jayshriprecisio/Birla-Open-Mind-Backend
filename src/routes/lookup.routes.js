@@ -9,5 +9,6 @@ router.get('/grades', controller.listGradesLookupController);
 router.get('/captcha', controller.getCaptchaController);
 router.get('/enquiry-lookups', controller.getEnquiryLookupsController);
 router.get('/school-form', controller.getSchoolFormLookupsController);
+router.get('/users', auth, controller.listUsersLookupController);
 
 module.exports = router;

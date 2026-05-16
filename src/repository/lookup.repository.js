@@ -1,12 +1,16 @@
-const { School, GradeMaster, ZoneMaster, BrandMaster, BoardMaster, SessionMaster } = require('../models');
+const { School, GradeMaster, ZoneMaster, BrandMaster, BoardMaster, SessionMaster, User } = require('../models');
 
 /** Active schools for dropdowns — school_id is UUID (see School / AdmissionInquiry models). */
 const listSchoolsLookup = async () => {
   return School.findAll({
-    where: { deleted_at: null, status: 'active' },
-    attributes: ['school_id', 'school_name', 'school_code', 'brand_code'],
-    order: [['school_name', 'ASC']],
-  });
+    where: { status: 'active' },
+    attributes: ['school_id', 'school_name', 'school_code'],
+    order: [['school_name', 'ASC']]
+  }).then(schools => schools.map(s => ({
+    id: s.school_id,
+    name: s.school_name,
+    code: s.school_code
+  })));
 };
 
 const listGradesLookup = async () => {
@@ -47,6 +51,17 @@ const listSessionsLookup = async () => {
   });
 };
 
+const listUsersLookup = async () => {
+  return User.findAll({
+    where: { 
+      is_active: true,
+      role: 5 
+    },
+    attributes: ['id', 'full_name'],
+    order: [['full_name', 'ASC']]
+  });
+};
+
 module.exports = {
   listSchoolsLookup,
   listGradesLookup,
@@ -54,4 +69,5 @@ module.exports = {
   listBrandsLookup,
   listBoardsLookup,
   listSessionsLookup,
+  listUsersLookup,
 };

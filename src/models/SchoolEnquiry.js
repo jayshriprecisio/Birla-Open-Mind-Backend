@@ -13,7 +13,7 @@ const SchoolEnquiry = sequelize.define('SchoolEnquiry', {
   
   enquiry_purpose_id: { type: DataTypes.INTEGER },
   enquiry_for_id: { type: DataTypes.INTEGER },
-  academic_year_id: { type: DataTypes.INTEGER },
+  academic_session_id: { type: DataTypes.BIGINT },
   board_id: { type: DataTypes.INTEGER },
   grade_id: { type: DataTypes.INTEGER },
   batch_id: { type: DataTypes.INTEGER },
@@ -55,16 +55,16 @@ const SchoolEnquiry = sequelize.define('SchoolEnquiry', {
   referral_name: { type: DataTypes.INTEGER },
 
   current_owner: { type: DataTypes.STRING(255) },
-  assigned_to: { type: DataTypes.INTEGER },
-  interaction_mode_id: { type: DataTypes.INTEGER },
-  interaction_status_id: { type: DataTypes.INTEGER },
+  assigned_to: { type: DataTypes.BIGINT },
+  interaction_mode_id: { type: DataTypes.BIGINT },
+  interaction_status_id: { type: DataTypes.BIGINT },
 
   next_followup_date: { type: DataTypes.DATEONLY },
   priority_tag: { type: DataTypes.STRING(20), defaultValue: 'WARM' },
   status: { type: DataTypes.STRING(50), defaultValue: 'NEW' },
   
-  created_by: { type: DataTypes.UUID },
-  updated_by: { type: DataTypes.UUID },
+  created_by: { type: DataTypes.BIGINT },
+  updated_by: { type: DataTypes.BIGINT },
   is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
 }, {
   tableName: 'school_enquiries',

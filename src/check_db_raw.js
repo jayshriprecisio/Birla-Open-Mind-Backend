@@ -11,7 +11,8 @@ async function run() {
   });
   try {
     await client.connect();
-    const res = await client.query("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'brand_master'");
+    const query = process.argv[2] || "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
+    const res = await client.query(query);
     console.log(JSON.stringify(res.rows, null, 2));
   } catch (error) {
     console.error(error);

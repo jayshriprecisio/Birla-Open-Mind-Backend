@@ -33,11 +33,12 @@ const AdmissionInquiry = sequelize.define('AdmissionInquiry', {
   comment: { type: DataTypes.TEXT },
 
   status: { type: DataTypes.STRING(50), defaultValue: 'NEW' },
+  source_id: { type: DataTypes.BIGINT },
+  assigned_to: { type: DataTypes.BIGINT },
 
   is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   deleted_at: { type: DataTypes.DATE },
-  deleted_by: { type: DataTypes.UUID },
-
+  deleted_by: { type: DataTypes.BIGINT },
 }, {
   tableName: 'admission_inquiry',
   timestamps: true,

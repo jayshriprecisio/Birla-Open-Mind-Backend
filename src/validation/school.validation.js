@@ -50,7 +50,7 @@ const createSchoolBodySchema = {
     partners: Joi.array().items(partnerRow).default([]),
     centre_head: contactRow.required(),
     principal: contactRow.optional().allow(null),
-  })
+  }).unknown(true)
   .custom((value, helpers) => {
     // Validation for billing
     if (!value.billing_same_as_school) {
@@ -95,7 +95,7 @@ const listSchoolsQuerySchema = {
     board: Joi.string().max(30).optional().allow(''),
     brand: Joi.string().valid('all', 'BOMIS', 'BOMPS').default('all'),
     mapping: Joi.string().valid('all', 'mapped', 'partial', 'unmapped').default('all'),
-  }),
+  }).unknown(true),
 };
 
 const patchSchoolStatusSchema = {
@@ -104,7 +104,7 @@ const patchSchoolStatusSchema = {
   }),
   body: Joi.object({
     status: Joi.string().valid('active', 'inactive', 'suspended').required(),
-  }),
+  }).unknown(true),
 };
 
 module.exports = {

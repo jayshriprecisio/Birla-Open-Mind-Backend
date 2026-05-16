@@ -121,7 +121,7 @@ const School = sequelize.define('School', {
     defaultValue: 'active',
   },
   created_by: {
-    type: DataTypes.UUID,
+    type: DataTypes.BIGINT,
   },
   deleted_at: {
     type: DataTypes.DATE,

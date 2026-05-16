@@ -33,7 +33,8 @@ const getEnquiryLookupsController = async (req, res, next) => {
   try {
     const schools = await repository.listSchoolsLookup();
     const grades = await repository.listGradesLookup();
-    res.status(200).json(new ApiResponse(200, { schools, grades }, 'Lookups retrieved'));
+    const users = await repository.listUsersLookup();
+    res.status(200).json(new ApiResponse(200, { schools, grades, users }, 'Lookups retrieved'));
   } catch (error) {
     next(error);
   }
@@ -52,10 +53,20 @@ const getSchoolFormLookupsController = async (req, res, next) => {
 };
 
 
+const listUsersLookupController = async (req, res, next) => {
+  try {
+    const data = await repository.listUsersLookup();
+    res.status(200).json(new ApiResponse(200, data, 'Users retrieved'));
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   listSchoolsLookupController,
   listGradesLookupController,
   getCaptchaController,
   getEnquiryLookupsController,
   getSchoolFormLookupsController,
+  listUsersLookupController,
 };
