@@ -186,6 +186,13 @@ InteractionStatusMaster.hasMany(SchoolEnquiry, {
   foreignKey: "interaction_status_id",
 });
 
+// Enquiry <-> Counsellor (Assigned To)
+SchoolEnquiry.belongsTo(User, {
+  foreignKey: "assigned_to",
+  as: "counsellor",
+});
+User.hasMany(SchoolEnquiry, { foreignKey: "assigned_to" });
+
 // Enquiry Followup <-> Interaction Mode / Status
 SchoolEnquiryFollowup.belongsTo(InteractionModeMaster, {
   foreignKey: "interaction_mode_id",
