@@ -85,6 +85,10 @@ const getAllAdmissionsRepo = async (args) => {
     status: { [Op.ne]: "DRAFT" },
   };
 
+  if (args.status) {
+    where.status = args.status;
+  }
+
   if (args.search) {
     where[Op.or] = [
       { registration_no: { [Op.iLike]: `%${args.search}%` } },
