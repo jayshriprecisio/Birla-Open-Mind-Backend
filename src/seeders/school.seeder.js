@@ -1,109 +1,120 @@
-require('dotenv').config();
-const { School } = require('../models');
+require("dotenv").config();
+const { School } = require("../models");
+const crypto = require("crypto");
+
+const cities = [
+  { city: "Mumbai", state: "Maharashtra", zone: 2 },
+  { city: "Pune", state: "Maharashtra", zone: 2 },
+  { city: "Nagpur", state: "Maharashtra", zone: 2 },
+  { city: "Delhi", state: "Delhi", zone: 3 },
+  { city: "Gurugram", state: "Haryana", zone: 3 },
+  { city: "Noida", state: "Uttar Pradesh", zone: 3 },
+  { city: "Bangalore", state: "Karnataka", zone: 4 },
+  { city: "Mysore", state: "Karnataka", zone: 4 },
+  { city: "Chennai", state: "Tamil Nadu", zone: 4 },
+  { city: "Coimbatore", state: "Tamil Nadu", zone: 4 },
+  { city: "Hyderabad", state: "Telangana", zone: 4 },
+  { city: "Warangal", state: "Telangana", zone: 4 },
+  { city: "Kolkata", state: "West Bengal", zone: 1 },
+  { city: "Ahmedabad", state: "Gujarat", zone: 2 },
+  { city: "Surat", state: "Gujarat", zone: 2 },
+  { city: "Jaipur", state: "Rajasthan", zone: 3 },
+  { city: "Lucknow", state: "Uttar Pradesh", zone: 3 },
+  { city: "Kanpur", state: "Uttar Pradesh", zone: 3 },
+  { city: "Bhopal", state: "Madhya Pradesh", zone: 2 },
+  { city: "Indore", state: "Madhya Pradesh", zone: 2 },
+  { city: "Patna", state: "Bihar", zone: 1 },
+  { city: "Bhubaneswar", state: "Odisha", zone: 1 }
+];
+
+const boards = ["CBSE", "ICSE", "State Board"];
+const brands = [
+  { id: 1, name: "Birla Open Minds International Schools", brand_code: "BOMIS" },
+  { id: 2, name: "Birla Open Minds Pre School", brand_code: "BOMPS" },
+  { id: 3, name: "Gopi Birla Memorial School", brand_code: "GBMS" }
+];
+const campuses = [
+  "Main Campus", "North Campus", "South Campus", "East Wing", "West Wing",
+  "City Center", "Heritage Campus", "Global Campus", "Riverside Branch",
+  "Lakeside Campus", "Heights Branch", "Valley Campus", "Green Field Campus",
+  "Innovation Wing", "Excellence Center", "New Town Branch", "Central Campus"
+];
+const sessionMonths = ["April", "June"];
+
+const generateRandomPhone = () => {
+  let phone = "9";
+  for (let i = 0; i < 9; i++) {
+    phone += Math.floor(Math.random() * 10);
+  }
+  return phone;
+};
 
 const seedSchools = async () => {
   try {
-    console.log('--- Starting School Seeding ---');
+    console.log("--- Starting School Seeding ---");
+    
+    // We want to dynamically seed 250 schools
+    const TOTAL_SCHOOLS = 250;
+    const schools = [];
+    
+    // Keeping track of codes by city to append sequence properly
+    const cityCount = {};
 
-    const schools = [
-      {
-        school_id: 'e2a6f2b4-8e1a-4d3b-9a2c-7f5e1a2b3c4d',
-        school_code: 'BOM-MUM-01',
-        school_name: 'Birla Open Minds School Mumbai',
-        brand_id: 1, // BOMIS
-        brand_code: 'BOMIS',
-        zone_id: 2, // West
-        board: 'CBSE',
-        city: 'Mumbai',
-        state_province: 'Maharashtra',
-        session_month: 'April',
-        address_line1: 'Mumbai Address Line 1',
-        address_line2: 'Mumbai Address Line 2',
-        pin_code: '400001',
-        phone_number: '9876543210',
-        official_email: 'mumbai@birlaopenminds.edu.in'
-      },
-      {
-        school_id: 'a1b2c3d4-e5f6-4a5b-bc6d-7e8f9a0b1c2d',
-        school_code: 'BOM-DEL-01',
-        school_name: 'Birla Open Minds School Delhi',
-        brand_id: 1, // BOMIS
-        brand_code: 'BOMIS',
-        zone_id: 3, // North
-        board: 'CBSE',
-        city: 'Delhi',
-        state_province: 'Delhi',
-        session_month: 'April',
-        address_line1: 'Delhi Address Line 1',
-        address_line2: 'Delhi Address Line 2',
-        pin_code: '110001',
-        phone_number: '9876543211',
-        official_email: 'delhi@birlaopenminds.edu.in'
-      },
-      {
-        school_id: 'f9e8d7c6-b5a4-4321-8765-4d3c2b1a0e9f',
-        school_code: 'BOM-BLR-01',
-        school_name: 'Birla Open Minds Pre School Bangalore',
-        brand_id: 2, // BOMPS
-        brand_code: 'BOMPS',
-        zone_id: 4, // South
-        board: 'ICSE',
-        city: 'Bangalore',
-        state_province: 'Karnataka',
-        session_month: 'June',
-        address_line1: 'Bangalore Address Line 1',
-        address_line2: 'Bangalore Address Line 2',
-        pin_code: '560001',
-        phone_number: '9876543212',
-        official_email: 'bangalore@birlaopenminds.edu.in'
-      },
-      {
-        school_id: 'd4c3b2a1-0e9f-4d3c-82b1-a0e9f8d7c6b5',
-        school_code: 'BOM-CHN-01',
-        school_name: 'Birla Open Minds Pre School Chennai',
-        brand_id: 2, // BOMPS
-        brand_code: 'BOMPS',
-        zone_id: 4, // South
-        board: 'CBSE',
-        city: 'Chennai',
-        state_province: 'Tamil Nadu',
-        session_month: 'June',
-        address_line1: 'Chennai Address Line 1',
-        address_line2: 'Chennai Address Line 2',
-        pin_code: '600001',
-        phone_number: '9876543213',
-        official_email: 'chennai@birlaopenminds.edu.in'
-      },
-      {
-        school_id: 'c2b1a0e9-f8d7-4c6b-85a4-3210e9f8d7c6',
-        school_code: 'BOM-HYD-01',
-        school_name: 'Birla Open Minds School Hyderabad',
-        brand_id: 1, // BOMIS
-        brand_code: 'BOMIS',
-        zone_id: 4, // South
-        board: 'CBSE',
-        city: 'Hyderabad',
-        state_province: 'Telangana',
-        session_month: 'April',
-        address_line1: 'Hyderabad Address Line 1',
-        address_line2: 'Hyderabad Address Line 2',
-        pin_code: '500001',
-        phone_number: '9876543214',
-        official_email: 'hyderabad@birlaopenminds.edu.in'
-      }
-    ];
+    for (let i = 0; i < TOTAL_SCHOOLS; i++) {
+      const cityData = cities[Math.floor(Math.random() * cities.length)];
+      const brandData = brands[Math.floor(Math.random() * brands.length)];
+      const board = boards[Math.floor(Math.random() * boards.length)];
+      const session = sessionMonths[Math.floor(Math.random() * sessionMonths.length)];
+      
+      const cityCode = cityData.city.substring(0, 3).toUpperCase();
+      if (!cityCount[cityCode]) cityCount[cityCode] = 0;
+      cityCount[cityCode]++;
+      
+      const seqStr = String(cityCount[cityCode]).padStart(2, '0');
+      const schoolCode = `BOM-${cityCode}-${seqStr}`;
+      
+      const campus = campuses[Math.floor(Math.random() * campuses.length)];
+      
+      schools.push({
+        school_id: crypto.randomUUID(),
+        school_code: schoolCode,
+        school_name: `${brandData.name}, ${cityData.city} (${campus})`,
+        brand_id: brandData.id,
+        brand_code: brandData.brand_code,
+        session_month: session,
+        zone_id: cityData.zone,
+        board: board,
+        city: cityData.city,
+        state_province: cityData.state,
+        address_line1: `${Math.floor(Math.random() * 100) + 1}, Main Road`,
+        address_line2: `${cityData.city} Branch`,
+        address_line3: `Near Landmark`,
+        pin_code: `40${String(Math.floor(Math.random() * 9000) + 1000)}`,
+        country: "IN",
+        phone_number: generateRandomPhone(),
+        official_email: `${cityData.city.toLowerCase()}${seqStr}@birlaopenminds.edu.in`,
+      });
+    }
 
+    // Insert or update them sequentially
+    // Keeping findOrCreate so we don't duplicate codes if run multiple times.
+    // However, since we dynamically generate with codes like BOM-MUM-01, running this 
+    // multiple times might overlap existing codes or create new ones if cities change random patterns.
+    // That's acceptable for a mock seeder.
+    
+    // We also want to ensure the static 5 schools are included if needed, 
+    // but the user wanted to replace this with a dynamic 200-300 script, so generating 250 is fine.
+    
     for (const schoolData of schools) {
       await School.findOrCreate({
         where: { school_code: schoolData.school_code },
-        defaults: schoolData
+        defaults: schoolData,
       });
-      console.log(`School processed: ${schoolData.school_code}`);
     }
-
-    console.log('--- School Seeding Completed Successfully ---');
+    
+    console.log(`--- School Seeding Completed Successfully. Processed ${TOTAL_SCHOOLS} schools. ---`);
   } catch (error) {
-    console.error('Error during school seeding:', error);
+    console.error("Error during school seeding:", error);
   } finally {
     process.exit();
   }
