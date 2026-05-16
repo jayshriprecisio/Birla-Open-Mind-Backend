@@ -257,6 +257,10 @@ const getAdmissionBySearchRepo = async (args) => {
       "emergency_contact",
       "custody_situation",
 
+      "student_documents",
+      "parent_documents",
+      "guardian_documents",
+
       // Status
       "status",
       "academic_year_id",
@@ -446,6 +450,10 @@ const getAdmissionBySearchRepo = async (args) => {
       emergency_contact: null,
       custody_situation: null,
 
+      student_documents: null,
+      parent_documents: null,
+      guardian_documents: null,
+
       // Status
       status: "DRAFT",
 
@@ -539,7 +547,12 @@ const getAdmissionByIdRepo = async (id) => {
       "admission_no",
       "medical_conditions",
       "emergency_contact",
+
       "custody_situation",
+
+      "student_documents",
+      "parent_documents",
+      "guardian_documents",
 
       // Status
       "status",

@@ -186,6 +186,20 @@ const StudentAdmissions = sequelize.define(
     // Student Custody Details
     custody_situation: { type: DataTypes.TEXT },
 
+    // Document Details
+    student_documents: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    },
+    parent_documents: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    },
+    guardian_documents: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+    },
+
     // Metadata
     status: {
       type: DataTypes.STRING(50),
