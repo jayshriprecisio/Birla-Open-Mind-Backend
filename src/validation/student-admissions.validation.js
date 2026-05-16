@@ -90,7 +90,6 @@ const createDraftAdmissionSchema = {
     country: Joi.string().optional().allow(null, ""),
     pincode: Joi.string().optional().allow(null, ""),
 
-    admission_no: Joi.string().optional().allow(null, ""),
     medical_conditions: Joi.string().optional().allow(null, ""),
     emergency_contact: Joi.string().optional().allow(null, ""),
     custody_situation: Joi.string().optional().allow(null, ""),
@@ -181,7 +180,6 @@ const createAdmissionSchema = {
     country: Joi.string().optional().allow(""),
     pincode: Joi.string().optional().allow(""),
 
-    admission_no: Joi.string().optional().allow(null, ""),
     medical_conditions: Joi.string().required(),
     emergency_contact: Joi.string().pattern(/^\d{10}$/).required(),
     custody_situation: Joi.string().optional().allow(null, ""),
@@ -250,7 +248,6 @@ const updateAdmissionSchema = {
       state: Joi.string().optional().allow(""),
       country: Joi.string().optional().allow(""),
       pincode: Joi.string().optional().allow(""),
-      admission_no: Joi.string().optional().allow(""),
       medical_conditions: Joi.string().required(),
       emergency_contact: Joi.string().pattern(/^\d{10}$/).required(),
       custody_situation: Joi.string().optional().allow(""),

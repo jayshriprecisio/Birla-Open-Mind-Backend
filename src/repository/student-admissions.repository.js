@@ -284,7 +284,6 @@ const getAdmissionBySearchRepo = async (args) => {
       "pincode",
 
       // Admission & Medical
-      "admission_no",
       "medical_conditions",
       "emergency_contact",
       "custody_situation",
@@ -474,7 +473,6 @@ const getAdmissionBySearchRepo = async (args) => {
       pincode: plainEnquiry.pincode,
 
       // Admission & Medical
-      admission_no: null,
       medical_conditions: null,
       emergency_contact: null,
       custody_situation: null,
@@ -579,7 +577,6 @@ const getAdmissionByIdRepo = async (id) => {
       "pincode",
 
       // Admission & Medical
-      "admission_no",
       "medical_conditions",
       "emergency_contact",
 

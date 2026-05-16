@@ -185,7 +185,6 @@ const StudentAdmissions = sequelize.define(
     pincode: { type: DataTypes.STRING(20) },
 
     // Additional Admission Details
-    admission_no: { type: DataTypes.STRING(50) },
     medical_conditions: { type: DataTypes.TEXT },
     emergency_contact: { type: DataTypes.STRING(255) },
 
@@ -228,7 +227,6 @@ const StudentAdmissions = sequelize.define(
         const nullableFields = [
           "enrollment_no",
           "enquiry_no",
-          "admission_no",
           "aadhar_no",
           "enquiry_id",
           "source_id",
