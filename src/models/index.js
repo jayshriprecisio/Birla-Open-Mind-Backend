@@ -55,6 +55,9 @@ School.hasMany(AdmissionInquiry, { foreignKey: 'school_id' });
 AdmissionInquiry.belongsTo(GradeMaster, { foreignKey: 'grade_id', as: 'grade_ref' });
 GradeMaster.hasMany(AdmissionInquiry, { foreignKey: 'grade_id' });
 
+AdmissionInquiry.belongsTo(SourceMaster, { foreignKey: 'source_id', as: 'source_ref' });
+SourceMaster.hasMany(AdmissionInquiry, { foreignKey: 'source_id' });
+
 // Student Admissions Associations
 StudentAdmissions.belongsTo(School, { foreignKey: 'school_id', as: 'school' });
 School.hasMany(StudentAdmissions, { foreignKey: 'school_id' });

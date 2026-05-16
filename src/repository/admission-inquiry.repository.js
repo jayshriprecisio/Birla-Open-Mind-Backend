@@ -1,4 +1,4 @@
-const { AdmissionInquiry, School, GradeMaster, sequelize } = require('../models');
+const { AdmissionInquiry, School, GradeMaster, SourceMaster, sequelize } = require('../models');
 const { Op } = require('sequelize');
 
 const listAdmissionInquiriesRepo = async (args) => {
@@ -40,7 +40,13 @@ const listAdmissionInquiriesRepo = async (args) => {
     where,
     include: [
       { model: School, as: 'school_ref', attributes: ['school_name'] },
-      { model: GradeMaster, as: 'grade_ref', attributes: ['name', 'short_form'] }
+      { model: GradeMaster, as: 'grade_ref', attributes: ['name', 'short_form'] },
+      {
+        model: SourceMaster,
+        as: 'source_ref',
+        attributes: ['id', 'name'],
+        required: false,
+      },
     ],
     order: [['created_at', 'DESC']],
     limit: Number(args.limit) || 10,
@@ -67,11 +73,16 @@ const listAdmissionInquiriesRepo = async (args) => {
       const json = r.toJSON();
       // Strip metadata from comment if present: "actual comment [Relation: ...]"
       const comment = (json.comment || '').replace(/\s*\[Relation:.*\]/i, '').trim();
+      const sourceName = json.source_ref?.name?.trim();
+      const isImported = Boolean(json.source_id);
       return {
         ...json,
         comment: comment || '-',
         school_name: json.school_ref?.school_name || json.school || '-',
-        grade: json.grade_ref?.short_form || json.grade || '-'
+        grade: json.grade_ref?.short_form || json.grade_ref?.name || json.grade || '-',
+        relationship_with_student: json.relationship_with_student || null,
+        counsellor_name: null,
+        source: isImported ? 'Imported' : (sourceName || null),
       };
     }),
     total: count,
