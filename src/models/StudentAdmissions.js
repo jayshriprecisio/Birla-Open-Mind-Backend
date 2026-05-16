@@ -140,10 +140,10 @@ const StudentAdmissions = sequelize.define(
     father_designation: { type: DataTypes.STRING(255) },
     father_annual_income: { type: DataTypes.STRING(50) },
     father_employer_address: { type: DataTypes.STRING(1000) },
-    father_employer_city: { type: DataTypes.STRING(100) },
-    father_employer_state: { type: DataTypes.STRING(100) },
-    father_employer_pincode: { type: DataTypes.STRING(20) },
     father_employer_country: { type: DataTypes.STRING(100) },
+    father_employer_state: { type: DataTypes.STRING(100) },
+    father_employer_city: { type: DataTypes.STRING(100) },
+    father_employer_pincode: { type: DataTypes.STRING(20) },
 
     // Mother's Details
     mother_name: { type: DataTypes.STRING(255) },
@@ -158,10 +158,10 @@ const StudentAdmissions = sequelize.define(
     mother_designation: { type: DataTypes.STRING(255) },
     mother_annual_income: { type: DataTypes.STRING(50) },
     mother_employer_address: { type: DataTypes.STRING(1000) },
-    mother_employer_city: { type: DataTypes.STRING(100) },
-    mother_employer_state: { type: DataTypes.STRING(100) },
-    mother_employer_pincode: { type: DataTypes.STRING(20) },
     mother_employer_country: { type: DataTypes.STRING(100) },
+    mother_employer_state: { type: DataTypes.STRING(100) },
+    mother_employer_city: { type: DataTypes.STRING(100) },
+    mother_employer_pincode: { type: DataTypes.STRING(20) },
 
     // Guardian's Details
     guardian_name: { type: DataTypes.STRING(255) },
@@ -173,9 +173,9 @@ const StudentAdmissions = sequelize.define(
 
     // Address Details
     address: { type: DataTypes.STRING(1000) },
-    city: { type: DataTypes.STRING(100) },
-    state: { type: DataTypes.STRING(100) },
     country: { type: DataTypes.STRING(100) },
+    state: { type: DataTypes.STRING(100) },
+    city: { type: DataTypes.STRING(100) },
     pincode: { type: DataTypes.STRING(20) },
 
     // Additional Admission Details
