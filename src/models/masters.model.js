@@ -725,17 +725,7 @@ const SourceMaster = sequelize.define(
 
 
 
-const SourceMaster = sequelize.define(
-  "SourceMaster",
-  {
-    id: { type: DataTypes.BIGINT, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
-    display_order: { type: DataTypes.INTEGER, defaultValue: 0 },
-    status: { type: DataTypes.STRING(20), defaultValue: "ACTIVE" },
-    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-  },
-  { ...commonOptions, tableName: "source_masters" },
-);
+
 
 const ContactModeMaster = sequelize.define(
   "ContactModeMaster",
