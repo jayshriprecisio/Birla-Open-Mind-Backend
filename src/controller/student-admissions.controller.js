@@ -21,7 +21,7 @@ const createAdmissionController = async (req, res, next) => {
   try {
     const data = await service.createAdmissionService({
       ...req.body,
-      // status: "PENDING", // temp comment 
+      status: "PENDING", // temp comment 
     });
 
     res
