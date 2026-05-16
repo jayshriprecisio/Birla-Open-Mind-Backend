@@ -183,7 +183,7 @@ const createAdmissionSchema = {
 
     admission_no: Joi.string().optional().allow(null, ""),
     medical_conditions: Joi.string().required(),
-    emergency_contact: Joi.string().required(),
+    emergency_contact: Joi.string().pattern(/^\d{10}$/).required(),
     custody_situation: Joi.string().optional().allow(null, ""),
 
     student_documents: Joi.array().items(Joi.any()).optional(),
@@ -252,7 +252,7 @@ const updateAdmissionSchema = {
       pincode: Joi.string().optional().allow(""),
       admission_no: Joi.string().optional().allow(""),
       medical_conditions: Joi.string().required(),
-      emergency_contact: Joi.string().required(),
+      emergency_contact: Joi.string().pattern(/^\d{10}$/).required(),
       custody_situation: Joi.string().optional().allow(""),
       status: Joi.string().optional(),
     })
