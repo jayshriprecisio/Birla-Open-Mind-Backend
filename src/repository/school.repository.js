@@ -47,17 +47,20 @@ const listSchoolsFilteredRepo = async (params) => {
   const { q, status, zone, board, brand, mapping, page, limit, sortBy, sortOrder } = params;
   
   const where = { deleted_at: null };
+  /** Use LEFT JOIN unless we filter by zone/brand so schools still list when master rows are missing or IDs do not match. */
   const include = [
-    { 
-      model: ZoneMaster, 
+    {
+      model: ZoneMaster,
       as: 'zone',
-      on: sequelize.literal('CAST("School"."zone_id" AS INTEGER) = "zone"."id"')
+      required: Boolean(zone),
+      on: sequelize.literal('CAST("School"."zone_id" AS INTEGER) = "zone"."id"'),
     },
-    { 
-      model: BrandMaster, 
+    {
+      model: BrandMaster,
       as: 'brand',
-      on: sequelize.literal('CAST("School"."brand_id" AS BIGINT) = "brand"."id"')
-    }
+      required: Boolean(brand && brand !== 'all'),
+      on: sequelize.literal('CAST("School"."brand_id" AS BIGINT) = "brand"."id"'),
+    },
   ];
 
   if (q) {
@@ -233,19 +236,17 @@ const updateSchoolTransaction = async (schoolId, input) => {
   }
 };
 
-//get all active schools to show in select schools dropdown
-const getSchoolDropdownRepo = async() => {
-  return await School.findAll({
-    attributes: ['school_id', 'school_name'],
-
+// get all active schools to show in select schools dropdown (no zone/brand joins)
+const getSchoolDropdownRepo = async () => {
+  return School.findAll({
+    attributes: ['school_id', 'school_name', 'school_code'],
     where: {
       deleted_at: null,
       status: 'active',
     },
-
-    order: [ ['school_name', 'ASC']]
-  })
-}
+    order: [['school_name', 'ASC']],
+  });
+};
 
 
 

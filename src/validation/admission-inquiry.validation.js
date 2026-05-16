@@ -1,16 +1,18 @@
 const Joi = require('joi');
 
 const listQuerySchema = {
-  query: Joi.object().keys({
-    q: Joi.string().optional().allow(''),
-    status: Joi.string().default('ALL'),
-    school: Joi.string().default('ALL'),
-    grade: Joi.string().default('ALL'),
-    dateFrom: Joi.string().optional().allow(''),
-    dateTo: Joi.string().optional().allow(''),
-    page: Joi.number().integer().min(1).default(1),
-    limit: Joi.number().integer().min(1).max(100).default(20),
-  }),
+  query: Joi.object()
+    .keys({
+      q: Joi.string().optional().allow(''),
+      status: Joi.string().default('ALL'),
+      school: Joi.string().default('ALL'),
+      grade: Joi.string().default('ALL'),
+      dateFrom: Joi.string().optional().allow(''),
+      dateTo: Joi.string().optional().allow(''),
+      page: Joi.number().integer().min(1).default(1),
+      limit: Joi.number().integer().min(1).max(100).default(20),
+    })
+    .options({ convert: true }),
 };
 
 const updateStatusSchema = {

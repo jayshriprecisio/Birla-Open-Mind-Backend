@@ -12,6 +12,9 @@ router
   .get(auth, validate(validation.listSchoolsQuerySchema), controller.listSchoolsController);
 
 router.get('/dashboard-summary', auth, controller.getSchoolsDashboardSummaryController);
+/** Multi-segment path so Express never treats it as /:schoolId (e.g. "dropdown" is not a UUID). */
+router.get('/lookups/active', auth, controller.getSchoolDropdownController);
+router.get('/dropdown', auth, controller.getSchoolDropdownController);
 
 router
   .route('/:schoolId')
@@ -20,7 +23,5 @@ router
   .delete(auth, validate(validation.schoolIdParamSchema), controller.softDeleteSchoolController);
 
 router.patch('/:schoolId/status', auth, validate(validation.patchSchoolStatusSchema), controller.patchSchoolStatusController);
-
-router.get('/dropdown', auth, controller.getSchoolDropdownController);
 
 module.exports = router;

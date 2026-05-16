@@ -83,7 +83,6 @@ const BrandMaster = sequelize.define(
     name: { type: DataTypes.STRING(150), allowNull: false },
     brand_code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
     status: { type: DataTypes.STRING(10), defaultValue: "ACTIVE" },
-    is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   },
   { ...commonOptions, tableName: "brand_master" },
 );

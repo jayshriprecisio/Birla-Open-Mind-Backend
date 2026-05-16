@@ -16,7 +16,9 @@ const listAdmissionInquiriesRepo = async (args) => {
   }
 
   if (args.status && args.status.toUpperCase() !== 'ALL') {
-    where.status = args.status;
+    const statusFilter = args.status.toUpperCase();
+    // Imported rows may use OPEN; treat as NEW in filters
+    where.status = statusFilter === 'NEW' ? { [Op.in]: ['NEW', 'OPEN'] } : args.status;
   }
 
   if (args.school && args.school.toUpperCase() !== 'ALL') {

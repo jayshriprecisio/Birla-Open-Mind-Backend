@@ -1,10 +1,11 @@
 const { School, GradeMaster, ZoneMaster, BrandMaster, BoardMaster, SessionMaster } = require('../models');
 
+/** Active schools for dropdowns — school_id is UUID (see School / AdmissionInquiry models). */
 const listSchoolsLookup = async () => {
   return School.findAll({
-    where: { deleted_at: null },
+    where: { deleted_at: null, status: 'active' },
     attributes: ['school_id', 'school_name', 'school_code', 'brand_code'],
-    order: [['school_name', 'ASC']]
+    order: [['school_name', 'ASC']],
   });
 };
 

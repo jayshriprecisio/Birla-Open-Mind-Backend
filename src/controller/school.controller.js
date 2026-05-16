@@ -84,16 +84,14 @@ const patchSchoolStatusController = async (req, res, next) => {
     next(error);
   }
 };
-const getSchoolDropdownController = async() => {
+const getSchoolDropdownController = async (req, res, next) => {
   try {
     const data = await service.getSchoolDropdownService();
-
-    return res.status(200).json(new ApiResponse(200, data, 'Schools retrived successfully'))
-
-  }catch(e) {
-    next(e)
+    res.status(200).json(new ApiResponse(200, data, 'Schools retrieved successfully'));
+  } catch (e) {
+    next(e);
   }
-}
+};
 
 module.exports = {
   createSchoolController,
