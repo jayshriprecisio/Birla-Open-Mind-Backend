@@ -68,8 +68,8 @@ const listRegistrationsRepo = async ({ search, status, page = 1, pageSize = 50 }
       where: baseWhere,
       attributes: [
         [fn('COUNT', col('enquiry_id')), 'total'],
-        [fn('COUNT', literal(`CASE WHEN UPPER(COALESCE(status, '')) = 'REGISTERED' THEN 1 END`)), 'registered'],
-        [fn('COUNT', literal(`CASE WHEN UPPER(COALESCE(status, '')) = 'CANCELLED' THEN 1 END`)), 'cancelled'],
+        [fn('COUNT', literal(`CASE WHEN UPPER(COALESCE("SchoolEnquiry"."status", '')) = 'REGISTERED' THEN 1 END`)), 'registered'],
+        [fn('COUNT', literal(`CASE WHEN UPPER(COALESCE("SchoolEnquiry"."status", '')) = 'CANCELLED' THEN 1 END`)), 'cancelled'],
       ],
       raw: true,
     }),

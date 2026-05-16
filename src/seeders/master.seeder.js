@@ -387,6 +387,49 @@ const seedMasters = async () => {
         { id: 4, name: "In Person" },
         { id: 5, name: "WhatsApp" },
       ],
+      PriorityMaster: [
+        { id: 1, name: "Hot", display_order: 1 },
+        { id: 2, name: "Warm", display_order: 2 },
+        { id: 3, name: "Cold", display_order: 3 },
+      ],
+      AcademicMaster: [
+        { id: 1, academic_name: "Academic" },
+        { id: 2, academic_name: "Non-Academic" },
+      ],
+      CalculationBasisMaster: [
+        { id: 1, calculation_basis_name: "Monthly" },
+        { id: 2, calculation_basis_name: "Quarterly" },
+        { id: 3, calculation_basis_name: "Yearly" },
+      ],
+      FeesCategoryMaster: [
+        { id: 1, fees_category_name: "Regular" },
+        { id: 2, fees_category_name: "Staff" },
+        { id: 3, fees_category_name: "Sibling" },
+      ],
+      FeesSubTypeMaster: [
+        { id: 1, fees_sub_type_name: "Tuition Fee" },
+        { id: 2, fees_sub_type_name: "Admission Fee" },
+        { id: 3, fees_sub_type_name: "Exam Fee" },
+      ],
+      FeesTypeMaster: [
+        { id: 1, fees_type_name: "Recurring" },
+        { id: 2, fees_type_name: "One-Time" },
+      ],
+      HouseMaster: [
+        { id: 1, house_name: "Red", short_form: "RED" },
+        { id: 2, house_name: "Blue", short_form: "BLUE" },
+        { id: 3, house_name: "Green", short_form: "GREEN" },
+        { id: 4, house_name: "Yellow", short_form: "YELLOW" },
+      ],
+      PeriodOfServiceMaster: [
+        { id: 1, period_of_service_name: "1 Year" },
+        { id: 2, period_of_service_name: "2 Years" },
+        { id: 3, period_of_service_name: "5 Years" },
+      ],
+      ServiceProviderMaster: [
+        { id: 1, service_provider_name: "Internal" },
+        { id: 2, service_provider_name: "External" },
+      ],
     };
 
     for (const [modelName, records] of Object.entries(data)) {

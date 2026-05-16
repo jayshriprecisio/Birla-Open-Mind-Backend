@@ -77,13 +77,15 @@ const createEnquirySchema = {
     
     siblings: Joi.array().items(siblingSchema).default([]),
     followup: followupSchema.optional(),
+    utm_source: Joi.string().optional().allow(''),
+    utm_medium: Joi.string().optional().allow(''),
   }).unknown(true) // Allow other fields to avoid breaking if frontend sends more
 };
 
 const phoneLookupSchema = {
   query: Joi.object({
     phone: Joi.string().min(10).max(20).required(),
-  })
+  }).unknown(true)
 };
 
 const listSchoolEnquiriesQuerySchema = {
@@ -100,20 +102,20 @@ const listSchoolEnquiriesQuerySchema = {
     counsellor: Joi.string().max(255).optional().allow(''),
     dateFrom: Joi.string().max(20).optional().allow(''),
     dateTo: Joi.string().max(20).optional().allow(''),
-  })
+  }).unknown(true)
 };
 
 const updateEnquiryStatusSchema = {
   body: Joi.object({
     enquiry_id: Joi.string().uuid().required(),
     status: Joi.string().min(1).max(50).required(),
-  })
+  }).unknown(true)
 };
 
 const deleteEnquirySchema = {
   query: Joi.object({
     enquiry_id: Joi.string().uuid().required(),
-  })
+  }).unknown(true)
 };
 
 module.exports = {

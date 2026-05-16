@@ -19,9 +19,13 @@ const validate = (schema) => (req, res, next) => {
 
   const { value, error } = Joi.compile(validSchema)
     .prefs({ errors: { label: 'key' }, abortEarly: false })
+    .unknown(true)
     .validate(object);
 
   if (error) {
+    console.log('Validation Error for:', req.originalUrl);
+    console.log('Object being validated:', JSON.stringify(object, null, 2));
+    console.log('Valid Schema keys:', Object.keys(validSchema));
     const errorMessage = error.details.map((details) => details.message).join(', ');
     return next(new ApiError(400, errorMessage));
   }

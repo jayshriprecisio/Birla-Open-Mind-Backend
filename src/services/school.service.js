@@ -1,5 +1,6 @@
 const repository = require('../repository/school.repository');
 
+
 const createSchoolService = async (payload, userId) => {
   return repository.createSchoolTransaction({ ...payload, created_by: userId });
 };
@@ -40,6 +41,12 @@ const updateSchoolService = async (schoolId, payload) => {
   return repository.updateSchoolTransaction(schoolId, payload);
 };
 
+
+const getSchoolDropdownService = async() => {
+  return repository.getSchoolDropdownRepo();
+}
+
+
 module.exports = {
   createSchoolService,
   listSchoolsPaginatedService,
@@ -48,4 +55,5 @@ module.exports = {
   softDeleteSchoolService,
   patchSchoolStatusService,
   updateSchoolService,
+  getSchoolDropdownService
 };

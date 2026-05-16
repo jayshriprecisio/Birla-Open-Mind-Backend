@@ -1,5 +1,6 @@
 const { AdmissionInquiry, School, GradeMaster, SourceMaster, User, sequelize } = require('../models');
 const { Op } = require('sequelize');
+const { detectSource } = require('../utils/utm');
 
 const listAdmissionInquiriesRepo = async (args) => {
   const where = { is_deleted: false };
@@ -16,7 +17,9 @@ const listAdmissionInquiriesRepo = async (args) => {
   }
 
   if (args.status && args.status.toUpperCase() !== 'ALL') {
-    where.status = args.status;
+    const statusFilter = args.status.toUpperCase();
+    // Imported rows may use OPEN; treat as NEW in filters
+    where.status = statusFilter === 'NEW' ? { [Op.in]: ['NEW', 'OPEN'] } : args.status;
   }
 
   if (args.school && args.school.toUpperCase() !== 'ALL') {
@@ -34,7 +37,8 @@ const listAdmissionInquiriesRepo = async (args) => {
     where.created_at = { ...where.created_at, [Op.lte]: new Date(args.dateTo) };
   }
 
-  const { count, rows } = await AdmissionInquiry.findAndCountAll({
+  console.log('CRITICAL: listAdmissionInquiriesRepo HIT');
+  const rows = await AdmissionInquiry.findAll({
     where,
     include: [
       { model: School, as: 'school_ref', attributes: ['school_name'] },
@@ -45,8 +49,22 @@ const listAdmissionInquiriesRepo = async (args) => {
     order: [['created_at', 'DESC']],
     limit: Number(args.limit) || 10,
     offset: (Number(args.page || 1) - 1) * (Number(args.limit) || 10),
-    distinct: true
+    subQuery: false
   });
+
+  const countResult = await AdmissionInquiry.findAll({
+    attributes: [
+      [sequelize.literal('COUNT(DISTINCT "AdmissionInquiry"."id")'), 'count']
+    ],
+    where,
+    include: [
+      { model: School, as: 'school_ref', attributes: [] },
+      { model: GradeMaster, as: 'grade_ref', attributes: [] }
+    ],
+    raw: true,
+    subQuery: false
+  });
+  const count = parseInt(countResult[0]?.count || 0, 10);
 
   const schools = await School.findAll({
     attributes: ['school_name'],
@@ -62,21 +80,61 @@ const listAdmissionInquiriesRepo = async (args) => {
     order: [['name', 'ASC']]
   });
 
+  const statusWhere = { ...where };
+  delete statusWhere.status;
+
+  const include = [
+    { model: School, as: 'school_ref', attributes: [] },
+    { model: GradeMaster, as: 'grade_ref', attributes: [] }
+  ];
+
+  const statusCounts = await AdmissionInquiry.findAll({
+    attributes: [
+      [sequelize.col('AdmissionInquiry.status'), 'status'],
+      [sequelize.fn('COUNT', sequelize.col('AdmissionInquiry.id')), 'count']
+    ],
+    where: statusWhere,
+    include,
+    group: [sequelize.col('AdmissionInquiry.status')],
+    subQuery: false
+  });
+
+  const stats = statusCounts.reduce((acc, s) => {
+    acc[(s.status || 'NEW').toUpperCase()] = Number(s.get('count'));
+    return acc;
+  }, {});
+
+  const totalCountAll = await AdmissionInquiry.findAll({
+    attributes: [
+      [sequelize.literal('COUNT(DISTINCT "AdmissionInquiry"."id")'), 'count']
+    ],
+    where: statusWhere,
+    include,
+    raw: true,
+    subQuery: false
+  });
+  const totalCount = parseInt(totalCountAll[0]?.count || 0, 10);
+
   return {
     rows: rows.map(r => {
       const json = r.toJSON();
       // Strip metadata from comment if present: "actual comment [Relation: ...]"
       const comment = (json.comment || '').replace(/\s*\[Relation:.*\]/i, '').trim();
+      const sourceName = json.source_ref?.name?.trim();
+      const isImported = Boolean(json.source_id);
       return {
         ...json,
         comment: comment || '-',
         school_name: json.school_ref?.school_name || json.school || '-',
-        grade: json.grade_ref?.short_form || json.grade || '-',
-        source_name: json.source_ref?.name || 'Website',
-        counsellor_name: json.counsellor?.full_name || 'Not Assigned'
+        grade: json.grade_ref?.short_form || json.grade_ref?.name || json.grade || '-',
+        relationship_with_student: json.relationship_with_student || null,
+        counsellor_name: null,
+        source: isImported ? 'Imported' : (sourceName || null),
       };
     }),
     total: count,
+    total_all: totalCount,
+    stats,
     schools: schools.map(s => s.school_name).filter(Boolean),
     grades: grades.map(g => g.name).filter(Boolean)
   };
@@ -127,26 +185,42 @@ const createAdmissionInquiryRepo = async (args) => {
     })
   ]);
 
-  let sourceName = args.source || 'Website';
-  if (args.utm_source) {
-    const utm = args.utm_source.toLowerCase();
-    if (utm.includes('instagram')) sourceName = 'Instagram';
-    else if (utm.includes('facebook')) sourceName = 'Facebook';
-    else if (utm.includes('whatsapp')) sourceName = 'WhatsApp';
-    else if (utm.includes('google')) sourceName = 'Google Ads';
+  const sourceName = detectSource(args, 'Website');
+
+  let sourceId = null;
+  try {
+    const source = await SourceMaster.findOne({
+      where: { name: sourceName, is_deleted: false }
+    });
+    sourceId = source?.id || null;
+  } catch (e) {
+    // source_masters table may not match FK — ignore
+    sourceId = null;
   }
 
-  const source = await SourceMaster.findOne({
-    where: { name: sourceName, is_deleted: false }
-  });
-
-  return AdmissionInquiry.create({
-    ...args,
+  // Only pass known admission_inquiry columns to prevent Sequelize errors
+  const record = {
     school_id: school?.school_id || null,
     grade_id: grade?.id || null,
-    source_id: source?.id || null,
-    status: 'NEW'
-  });
+    phone_number: args.phone_number,
+    parent_first_name: args.parent_first_name,
+    parent_last_name: args.parent_last_name,
+    email: args.email,
+    comment: args.comment || '',
+    status: 'NEW',
+    source_id: sourceId,
+  };
+
+  try {
+    return await AdmissionInquiry.create(record);
+  } catch (fkError) {
+    // If FK constraint fails on source_id, retry without it
+    if (fkError.message && fkError.message.includes('source_id')) {
+      record.source_id = null;
+      return await AdmissionInquiry.create(record);
+    }
+    throw fkError;
+  }
 
 };
 

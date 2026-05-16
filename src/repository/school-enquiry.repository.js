@@ -10,6 +10,7 @@ const {
 } = require('../models');
 const { roleNamesToIds } = require('../utils/roles');
 const { Op } = require('sequelize');
+const { detectSource } = require('../utils/utm');
 
 const findAdmissionInquiryByPhoneRepo = async (phone) => {
   const sql = `
@@ -106,9 +107,16 @@ const createSchoolEnquiryRepo = async ({ userId, payload }) => {
     const rr = await nextAssignee(transaction);
     const enquiryNo = generateEnquiryNo();
 
+    const sourceName = detectSource(payload, 'Manual');
+    const source = await SourceMaster.findOne({
+      where: { name: sourceName, is_deleted: false },
+      transaction
+    });
+
     const enquiry = await SchoolEnquiry.create({
       ...payload,
       enquiry_no: enquiryNo,
+      source_id: source?.id || payload.source_id || null,
       current_owner: rr.current_owner,
       assigned_to: rr.assigned_to,
       created_by: userId,
@@ -224,7 +232,7 @@ const listSchoolEnquiriesFilteredRepo = async (filters) => {
     School.findAll({ attributes: ['school_name'], where: { deleted_at: null }, group: ['school_name'], order: [['school_name', 'ASC']] }),
     GradeMaster.findAll({ attributes: ['name'], where: { is_deleted: false }, group: ['name'], order: [['name', 'ASC']] }),
     SourceMaster.findAll({ attributes: ['name'], where: { is_deleted: false }, order: [['display_order', 'ASC']] }),
-    User.findAll({ attributes: ['full_name'], where: { is_deleted: false, role: 'school' }, order: [['full_name', 'ASC']] })
+    User.findAll({ attributes: ['full_name'], where: { is_active: true, role: roleNamesToIds(['school']) }, order: [['full_name', 'ASC']] })
   ]);
 
   return {
